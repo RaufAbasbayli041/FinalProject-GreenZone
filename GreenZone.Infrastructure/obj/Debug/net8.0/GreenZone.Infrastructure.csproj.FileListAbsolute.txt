@@ -1,0 +1,11 @@
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.deps.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.AssemblyInfo.cs
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\refint\GreenZone.Infrastructure.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\ref\GreenZone.Infrastructure.dll
