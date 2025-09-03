@@ -7,13 +7,9 @@ using System.Threading.Tasks;
 namespace GreenZone.Contracts.Dtos
 {
     public record class LogInDto
-    {
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
+    { 
         public string Email { get; set; }
-        public string Password { get; set; }
-        public string PhoneNumber { get; set; }
-        public DateTime BirthDate { get; set; }
+        public string Password { get; set; } 
 
     }
 }

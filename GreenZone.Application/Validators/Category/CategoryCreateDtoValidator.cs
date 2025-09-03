@@ -17,6 +17,7 @@ namespace GreenZone.Application.Validations.Category
                 .MaximumLength(100).WithMessage("Category name must not exceed 100 characters.");
             RuleFor(x => x.Description)
                 .MaximumLength(500).WithMessage("Description must not exceed 500 characters.");
+
         }
     }
 }

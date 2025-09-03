@@ -89,7 +89,7 @@ namespace GreenZone.API.Controllers
             {
                 await image.Image.CopyToAsync(stream);
             }
-            var isUploaded = await _productService.UploadImagesAsync(id, fileName);
+            var isUploaded = await _productService.UploadImageAsync(id, fileName);
 
             if (isUploaded == null)
             {

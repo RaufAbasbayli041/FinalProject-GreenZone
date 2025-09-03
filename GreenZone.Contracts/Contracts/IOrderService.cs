@@ -1,0 +1,18 @@
+﻿using GreenZone.Contracts.Dtos.OrderDtos;
+using GreenZone.Contracts.Service;
+using GreenZone.Domain.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GreenZone.Contracts.Contracts
+{
+    public interface IOrderService : IGenericService<Order, OrderCreateDto, OrderReadDto, OrderUpdateDto>
+    {
+        Task<OrderReadDto> GetOrderWithDetailsAsync(Guid orderId);
+        Task<ICollection<OrderReadDto>> GetAllOrdersFullData();
+        Task<ICollection<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+    }
+}

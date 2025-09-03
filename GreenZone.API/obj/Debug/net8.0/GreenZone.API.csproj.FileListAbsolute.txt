@@ -162,3 +162,6 @@ C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\Debug\net8.0\GreenZone.Contracts.pdb
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\Debug\net8.0\FluentValidation.AspNetCore.dll
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\Debug\net8.0\FluentValidation.DependencyInjectionExtensions.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\obj\Debug\net8.0\GreenZone.API.sourcelink.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\Debug\net8.0\Microsoft.Extensions.Configuration.FileExtensions.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Json.dll

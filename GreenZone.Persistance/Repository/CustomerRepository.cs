@@ -16,13 +16,14 @@ namespace GreenZone.Persistance.Repository
         {
         }
 
-        public async Task<IEnumerable<Customer>> GetAllCustomersWithOrdersAsync(int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<Customer>> GetAllCustomersWithOrdersAsync(int page, int pageSize)
         {
             var datas = await _context.Customers
                 .Include(x => x.Orders)
+                .Include(x => x.User)
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .Where(x => !x.IsDeleted)
+                .Where(x => !x.IsDeleted && x.Orders.Any())
                 .ToListAsync();
             return datas;
         }
@@ -44,9 +45,22 @@ namespace GreenZone.Persistance.Repository
         {
             var data = await _context.Customers
                 .Include(x => x.Orders)
-                .Where(x => !x.IsDeleted)
+                .ThenInclude(o => o.OrderStatus)
+                .Include(x => x.User)
+                .Where(x => !x.IsDeleted ) 
                 .FirstOrDefaultAsync(x => x.Id == customerId);
             return data;
+        }
+
+        public override async Task<IEnumerable<Customer>> GetAllAsync()
+        {
+            var datas = await _context.Customers
+                .Include(x => x.User)
+                .Include(x => x.Orders)
+                .Include(x => x.Payments)
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+            return datas;   
         }
     }
 }

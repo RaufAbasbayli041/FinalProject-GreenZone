@@ -19,7 +19,7 @@ namespace GreenZone.Persistance.Repository
             _context = context;
             _dbSet = _context.Set<TEntity>();
         }
-        public async Task<TEntity> AddAsync(TEntity entity)
+        public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             var addedEntity = await _dbSet.AddAsync(entity);
             await _context.SaveChangesAsync();
@@ -37,12 +37,12 @@ namespace GreenZone.Persistance.Repository
             await _context.SaveChangesAsync();
             return true;
         }
-        public async Task<IEnumerable<TEntity>> GetAllAsync()
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
         {
             var entities = (await _dbSet.ToListAsync()).Where(x => !x.IsDeleted);
             return entities;
         }
-        public async Task<TEntity> GetByIdAsync(Guid id)
+        public virtual async Task<TEntity> GetByIdAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity == null)

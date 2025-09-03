@@ -13,7 +13,7 @@ namespace GreenZone.Contracts.Contracts
     public interface ICustomerService : IGenericService<Customer,CustomerCreateDto,CustomerReadDto,CustomerUpdateDto>
     {
         Task<CustomerReadDto> GetCustomerWithOrdersAsync(Guid customerId);
-        Task<IEnumerable<CustomerReadDto>> GetAllCustomersWithOrdersAsync(int page = 1, int pageSize = 10);
+        Task<IEnumerable<CustomerReadDto>> GetAllCustomersWithOrdersAsync(int page , int pageSize );
         Task<CustomerReadDto> GetCustomerFullDataAsync(Guid customerId);
     }
 }

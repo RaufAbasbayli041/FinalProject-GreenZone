@@ -24,33 +24,9 @@ namespace GreenZone.Application.Service
             _userManager = userManager;
             _customerRepository = customerRepository;
         }
+              
 
-        public override async Task<CustomerReadDto> AddAsync(CustomerCreateDto dto)
-        {
-            var user = new ApplicationUser()
-            {
-                UserName = dto.Email.Split("@")[0],
-                Email = dto.Email,
-                FirstName = dto.FirstName,
-                LastName = dto.LastName,
-                PhoneNumber = dto.PhoneNumber,
-
-            };
-            var result = await _userManager.CreateAsync(user, dto.Password);
-            if (!result.Succeeded)
-            {
-                var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-                throw new Exception($"Failed to create user: {errors}");
-            }
-
-            var customer = _mapper.Map<Customer>(dto);
-            customer.UserId = user.Id;
-            var addedCustomer = await _repository.AddAsync(customer);
-            var readDto = _mapper.Map<CustomerReadDto>(addedCustomer);
-            return readDto;
-        }
-
-        public async Task<IEnumerable<CustomerReadDto>> GetAllCustomersWithOrdersAsync(int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<CustomerReadDto>> GetAllCustomersWithOrdersAsync(int page, int pageSize)
         {
             var customers = await _customerRepository.GetAllCustomersWithOrdersAsync(page, pageSize);
             var customerDtos = _mapper.Map<IEnumerable<CustomerReadDto>>(customers);
@@ -69,6 +45,13 @@ namespace GreenZone.Application.Service
             var data =  await _customerRepository.GetCustomerWithOrdersAsync(customerId);
             var dto = _mapper.Map<CustomerReadDto> (data);
             return dto;
+        }
+
+        public override async Task<IEnumerable<CustomerReadDto>> GetAllAsync()
+        {
+            var datas = await _customerRepository.GetAllAsync();
+            var dtos = _mapper.Map<IEnumerable<CustomerReadDto>>(datas);
+            return dtos;
         }
     }
 }

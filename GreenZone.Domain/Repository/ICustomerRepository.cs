@@ -10,7 +10,7 @@ namespace GreenZone.Domain.Repository
     public interface ICustomerRepository : IGenericRepository<Customer>
     {   
         Task<Customer> GetCustomerWithOrdersAsync(Guid customerId);         
-        Task<IEnumerable<Customer>> GetAllCustomersWithOrdersAsync(int page = 1, int pageSize = 10); 
+        Task<IEnumerable<Customer>> GetAllCustomersWithOrdersAsync(int page, int pageSize); 
         Task<Customer> GetCustomerFullDataAsync(Guid customerId);
 
     }

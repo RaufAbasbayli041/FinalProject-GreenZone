@@ -18,6 +18,9 @@ namespace GreenZone.Application.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
+            services.AddScoped<IProductDocumentsService, ProductDocumentsService>();
+            services.AddScoped<IAuthService,AuthService>();
+            services.AddScoped<IOrderService, OrderService>();
             return services;
 
         }

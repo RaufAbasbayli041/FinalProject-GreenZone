@@ -11,9 +11,9 @@ namespace GreenZone.Contracts.Contracts
 {
     public interface IProductService : IGenericService<Product, ProductCreateDto, ProductReadDto, ProductUpdateDto>
     {        
-        Task<ProductReadDto> UploadImagesAsync(Guid id, string imagePath);
-        Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId, int pages = 1, int pageSize = 10);
-        Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page = 1, int pageSize = 10);
+        Task<ProductReadDto> UploadImageAsync(Guid id, string imagePath);
+        Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId, int pages, int pageSize );
+        Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page , int pageSize );
         Task<ProductReadDto> GetProductWithDocumentsAsync(Guid id);
     }
 }

@@ -10,3 +10,4 @@ C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Domain\o
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.sourcelink.json

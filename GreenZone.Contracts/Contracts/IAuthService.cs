@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GreenZone.Contracts.Dtos;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,12 +10,8 @@ namespace GreenZone.Contracts.Contracts
 {
     public interface IAuthService
     {
-        Task<string> LogInAsync (string email, string password);
-        Task<string> RegisterAsync(string userName, string email, string password);
-        Task <bool> ChangePasswordAsync (string email, string currentPassword, string newPassword);
-        Task<bool> ForgotPasswordAsync(string email);
-        Task<bool> ResetPasswordAsync(string email, string newPassword);
-
-
+        Task<IdentityResult> LogInAsync (LogInDto logInDto);
+        Task<IdentityResult> RegisterAsync( RegisterDto registerDto);
+       
     }
 }

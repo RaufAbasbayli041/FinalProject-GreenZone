@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Contracts.Dtos.CustomerDtos
 {
-    public class CustomerUpdateDto
-    {
+    public record class CustomerUpdateDto
+    { 
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string IdentityCard { get; set; }

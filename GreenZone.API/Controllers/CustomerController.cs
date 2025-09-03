@@ -13,7 +13,7 @@ namespace GreenZone.API.Controllers
         private readonly ICustomerService _customerService;
         private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public CustomerController(CustomerService customerService, IWebHostEnvironment webHostEnvironment)
+        public CustomerController(ICustomerService customerService, IWebHostEnvironment webHostEnvironment)
         {
             _customerService = customerService;
             _webHostEnvironment = webHostEnvironment;
@@ -34,16 +34,7 @@ namespace GreenZone.API.Controllers
             }
             return Ok(customer);
         }
-        [HttpPost]
-        public async Task<IActionResult> CreateCustomer([FromBody] CustomerCreateDto customerCreateDto)
-        {
-            if (!ModelState.IsValid)
-            {
-                return BadRequest(ModelState);
-            }
-            var createdCustomer = await _customerService.AddAsync(customerCreateDto);
-            return CreatedAtAction(nameof(GetCustomerById), new { id = createdCustomer.Id }, createdCustomer);
-        }
+       
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateCustomer(Guid id, [FromBody] CustomerUpdateDto customerUpdateDto)
         {
@@ -59,7 +50,7 @@ namespace GreenZone.API.Controllers
             return Ok(updatedCustomer);
         }
         [HttpGet("with-orders")]
-        public async Task<IActionResult> GetAllCustomersWithOrders(int page = 1, int pageSize = 10)
+        public async Task<IActionResult> GetAllCustomersWithOrders(int page, int pageSize)
         {
             var customers = await _customerService.GetAllCustomersWithOrdersAsync(page, pageSize);
             return Ok(customers);

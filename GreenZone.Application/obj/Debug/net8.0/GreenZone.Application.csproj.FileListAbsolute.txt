@@ -15,3 +15,4 @@ C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Applicat
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Application\bin\Debug\net8.0\GreenZone.Contracts.pdb
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Application\bin\Debug\net8.0\GreenZone.Domain.pdb
 C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Application\obj\Debug\net8.0\GreenZon.703CC849.Up2Date
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.sourcelink.json

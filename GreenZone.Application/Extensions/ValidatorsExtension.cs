@@ -5,6 +5,9 @@ using FluentValidation.AspNetCore;
 using FluentValidation;
 using GreenZone.Application.Validators.Product;
 using GreenZone.Application.Validators.Customer;
+using GreenZone.Application.Validators.ProductDocuments;
+using GreenZone.Application.Validators.Order;
+using GreenZone.Application.Validators.OrderITem;
 
 namespace GreenZone.Application.Extensions
 {
@@ -24,6 +27,18 @@ namespace GreenZone.Application.Extensions
             // customer validators
             services.AddValidatorsFromAssemblyContaining<CustomerCreateDtoValidator>();
             services.AddValidatorsFromAssemblyContaining<CustomerUpdateDtoValidator>();
+
+            // product documents validators
+            services.AddValidatorsFromAssemblyContaining<ProductDocumentsCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<ProductDocumentsUpdateDtoValidator>();
+
+            // order validators
+            services.AddValidatorsFromAssemblyContaining<OrderCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<OrderUpdateDtoValidator>();
+
+            // order item validators
+            services.AddValidatorsFromAssemblyContaining<OrderItemCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<OrderItemUpdateDtoValidator>();
             return services;
         }
 

@@ -14,9 +14,10 @@ namespace GreenZone.Persistance.Repository
     {
         public ProductRepository(GreenZoneDBContext context) : base(context)
         {
+
         }
 
-        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, int pages = 1, int pageSize = 10)
+        public async Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, int pages, int pageSize)
         {
             var datas = await _context.Products
                         .Include(p => p.Category)
@@ -37,7 +38,7 @@ namespace GreenZone.Persistance.Repository
             return datas;
         }
 
-        public async Task<IEnumerable<Product>> SearchProductsAsync(string keyword, int pages = 1, int pageSize = 10)
+        public async Task<IEnumerable<Product>> SearchProductsAsync(string keyword, int pages, int pageSize)
         {
             var datas = await _context.Products
                        .Where(p => !p.IsDeleted && (p.Title.ToLower().Contains(keyword.ToLower())))
@@ -48,7 +49,7 @@ namespace GreenZone.Persistance.Repository
             return datas;
         }
 
-        public async Task<Product> UploadImagesAsync(Guid id, string imagePath)
+        public async Task<Product> UploadImageAsync(Guid id, string imagePath)
         {
             var product = await _context.Products.FindAsync(id);
             if (product == null)

@@ -22,7 +22,7 @@ namespace GreenZone.Application.Service
             _productRepository = productRepository;
         }
 
-        public async Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId, int pages = 1, int pageSize = 10)
+        public async Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId, int pages, int pageSize)
         {  
             var products = await  _productRepository.GetProductsByCategoryAsync(categoryId, pages, pageSize);
             var productDtos = _mapper.Map<IEnumerable<ProductReadDto>>(products);
@@ -37,7 +37,7 @@ namespace GreenZone.Application.Service
             return dto;
         }
 
-        public async Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page = 1, int pageSize = 10)
+        public async Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page, int pageSize )
         { 
             if (string.IsNullOrEmpty(keyword))
             {
@@ -49,7 +49,7 @@ namespace GreenZone.Application.Service
             return productDtos;
         }
          
-        public async Task<ProductReadDto> UploadImagesAsync(Guid productId, string imageUrl)
+        public async Task<ProductReadDto> UploadImageAsync(Guid productId, string imageUrl)
         {
             if (string.IsNullOrEmpty(imageUrl))
             {

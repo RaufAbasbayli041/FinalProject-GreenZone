@@ -38,7 +38,7 @@ namespace GreenZone.Application.Service
 
         }
 
-        public async Task<IEnumerable<TReadDto>> GetAllAsync()
+        public virtual async Task<IEnumerable<TReadDto>> GetAllAsync()
         {
             var datas = await _repository.GetAllAsync();
             var dtos = _mapper.Map<IEnumerable<TReadDto>>(datas);

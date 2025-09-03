@@ -15,6 +15,7 @@ namespace GreenZone.Persistance.Configurations
             builder.HasOne(pd => pd.Product)
                    .WithMany(p => p.Documents)
                    .HasForeignKey(pd => pd.ProductId)
+                   .IsRequired()
                    .OnDelete(DeleteBehavior.Restrict);
             builder.Property(pd => pd.DocumentName)
                    .IsRequired()
