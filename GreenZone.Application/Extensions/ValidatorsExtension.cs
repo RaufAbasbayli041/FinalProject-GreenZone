@@ -38,7 +38,6 @@ namespace GreenZone.Application.Extensions
 
             // order item validators
             services.AddValidatorsFromAssemblyContaining<OrderItemCreateDtoValidator>();
-            services.AddValidatorsFromAssemblyContaining<OrderItemUpdateDtoValidator>();
             return services;
         }
 

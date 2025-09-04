@@ -1,6 +1,8 @@
 ﻿using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos;
+using GreenZone.Domain.Entity;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenZone.API.Controllers
@@ -10,10 +12,12 @@ namespace GreenZone.API.Controllers
     public class AuthController : ControllerBase
     {
         private readonly IAuthService _authService;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public AuthController(IAuthService authService)
+        public AuthController(IAuthService authService, UserManager<ApplicationUser> userManager)
         {
             _authService = authService;
+            _userManager = userManager;
         }
         [HttpPost("login")]
 
@@ -48,6 +52,27 @@ namespace GreenZone.API.Controllers
                 return BadRequest(result.Errors);
             }
             return Ok(result);
+        }
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // Implement logout logic if needed, e.g., invalidate tokens or clear cookies
+            return Ok("User logged out successfully.");
+        }
+        [HttpGet("confirm-email")]
+
+        public async Task<IActionResult> ConfirmEmail(string userId, string token)
+        {
+            if (userId == null || token == null) return BadRequest("Invalid email confirmation request.");
+
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound("User not found.");
+
+            var result = await _userManager.ConfirmEmailAsync(user, token);
+
+            if (result.Succeeded) return Redirect("https://localhost:5173/email-confirmed");
+
+            return BadRequest("Email confirmation failed.");
         }
 
     }
