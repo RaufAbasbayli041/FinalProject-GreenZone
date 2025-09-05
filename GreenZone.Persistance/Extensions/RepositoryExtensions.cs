@@ -20,7 +20,7 @@ namespace GreenZone.Persistance.Extensions
             services.AddScoped<ICustomerRepository, CustomerRepository>();
             services.AddScoped<IProductDocumentsRepository, ProductDocumentsRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
-
+            services.AddScoped<IPaymentRepository, PaymentRepository>();
             return services;
         }
     }

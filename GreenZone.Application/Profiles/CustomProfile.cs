@@ -1,16 +1,18 @@
-﻿using AutoMapper;
-using GreenZone.Contracts.Dtos.CategoryDtos;
-using GreenZone.Contracts.Dtos.CustomerDtos;
-using GreenZone.Contracts.Dtos.OrderDtos;
-using GreenZone.Contracts.Dtos.OrderItemDto;
-using GreenZone.Contracts.Dtos.ProductDocumentsDto;
-using GreenZone.Contracts.Dtos.ProductDtos;
-using GreenZone.Domain.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using AutoMapper;
+using GreenZone.Contracts.Dtos.CategoryDtos;
+using GreenZone.Contracts.Dtos.CustomerDtos;
+using GreenZone.Contracts.Dtos.OrderDtos;
+using GreenZone.Contracts.Dtos.OrderItemDto;
+using GreenZone.Contracts.Dtos.PaymentDto;
+using GreenZone.Contracts.Dtos.ProductDocumentsDto;
+using GreenZone.Contracts.Dtos.ProductDtos;
+using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 
 namespace GreenZone.Application.Profiles
 {
@@ -56,6 +58,16 @@ namespace GreenZone.Application.Profiles
             CreateMap<OrderItemCreateDto, OrderItem>().ReverseMap();
             CreateMap<OrderITemReadDto, OrderItem>().ReverseMap();
             CreateMap<OrderItemUpdateDto, OrderItem>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
-        }
-    }
+
+            // payment mappings
+            CreateMap<PaymentCreateDto, Payment>()
+			   .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
+				.ForMember(dest => dest.Status, opt => opt.MapFrom(_ => PaymentStatus.Pending));
+            CreateMap<Payment, PaymentReadDto>()
+                .ForMember(dest => dest.PaymentMethodName, opt => opt.MapFrom(src => src.PaymentMethod.Name))
+                .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.User.FirstName + " " + src.Customer.User.LastName));
+			CreateMap<PaymentUpdateDto, Payment>().ReverseMap();
+
+		}
+	}
 }

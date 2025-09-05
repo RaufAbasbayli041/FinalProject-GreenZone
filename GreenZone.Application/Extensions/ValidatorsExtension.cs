@@ -8,6 +8,7 @@ using GreenZone.Application.Validators.Customer;
 using GreenZone.Application.Validators.ProductDocuments;
 using GreenZone.Application.Validators.Order;
 using GreenZone.Application.Validators.OrderITem;
+using GreenZone.Application.Validators.Payment;
 
 namespace GreenZone.Application.Extensions
 {
@@ -38,7 +39,12 @@ namespace GreenZone.Application.Extensions
 
             // order item validators
             services.AddValidatorsFromAssemblyContaining<OrderItemCreateDtoValidator>();
-            return services;
+
+			// payment validators
+            services.AddValidatorsFromAssemblyContaining<PaymentUpdateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<PaymentCreateDtoValidator>();
+
+			return services;
         }
 
     }
