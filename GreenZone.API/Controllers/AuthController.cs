@@ -27,13 +27,16 @@ namespace GreenZone.API.Controllers
             {
                 return BadRequest("Invalid login request");
             }
+
             var result = await _authService.LogInAsync(logInDto);
 
-            if (!result.Succeeded)
+            if (result == null)
             {
-                return Unauthorized("Invalid username or password.");
-            }
-            return Ok(result);
+                return Unauthorized("Invalid email or password, or email not confirmed.");
+			}
+			return Ok(result);
+
+
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)

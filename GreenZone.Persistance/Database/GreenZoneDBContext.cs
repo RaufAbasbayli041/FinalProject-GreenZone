@@ -34,6 +34,7 @@ namespace GreenZone.Persistance.Database
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(GreenZoneDBContext).Assembly);
-        }
+			 
+		}
     }
 }

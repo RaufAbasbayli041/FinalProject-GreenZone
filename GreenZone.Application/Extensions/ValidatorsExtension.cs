@@ -1,14 +1,17 @@
-﻿using GreenZone.Application.Validations.Category;
-using Microsoft.Extensions.DependencyInjection;
-using GreenZone.Application.Validations;
+﻿using FluentValidation;
 using FluentValidation.AspNetCore;
-using FluentValidation;
-using GreenZone.Application.Validators.Product;
+using GreenZone.Application.Validations;
+using GreenZone.Application.Validations.Category;
+using GreenZone.Application.Validators;
 using GreenZone.Application.Validators.Customer;
-using GreenZone.Application.Validators.ProductDocuments;
 using GreenZone.Application.Validators.Order;
 using GreenZone.Application.Validators.OrderITem;
 using GreenZone.Application.Validators.Payment;
+using GreenZone.Application.Validators.Product;
+using GreenZone.Application.Validators.ProductDocuments;
+using GreenZone.Domain.Entity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace GreenZone.Application.Extensions
 {
@@ -42,7 +45,8 @@ namespace GreenZone.Application.Extensions
 
 			// payment validators
             services.AddValidatorsFromAssemblyContaining<PaymentUpdateDtoValidator>();
-            services.AddValidatorsFromAssemblyContaining<PaymentCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<PaymentCreateDtoValidator>(); 
+
 
 			return services;
         }

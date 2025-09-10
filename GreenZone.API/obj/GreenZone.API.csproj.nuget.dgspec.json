@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.API\\GreenZone.API.csproj": {}
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\GreenZone.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.API\\GreenZone.API.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\GreenZone.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.API\\GreenZone.API.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\GreenZone.API.csproj",
         "projectName": "GreenZone.API",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.API\\GreenZone.API.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.API\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\GreenZone.API.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -32,11 +32,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\GreenZone.Application.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\GreenZone.Application.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\GreenZone.Application.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\GreenZone.Application.csproj"
               },
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj"
               }
             }
           }
@@ -57,6 +57,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.20, )"
+            },
             "Microsoft.EntityFrameworkCore.Design": {
               "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
               "suppressParent": "All",
@@ -95,24 +99,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\GreenZone.Application.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\GreenZone.Application.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\GreenZone.Application.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\GreenZone.Application.csproj",
         "projectName": "GreenZone.Application",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\GreenZone.Application.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Application\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\GreenZone.Application.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -127,11 +131,11 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj"
               },
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
               }
             }
           }
@@ -159,6 +163,10 @@
             "FluentValidation.AspNetCore": {
               "target": "Package",
               "version": "[11.3.1, )"
+            },
+            "Microsoft.AspNetCore.Authentication.JwtBearer": {
+              "target": "Package",
+              "version": "[8.0.20, )"
             }
           },
           "imports": [
@@ -177,24 +185,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj",
         "projectName": "GreenZone.Contracts",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Contracts\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\GreenZone.Contracts.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -209,8 +217,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
               }
             }
           }
@@ -256,24 +264,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
         "projectName": "GreenZone.Domain",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -327,24 +335,24 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     },
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj",
         "projectName": "GreenZone.Persistance",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Persistance\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\GreenZone.Persistance.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Persistance\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
@@ -359,8 +367,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
-                "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
+              "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+                "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj"
               }
             }
           }
@@ -424,7 +432,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.304/PortableRuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.305/PortableRuntimeIdentifierGraph.json"
         }
       }
     }

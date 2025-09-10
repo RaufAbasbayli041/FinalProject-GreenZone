@@ -1,17 +1,19 @@
-﻿using GreenZone.Contracts.Dtos;
-using Microsoft.AspNetCore.Identity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenZone.Contracts.Dtos;
+using GreenZone.Domain.Entity;
+using Microsoft.AspNetCore.Identity;
 
 namespace GreenZone.Contracts.Contracts
 {
     public interface IAuthService
     {
-        Task<IdentityResult> LogInAsync (LogInDto logInDto);
-        Task<IdentityResult> RegisterAsync( RegisterDto registerDto);
-       
-    }
+        Task<AuthResultDto?> LogInAsync (LogInDto logInDto);
+        Task<IdentityResult> RegisterAsync( RegisterDto registerDto); 
+
+
+	}
 }
