@@ -47,6 +47,28 @@ namespace GreenZone.API
 
             builder.Services.AddValidatorsRegistration();
 
+            builder.Services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(30);
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+                opt.Cookie.Path = "/";
+            });
+
+            builder.Services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = "/Account/Login";
+                options.LogoutPath = "/Account/Logout";
+                options.AccessDeniedPath = "/Account/AccessDenied";
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(30);
+                options.SlidingExpiration = true;
+                options.Cookie.HttpOnly = true;
+                options.Cookie.Name = "GreenZoneAuthCookie";
+                options.Cookie.IsEssential = true; // Make the cookie essential
+                options.Cookie.Path = "/"; // Set the cookie path to root
+                options.Cookie.SecurePolicy= CookieSecurePolicy.Always; // Ensure the cookie is only sent over HTTPS
+                options.Cookie.SameSite = SameSiteMode.Strict; // Adjust SameSite attribute as needed
+            });
 
             builder.Services.AddRepositoryRegistration();
             builder.Services.AddServiceRegistration();
@@ -66,6 +88,8 @@ namespace GreenZone.API
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             // Seed Roles
             using (var scope = app.Services.CreateScope())

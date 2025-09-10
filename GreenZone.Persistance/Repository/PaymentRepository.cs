@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreenZone.Persistance.Repository
 {
-	public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
+    public class PaymentRepository : GenericRepository<Payment>, IPaymentRepository
 	{
 		public PaymentRepository(GreenZoneDBContext context) : base(context)
 		{
@@ -63,5 +63,23 @@ namespace GreenZone.Persistance.Repository
 				.FirstOrDefaultAsync(p => p.Id == paymentId && !p.IsDeleted);
 			return data;
 		}
-	}
+
+        public async Task<decimal> GetTotalPaymentsAmountAsync(DateTime start, DateTime end)
+        { 
+			var total = await _context.Payments
+				.Where(p => !p.IsDeleted && p.PaymentDate >= start && p.PaymentDate <= end && p.Status == PaymentStatus.Completed)
+				.SumAsync(p => p.Amount);
+			return total;
+        }
+
+        public async Task<IDictionary<string, decimal>> GetTotalPaymentsByMethodAsync(DateTime start, DateTime end)
+        { 
+			var result = await _context.Payments
+				.Where(p => !p.IsDeleted && p.PaymentDate >= start && p.PaymentDate <= end && p.Status == PaymentStatus.Completed)
+				.GroupBy(p => p.PaymentMethod.Name)
+				.Select(g => new { PaymentMethod = g.Key, TotalAmount = g.Sum(p => p.Amount) })
+				.ToDictionaryAsync(x => x.PaymentMethod, x => x.TotalAmount);
+			return result;
+        }
+    }
 }

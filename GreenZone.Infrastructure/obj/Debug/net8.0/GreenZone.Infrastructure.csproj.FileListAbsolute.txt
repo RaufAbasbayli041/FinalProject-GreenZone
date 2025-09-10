@@ -21,3 +21,4 @@ D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Infrastructu
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\refint\GreenZone.Infrastructure.dll
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.pdb
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\ref\GreenZone.Infrastructure.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.sourcelink.json
