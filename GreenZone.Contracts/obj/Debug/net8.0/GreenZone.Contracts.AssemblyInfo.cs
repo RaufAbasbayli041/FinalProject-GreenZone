@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GreenZone.Contracts")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ed0e8a60652be236e8a55330459bf19bdd7622c8")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+9d1bb251e826746da029706ec6a3fd89f1ac8724")]
 [assembly: System.Reflection.AssemblyProductAttribute("GreenZone.Contracts")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GreenZone.Contracts")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,6 +13,7 @@ using GreenZone.Domain.Repository;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 
 namespace GreenZone.Application.Service
@@ -23,16 +24,18 @@ namespace GreenZone.Application.Service
 		protected readonly SignInManager<ApplicationUser> _signInManager;
 		private readonly ICustomerRepository _customerRepository;
 		private readonly IEmailSenderOpt _emailSenderOpt;
+        private readonly ILogger<AuthService> _logger;
 
-		public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt)
-		{
-			_userManager = userManager;
-			_signInManager = signInManager;
-			_customerRepository = customerRepository;
-			_emailSenderOpt = emailSenderOpt;
-		}
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt, ILogger<AuthService> logger)
+        {
+            _userManager = userManager;
+            _signInManager = signInManager;
+            _customerRepository = customerRepository;
+            _emailSenderOpt = emailSenderOpt;
+            _logger = logger;
+        }
 
-		public async Task<AuthResultDto?> LogInAsync(LogInDto logInDto)
+        public async Task<AuthResultDto?> LogInAsync(LogInDto logInDto)
 		{
 			if (logInDto == null)
 			{
