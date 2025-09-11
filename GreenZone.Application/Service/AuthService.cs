@@ -11,6 +11,7 @@ using GreenZone.Contracts.Dtos.CustomerDtos;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
@@ -86,12 +87,13 @@ namespace GreenZone.Application.Service
 			{
 				return IdentityResult.Failed(new IdentityError { Description = "Token generation failed." });
 			}
-			var confirmationLink = $"https://localhost:7100/api/auth/confirm-email?userId={user.Id}&token={Uri.EscapeDataString(token)}";
+			var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
+            var confirmationLink = $"https://localhost:7100/api/auth/confirm-email?userId={user.Id}&token={encodedToken}";
 
 
 
-			// You can use an email service to send the confirmation link to the user's email address.
-			await _emailSenderOpt.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>link</a>");
+            // You can use an email service to send the confirmation link to the user's email address.
+            await _emailSenderOpt.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>link</a>");
 
 
 			await _userManager.AddToRoleAsync(user, "Customer");

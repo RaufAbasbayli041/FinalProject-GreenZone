@@ -4,6 +4,8 @@ using GreenZone.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.WebUtilities;
+using System.Text;
 
 namespace GreenZone.API.Controllers
 {
@@ -71,9 +73,13 @@ namespace GreenZone.API.Controllers
             var user = await _userManager.FindByIdAsync(userId);
             if (user == null) return NotFound("User not found.");
 
-            var result = await _userManager.ConfirmEmailAsync(user, token);
+            var decodedToken = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(token));
+
+            var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
             if (result.Succeeded) return Redirect("https://localhost:5173/email-confirmed");
+
+            var errors = string.Join(", ", result.Errors.Select(e => e.Description));
 
             return BadRequest("Email confirmation failed.");
         }
