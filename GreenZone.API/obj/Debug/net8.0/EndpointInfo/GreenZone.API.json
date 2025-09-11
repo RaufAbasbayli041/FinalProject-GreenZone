@@ -987,7 +987,7 @@
       "LogInDto": {
         "type": "object",
         "properties": {
-          "email": {
+          "userName": {
             "type": "string",
             "nullable": true
           },

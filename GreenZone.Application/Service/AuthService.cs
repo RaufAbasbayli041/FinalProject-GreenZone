@@ -38,10 +38,10 @@ namespace GreenZone.Application.Service
 			{
 				throw new ArgumentNullException(nameof(logInDto));
 			}
-			var user = await _userManager.FindByEmailAsync(logInDto.Email);
+			var user = await _userManager.FindByNameAsync(logInDto.UserName);
 			if (user == null)
 			{
-				return null;
+				throw new ArgumentException(nameof(logInDto));
 			}
 
 			var result = await _signInManager.PasswordSignInAsync(user, logInDto.Password, isPersistent: true, lockoutOnFailure: false);
@@ -63,10 +63,7 @@ namespace GreenZone.Application.Service
 
 		public async Task<IdentityResult> RegisterAsync(RegisterDto registerDto)
 		{
-			if (await _userManager.FindByEmailAsync(registerDto.Email) != null)
-			{
-				return IdentityResult.Failed(new IdentityError { Description = "Email already in use." });
-			}
+			 
 			var user = new ApplicationUser
 			{
 				UserName = registerDto.UserName,

@@ -10,19 +10,22 @@ using GreenZone.Contracts.Dtos.PaymentDto;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
 using GreenZone.Domain.Repository;
+using Microsoft.Extensions.Logging;
 
 namespace GreenZone.Application.Service
 {
     public class PaymentService : GenericService<Payment, PaymentCreateDto, PaymentReadDto, PaymentUpdateDto>, IPaymentService
     {
         private readonly IPaymentRepository _paymentRepository;
+        private readonly ILogger<PaymentService> _logger;
 
-        public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IValidator<PaymentCreateDto> createValidator, IValidator<PaymentUpdateDto> updateValidator) : base(paymentRepository, mapper, createValidator, updateValidator)
-        {
-            _paymentRepository = paymentRepository;
-        }
+		public PaymentService(IPaymentRepository paymentRepository, IMapper mapper, IValidator<PaymentCreateDto> createValidator, IValidator<PaymentUpdateDto> updateValidator, ILogger<PaymentService> logger) : base(paymentRepository, mapper, createValidator, updateValidator)
+		{
+			_paymentRepository = paymentRepository;
+			_logger = logger;
+		}
 
-        public async Task<IEnumerable<PaymentReadDto>> GetPaymentsByCustomerIdAsync(Guid customerId)
+		public async Task<IEnumerable<PaymentReadDto>> GetPaymentsByCustomerIdAsync(Guid customerId)
         {
             if (customerId == Guid.Empty) throw new ArgumentException("Customer ID cannot be empty.", nameof(customerId));
             var payments = await _paymentRepository.GetPaymentsByCustomerIdAsync(customerId);

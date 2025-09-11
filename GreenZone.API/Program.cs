@@ -37,7 +37,7 @@ namespace GreenZone.API
 			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.SignIn.RequireConfirmedAccount = true;
-				//options.User.RequireUniqueEmail = false; // Allow non-unique emails
+				options.User.RequireUniqueEmail = false; // Allow non-unique emails
 				options.Password.RequiredLength = 8;
 				options.Password.RequireDigit = true;
 				options.Password.RequireLowercase = false;
