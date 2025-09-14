@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using GreenZone.Application.Validations;
 using GreenZone.Application.Validations.Category;
 using GreenZone.Application.Validators;
+using GreenZone.Application.Validators.Basket;
 using GreenZone.Application.Validators.Customer;
 using GreenZone.Application.Validators.Order;
 using GreenZone.Application.Validators.OrderITem;
@@ -45,10 +46,14 @@ namespace GreenZone.Application.Extensions
 
 			// payment validators
             services.AddValidatorsFromAssemblyContaining<PaymentUpdateDtoValidator>();
-            services.AddValidatorsFromAssemblyContaining<PaymentCreateDtoValidator>(); 
+            services.AddValidatorsFromAssemblyContaining<PaymentCreateDtoValidator>();
 
+            // basket validators
+            services.AddValidatorsFromAssemblyContaining<BasketDtoValidator>();
 
-			return services;
+          
+
+            return services;
         }
 
     }

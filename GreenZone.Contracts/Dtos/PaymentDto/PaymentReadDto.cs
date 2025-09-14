@@ -11,7 +11,8 @@ namespace GreenZone.Contracts.Dtos.PaymentDto
 	{
 		public decimal Amount { get; set; }
 		public DateTime PaymentDate { get; set; }
-		public PaymentStatus Status { get; set; }
+		public DateTime? RefundDate { get; set; } // Nullable to indicate no refund
+        public PaymentStatus Status { get; set; }
 		public string PaymentMethodName { get; set; }
 		public string CustomerName { get; set; }
 	}

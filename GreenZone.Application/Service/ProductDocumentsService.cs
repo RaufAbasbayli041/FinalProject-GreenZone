@@ -15,7 +15,7 @@ namespace GreenZone.Application.Service
     public class ProductDocumentsService : GenericService<ProductDocuments, ProductDocumentsCreateDto, ProductDocumentsReadDto, ProductDocumentsUpdateDto>, IProductDocumentsService
     {
         private readonly IProductDocumentsRepository _productDocumentsRepository;
-        public ProductDocumentsService(IGenericRepository<ProductDocuments> repository, IMapper mapper, IValidator<ProductDocumentsCreateDto> createValidator, IValidator<ProductDocumentsUpdateDto> updateValidator, IProductDocumentsRepository productDocumentsRepository) : base(repository, mapper, createValidator, updateValidator)
+        public ProductDocumentsService(IGenericRepository<ProductDocuments> repository, IMapper mapper, IValidator<ProductDocumentsCreateDto> createValidator, IValidator<ProductDocumentsUpdateDto> updateValidator, IProductDocumentsRepository productDocumentsRepository, IUnitOfWork unitOfWork) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _productDocumentsRepository = productDocumentsRepository;
         }

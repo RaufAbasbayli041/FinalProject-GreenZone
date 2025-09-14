@@ -19,7 +19,7 @@ namespace GreenZone.Application.Service
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ICustomerRepository _customerRepository;
 
-        public CustomerService(IGenericRepository<Customer> repository, IMapper mapper, IValidator<CustomerCreateDto> createValidator, IValidator<CustomerUpdateDto> updateValidator, UserManager<ApplicationUser> userManager, ICustomerRepository customerRepository) : base(repository, mapper, createValidator, updateValidator)
+        public CustomerService(IGenericRepository<Customer> repository, IMapper mapper, IValidator<CustomerCreateDto> createValidator, IValidator<CustomerUpdateDto> updateValidator, UserManager<ApplicationUser> userManager, ICustomerRepository customerRepository, IUnitOfWork unitOfWork) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _userManager = userManager;
             _customerRepository = customerRepository;

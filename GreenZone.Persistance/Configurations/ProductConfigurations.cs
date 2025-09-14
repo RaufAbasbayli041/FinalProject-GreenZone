@@ -37,6 +37,10 @@ namespace GreenZone.Persistance.Configurations
             builder.Property(p => p.ImageUrl)
                 .HasMaxLength(500)
                 .HasColumnType("nvarchar(500)");
+            builder.HasMany(p => p.BasketItems)
+                .WithOne(ci => ci.Product)
+                .HasForeignKey(ci => ci.ProductId)
+                .OnDelete(DeleteBehavior.Restrict);
 
 
         }

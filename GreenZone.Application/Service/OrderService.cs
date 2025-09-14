@@ -15,7 +15,7 @@ namespace GreenZone.Application.Service
     public class OrderService : GenericService<Order, OrderCreateDto, OrderReadDto, OrderUpdateDto>, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
-        public OrderService(IOrderRepository orderRepository, IMapper mapper, IValidator<OrderCreateDto> createValidator, IValidator<OrderUpdateDto> updateValidator) : base(orderRepository, mapper, createValidator, updateValidator)
+        public OrderService(IOrderRepository orderRepository, IMapper mapper, IValidator<OrderCreateDto> createValidator, IValidator<OrderUpdateDto> updateValidator, IUnitOfWork unitOfWork) : base(orderRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _orderRepository = orderRepository;
         }

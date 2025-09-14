@@ -13,5 +13,7 @@ namespace GreenZone.Domain.Entity
         public ICollection<Order> Orders { get; set; } = new List<Order>(); // Navigation property to Order entities
         public string UserId { get; set; } // Foreign key to ApplicationUser
         public ApplicationUser User { get; set; } // Navigation property to ApplicationUser
+        public Basket Basket { get; set; } // Navigation property to Cart entity
+
     }
 }

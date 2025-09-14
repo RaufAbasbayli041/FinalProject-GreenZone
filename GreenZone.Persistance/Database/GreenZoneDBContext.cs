@@ -15,8 +15,6 @@ namespace GreenZone.Persistance.Database
         {
         }
 
-
-
         public DbSet<Category> Categories { get; set; }
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Delivery> Deliveries { get; set; }
@@ -28,6 +26,8 @@ namespace GreenZone.Persistance.Database
         public DbSet<PaymentMethod> PaymentMethods { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<ProductDocuments> ProductDocuments { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
+        public DbSet<BasketItems> BasketItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)

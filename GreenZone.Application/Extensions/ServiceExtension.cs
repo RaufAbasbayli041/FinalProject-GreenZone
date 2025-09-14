@@ -1,6 +1,7 @@
 ﻿using GreenZone.Application.Service;
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Service;
+using GreenZone.Domain.Repository;
 using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
@@ -23,7 +24,9 @@ namespace GreenZone.Application.Extensions
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IEmailSenderOpt, EmailSenderOpt>();
 			services.AddScoped<IPaymentService, PaymentService>();
-			return services;
+            services.AddScoped<IBasketService, BasketService>();
+           
+            return services;
 
         }
     }

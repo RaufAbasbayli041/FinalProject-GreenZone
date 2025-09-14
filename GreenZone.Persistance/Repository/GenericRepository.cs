@@ -22,7 +22,7 @@ namespace GreenZone.Persistance.Repository
         public virtual async Task<TEntity> AddAsync(TEntity entity)
         {
             var addedEntity = await _dbSet.AddAsync(entity);
-            await _context.SaveChangesAsync();
+            
             return entity;
         }
         public async Task<bool> DeleteAsync(Guid id)
@@ -34,7 +34,7 @@ namespace GreenZone.Persistance.Repository
             }
             entity.IsDeleted = true;
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            
             return true;
         }
         public virtual async Task<IEnumerable<TEntity>> GetAllAsync()
@@ -59,7 +59,7 @@ namespace GreenZone.Persistance.Repository
             }
             entity.UpdatedAt = DateTime.UtcNow;
             _dbSet.Update(entity);
-            await _context.SaveChangesAsync();
+            
             return entity;
         }
     }

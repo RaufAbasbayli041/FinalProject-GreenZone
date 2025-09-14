@@ -11,6 +11,7 @@ namespace GreenZone.Domain.Entity
     {
         public decimal Amount { get; set; }
         public DateTime PaymentDate { get; set; }
+        public DateTime? RefundDate { get; set; } // New property for refund date
         public PaymentStatus Status { get; set; } 
         public Guid PaymentMethodId { get; set; }
         public PaymentMethod PaymentMethod { get; set; } // Navigation property to PaymentMethod

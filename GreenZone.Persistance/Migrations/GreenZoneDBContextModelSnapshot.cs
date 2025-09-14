@@ -97,6 +97,66 @@ namespace GreenZone.Persistance.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
+            modelBuilder.Entity("GreenZone.Domain.Entity.Basket", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("CustomerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CustomerId")
+                        .IsUnique();
+
+                    b.ToTable("Baskets");
+                });
+
+            modelBuilder.Entity("GreenZone.Domain.Entity.BasketItems", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("BasketId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("ProductId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Quantity")
+                        .HasPrecision(18, 4)
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("BasketId");
+
+                    b.HasIndex("ProductId");
+
+                    b.ToTable("BasketItems");
+                });
+
             modelBuilder.Entity("GreenZone.Domain.Entity.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -371,6 +431,9 @@ namespace GreenZone.Persistance.Migrations
                     b.Property<Guid>("PaymentMethodId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("RefundDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -627,6 +690,36 @@ namespace GreenZone.Persistance.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
+            modelBuilder.Entity("GreenZone.Domain.Entity.Basket", b =>
+                {
+                    b.HasOne("GreenZone.Domain.Entity.Customer", "Customer")
+                        .WithOne("Basket")
+                        .HasForeignKey("GreenZone.Domain.Entity.Basket", "CustomerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Customer");
+                });
+
+            modelBuilder.Entity("GreenZone.Domain.Entity.BasketItems", b =>
+                {
+                    b.HasOne("GreenZone.Domain.Entity.Basket", "Basket")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("BasketId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("GreenZone.Domain.Entity.Product", "Product")
+                        .WithMany("BasketItems")
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("GreenZone.Domain.Entity.Customer", b =>
                 {
                     b.HasOne("GreenZone.Domain.Entity.ApplicationUser", "User")
@@ -787,6 +880,11 @@ namespace GreenZone.Persistance.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("GreenZone.Domain.Entity.Basket", b =>
+                {
+                    b.Navigation("BasketItems");
+                });
+
             modelBuilder.Entity("GreenZone.Domain.Entity.Category", b =>
                 {
                     b.Navigation("Products");
@@ -794,6 +892,9 @@ namespace GreenZone.Persistance.Migrations
 
             modelBuilder.Entity("GreenZone.Domain.Entity.Customer", b =>
                 {
+                    b.Navigation("Basket")
+                        .IsRequired();
+
                     b.Navigation("Orders");
 
                     b.Navigation("Payments");
@@ -823,6 +924,8 @@ namespace GreenZone.Persistance.Migrations
 
             modelBuilder.Entity("GreenZone.Domain.Entity.Product", b =>
                 {
+                    b.Navigation("BasketItems");
+
                     b.Navigation("Documents");
 
                     b.Navigation("OrderItems");

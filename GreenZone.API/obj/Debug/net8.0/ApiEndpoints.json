@@ -63,6 +63,90 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GreenZone.API.Controllers.BasketController",
+    "Method": "GetBasketByCustomerId",
+    "RelativePath": "api/Basket/{customerId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.BasketController",
+    "Method": "ClearBasket",
+    "RelativePath": "api/Basket/{customerId}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.BasketController",
+    "Method": "AddItemsToBasket",
+    "RelativePath": "api/Basket/{customerId}/items",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.BasketController",
+    "Method": "RemoveItemsFromBasket",
+    "RelativePath": "api/Basket/{customerId}/items",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "productId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "quantity",
+        "Type": "System.Int32",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GreenZone.API.Controllers.CategoryController",
     "Method": "GetAllCategories",
     "RelativePath": "api/Category",

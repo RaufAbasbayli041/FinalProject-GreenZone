@@ -17,8 +17,9 @@ namespace GreenZone.Application.Service
     {
         private readonly ICategoryRepository _categoryRepository;
 
-        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IValidator<CategoryCreateDto> createValidator, IValidator<CategoryUpdateDto> updateValidator)
-          : base(categoryRepository, mapper, createValidator, updateValidator)
+
+        public CategoryService(ICategoryRepository categoryRepository, IMapper mapper, IValidator<CategoryCreateDto> createValidator, IValidator<CategoryUpdateDto> updateValidator , IUnitOfWork unitOfWork)
+          : base(categoryRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _categoryRepository = categoryRepository;
         }

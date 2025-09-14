@@ -14,6 +14,7 @@ namespace GreenZone.Contracts.Contracts
         Task<AuthResultDto?> LogInAsync (LogInDto logInDto);
         Task<IdentityResult> RegisterAsync( RegisterDto registerDto); 
 
+        Task LogOutAsync ();
 
-	}
+    }
 }

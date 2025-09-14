@@ -45,10 +45,11 @@ namespace GreenZone.API
 				options.Password.RequireNonAlphanumeric = false;
 			})
 			.AddEntityFrameworkStores<GreenZoneDBContext>()
-			.AddDefaultTokenProviders();
+			.AddUserValidator<CustomUserValidator>()
+            .AddDefaultTokenProviders();
 
 			 
-			builder.Services.AddScoped<IUserValidator<ApplicationUser>, CustomUserValidator>();
+			//builder.Services.AddScoped<IUserValidator<ApplicationUser>, CustomUserValidator>();
 
 			builder.Services.AddAutoMapper(typeof(CustomProfile).Assembly);
 

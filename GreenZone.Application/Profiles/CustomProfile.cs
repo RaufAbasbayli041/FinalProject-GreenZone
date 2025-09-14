@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using GreenZone.Contracts.Dtos.BasketDtos;
+using GreenZone.Contracts.Dtos.BasketItemsDtos;
 using GreenZone.Contracts.Dtos.CategoryDtos;
 using GreenZone.Contracts.Dtos.CustomerDtos;
 using GreenZone.Contracts.Dtos.OrderDtos;
@@ -61,13 +63,30 @@ namespace GreenZone.Application.Profiles
 
             // payment mappings
             CreateMap<PaymentCreateDto, Payment>()
-			   .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
-				.ForMember(dest => dest.Status, opt => opt.MapFrom(_ => PaymentStatus.Pending));
+               .ForMember(dest => dest.PaymentDate, opt => opt.MapFrom(_ => DateTime.UtcNow))
+                .ForMember(dest => dest.Status, opt => opt.MapFrom(_ => PaymentStatus.Pending));
             CreateMap<Payment, PaymentReadDto>()
                 .ForMember(dest => dest.PaymentMethodName, opt => opt.MapFrom(src => src.PaymentMethod.Name))
                 .ForMember(dest => dest.CustomerName, opt => opt.MapFrom(src => src.Customer.User.FirstName + " " + src.Customer.User.LastName));
-			CreateMap<PaymentUpdateDto, Payment>().ReverseMap();
+            CreateMap<PaymentUpdateDto, Payment>().ReverseMap();
 
-		}
-	}
+            // basket mapping
+            CreateMap<Basket, BasketReadDto>()
+                .ForMember(dest => dest.CustomerId, opt => opt.MapFrom(src => src.CustomerId))
+                .ForMember(dest => dest.BasketItems, opt => opt.MapFrom(src => src.BasketItems))
+                .ReverseMap();
+
+            // basket items mapping
+            CreateMap<BasketItems, BasketItemsReadDto>()
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.Quantity, opt => opt.MapFrom(src => src.Quantity))
+                .ForMember(dest => dest.ProductId, opt => opt.MapFrom(src => src.ProductId))
+                .ForMember(dest => dest.TotalPrice, opt => opt.MapFrom(src => src.Product.PricePerSquareMeter * src.Quantity))
+                .ReverseMap();
+
+            CreateMap<BasketItemsCreateDto, BasketItems>().ReverseMap();
+            CreateMap<BasketItemsUpdateDto, BasketItems>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+
+        }
+    }
 }

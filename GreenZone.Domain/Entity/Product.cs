@@ -16,5 +16,6 @@ namespace GreenZone.Domain.Entity
         public Category Category { get; set; }
         public ICollection<ProductDocuments> Documents { get; set; } = new List<ProductDocuments>();
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
+        public ICollection<BasketItems> BasketItems { get; set; } = new List<BasketItems>();
     }
 }

@@ -1,4 +1,5 @@
-﻿using GreenZone.Contracts.Contracts;
+﻿using GreenZone.Application.Exceptions;
+using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos;
 using GreenZone.Domain.Entity;
 using Microsoft.AspNetCore.Http;
@@ -43,14 +44,7 @@ namespace GreenZone.API.Controllers
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-            if (registerDto == null)
-            {
-                return BadRequest("Invalid register request");
-            }
-            if (registerDto.Password != registerDto.ConfirmPassword)
-            {
-                return BadRequest("Password and Confirm Password do not match.");
-            }
+          
             var result = await _authService.RegisterAsync(registerDto);
             if (!result.Succeeded)
             {
@@ -60,8 +54,8 @@ namespace GreenZone.API.Controllers
         }
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
-        {
-            // Implement logout logic if needed, e.g., invalidate tokens or clear cookies
+        { 
+            await _authService.LogOutAsync();
             return Ok("User logged out successfully.");
         }
         [HttpGet("confirm-email")]

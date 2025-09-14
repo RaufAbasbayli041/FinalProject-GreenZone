@@ -21,12 +21,14 @@ namespace GreenZone.Application.Service
         protected readonly IMapper _mapper;
          private readonly IValidator<TCreateDto> _createValidator;
         private readonly IValidator<TUpdateDto> _updateValidator;
-        public GenericService(IGenericRepository<TEntity> repository, IMapper mapper, IValidator<TCreateDto> createValidator, IValidator<TUpdateDto> updateValidator)
+        private readonly IUnitOfWork _unitOfWork;
+        public GenericService(IGenericRepository<TEntity> repository, IMapper mapper, IValidator<TCreateDto> createValidator, IValidator<TUpdateDto> updateValidator, IUnitOfWork unitOfWork)
         {
             _repository = repository;
             _mapper = mapper;
             _createValidator = createValidator;
             _updateValidator = updateValidator;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<TReadDto> GetByIdAsync(Guid id)
@@ -56,6 +58,7 @@ namespace GreenZone.Application.Service
             var entity = _mapper.Map<TEntity>(dto);
             var addedData = await _repository.AddAsync(entity);
             var readDto = _mapper.Map<TReadDto>(addedData);
+            await _unitOfWork.SaveChangesAsync();
             return readDto;
         }
 
@@ -71,12 +74,16 @@ namespace GreenZone.Application.Service
             _mapper.Map(dto, entity);
             var updatedData = await _repository.UpdateAsync(entity);
             var readDto = _mapper.Map<TReadDto>(updatedData);
+            await _unitOfWork.SaveChangesAsync();
+
             return readDto;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
             var result = await _repository.DeleteAsync(id);
+            await _unitOfWork.SaveChangesAsync();
+
             return result;
         }
     }
