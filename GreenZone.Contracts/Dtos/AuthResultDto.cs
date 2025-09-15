@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenZone.Contracts.Dtos.CustomerDtos;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,5 +11,5 @@ namespace GreenZone.Contracts.Dtos
 	{
 		public string Token { get; set; }
 		public DateTime Expiration { get; set; }
-	}
+    }
 }

@@ -1222,6 +1222,14 @@
             "type": "number",
             "format": "double"
           },
+          "minThickness": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maxThickness": {
+            "type": "integer",
+            "format": "int32"
+          },
           "imageUrl": {
             "type": "string",
             "nullable": true
@@ -1299,6 +1307,16 @@
           "pricePerSquareMeter": {
             "type": "number",
             "format": "double",
+            "nullable": true
+          },
+          "minThickness": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "maxThickness": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
           "imageUrl": {

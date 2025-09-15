@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using GreenZone.Application.Exceptions;
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.BasketDtos;
 using GreenZone.Domain.Entity;
@@ -78,7 +79,7 @@ namespace GreenZone.Application.Service
             var basket = await _basketRepository.GetBasketByCustomerAsync(customerId);
             if (basket == null)
             {
-                throw new InvalidOperationException("Basket not found for the customer.");
+                throw new NotFoundException("Basket not found for the customer.");
             }
             var basketDto = _mapper.Map<BasketReadDto>(basket);
             return basketDto;
@@ -105,7 +106,7 @@ namespace GreenZone.Application.Service
 
             if (basket == null)
             {
-                throw new InvalidOperationException("Basket not found for the customer.");
+                throw new NotFoundException("Basket not found for the customer.");
             }
             if (!basket.BasketItems.Any())
             {

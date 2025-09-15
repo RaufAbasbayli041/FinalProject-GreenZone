@@ -71,7 +71,7 @@ namespace GreenZone.API.Controllers
 
             var result = await _userManager.ConfirmEmailAsync(user, decodedToken);
 
-            if (result.Succeeded) return Redirect("https://localhost:5173/email-confirmed");
+            if (result.Succeeded) return Redirect("https://localhost:7100/email-confirmed");
 
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
 

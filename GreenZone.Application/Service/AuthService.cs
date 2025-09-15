@@ -26,16 +26,19 @@ namespace GreenZone.Application.Service
         private readonly ICustomerRepository _customerRepository;
         private readonly IEmailSenderOpt _emailSenderOpt;
         private readonly ILogger<AuthService> _logger;
-        private readonly IBasketRepository _cartRepository;
+        private readonly IBasketRepository _basketRepository;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt, ILogger<AuthService> logger, IBasketRepository cartRepository)
+
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt, ILogger<AuthService> logger, IBasketRepository basketRepository, IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _customerRepository = customerRepository;
             _emailSenderOpt = emailSenderOpt;
             _logger = logger;
-            _cartRepository = cartRepository;
+            _basketRepository = basketRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<AuthResultDto?> LogInAsync(LogInDto logInDto)
@@ -66,10 +69,9 @@ namespace GreenZone.Application.Service
                 return new AuthResultDto
                 {
                     Token = token,
-                    Expiration = DateTime.UtcNow.AddMinutes(60) // Token expiration time
+                    Expiration = DateTime.UtcNow.AddMinutes(60) ,// Token expiration time
+                    
                 };
-
-
             }
             else
             {
@@ -124,17 +126,12 @@ namespace GreenZone.Application.Service
             {
                 UserId = user.Id,
                 IdentityCard = registerDto.IdentityCard,
-
+                Basket = new Basket()
             };
-
-
+            
+            
             await _customerRepository.AddAsync(customer);
-            var customerWithCart = new Basket
-            {
-                CustomerId = customer.Id,
-            };
-
-            await _cartRepository.AddAsync(customerWithCart);
+            await _unitOfWork.SaveChangesAsync();
             return IdentityResult.Success;
 
         }

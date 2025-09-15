@@ -22,11 +22,18 @@ namespace GreenZone.Application.Validators.Product
                 .NotNull().WithMessage("Price per square meter is required.")
                 .GreaterThan(0).WithMessage("Price per square meter must be greater than zero.");
             RuleFor(x => x.ImageUrl)
-
                 .Must(url => string.IsNullOrEmpty(url) || Uri.IsWellFormedUriString(url, UriKind.Absolute))
                 .WithMessage("ImageUrl must be a valid URL or empty.");
             RuleFor(x => x.CategoryId)
                 .NotEmpty().WithMessage("Category ID is required."); 
+            RuleFor(x => x.MinThickness)
+                .NotNull().WithMessage("Minimum thickness is required.")
+                .GreaterThan(0).WithMessage("Minimum thickness must be greater than zero.")
+                .LessThan(x => x.MaxThickness).WithMessage("Minimum thickness must be less than maximum thickness.");
+            RuleFor(x => x.MaxThickness)
+                .NotNull().WithMessage("Maximum thickness is required.")
+                .GreaterThan(0).WithMessage("Maximum thickness must be greater than zero.")
+                .GreaterThan(x => x.MinThickness).WithMessage("Maximum thickness must be greater than minimum thickness.");
             //RuleFor(x => x.DocumentIds)
             //    .NotNull().WithMessage("Document IDs collection cannot be null.");
 

@@ -22,6 +22,12 @@ namespace GreenZone.Application.Validators.Product
                 .MaximumLength(200).WithMessage("Image URL cannot exceed 200 characters.");
             RuleFor(p => p.CategoryId)
                 .NotEmpty().WithMessage("Category ID is required.");
+            RuleFor(x => x.MinThickness)
+                .GreaterThan(0).WithMessage("Minimum thickness must be greater than zero.")
+                .LessThan(x => x.MaxThickness).WithMessage("Minimum thickness must be less than maximum thickness.");
+            RuleFor(x => x.MaxThickness)
+                .GreaterThan(0).WithMessage("Maximum thickness must be greater than zero.")
+                .GreaterThan(x => x.MinThickness).WithMessage("Maximum thickness must be greater than minimum thickness.");
         }
     }
 }

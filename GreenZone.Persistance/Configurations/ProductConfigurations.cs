@@ -41,6 +41,12 @@ namespace GreenZone.Persistance.Configurations
                 .WithOne(ci => ci.Product)
                 .HasForeignKey(ci => ci.ProductId)
                 .OnDelete(DeleteBehavior.Restrict);
+            builder.Property(p => p.MinThickness)
+                .IsRequired();
+            builder.Property(p => p.MaxThickness)
+                .IsRequired();
+
+
 
 
         }
