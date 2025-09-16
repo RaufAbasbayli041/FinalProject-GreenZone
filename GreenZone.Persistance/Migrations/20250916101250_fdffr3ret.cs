@@ -5,7 +5,7 @@
 namespace GreenZone.Persistance.Migrations
 {
     /// <inheritdoc />
-    public partial class fddgfgfhgh : Migration
+    public partial class fdffr3ret : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

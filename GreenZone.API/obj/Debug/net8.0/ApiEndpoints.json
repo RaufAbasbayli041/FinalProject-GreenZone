@@ -103,19 +103,14 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "customerId",
-        "Type": "System.Guid",
+        "Name": "basketItemsCreateDto",
+        "Type": "GreenZone.Contracts.Dtos.BasketItemsDtos.BasketItemsCreateDto",
         "IsRequired": true
       },
       {
-        "Name": "productId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
-        "Name": "quantity",
-        "Type": "System.Int32",
-        "IsRequired": false
+        "Name": "customerId",
+        "Type": "",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []
@@ -142,6 +137,22 @@
         "Name": "quantity",
         "Type": "System.Int32",
         "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.BasketController",
+    "Method": "UpdateItemsInBasket",
+    "RelativePath": "api/Basket/items",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "basketItemsUpdateDto",
+        "Type": "GreenZone.Contracts.Dtos.BasketItemsDtos.BasketItemsUpdateDto",
+        "IsRequired": true
       }
     ],
     "ReturnTypes": []

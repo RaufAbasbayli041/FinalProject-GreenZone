@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace GreenZone.Persistance.Migrations
 {
     [DbContext(typeof(GreenZoneDBContext))]
-    [Migration("20250913125157_fddgfgfhghjhgghgf")]
-    partial class fddgfgfhghjhgghgf
+    [Migration("20250916101250_fdffr3ret")]
+    partial class fdffr3ret
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -434,6 +434,9 @@ namespace GreenZone.Persistance.Migrations
                     b.Property<Guid>("PaymentMethodId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime?>("RefundDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Status")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -499,6 +502,12 @@ namespace GreenZone.Persistance.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<int>("MaxThickness")
+                        .HasColumnType("int");
+
+                    b.Property<int>("MinThickness")
+                        .HasColumnType("int");
 
                     b.Property<decimal>("PricePerSquareMeter")
                         .HasColumnType("decimal(18,2()");

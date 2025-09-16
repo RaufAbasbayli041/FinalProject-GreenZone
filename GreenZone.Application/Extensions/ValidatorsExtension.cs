@@ -4,6 +4,7 @@ using GreenZone.Application.Validations;
 using GreenZone.Application.Validations.Category;
 using GreenZone.Application.Validators;
 using GreenZone.Application.Validators.Basket;
+using GreenZone.Application.Validators.BasketItems;
 using GreenZone.Application.Validators.Customer;
 using GreenZone.Application.Validators.Order;
 using GreenZone.Application.Validators.OrderITem;
@@ -51,9 +52,13 @@ namespace GreenZone.Application.Extensions
             // basket validators
             services.AddValidatorsFromAssemblyContaining<BasketDtoValidator>();
 
-          
+			// basket item validators
+            services.AddValidatorsFromAssemblyContaining<BasketItemsCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<BasketItemsUpdateDtoValidator>();
 
-            return services;
+
+
+			return services;
         }
 
     }

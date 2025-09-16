@@ -127,6 +127,10 @@ namespace GreenZone.Application.Service
                 UserId = user.Id,
                 IdentityCard = registerDto.IdentityCard,
                 Basket = new Basket()
+                {
+                    Id = Guid.NewGuid(),
+					BasketItems = new List<BasketItems>()
+				}
             };
             
             

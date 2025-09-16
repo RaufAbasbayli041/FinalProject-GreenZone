@@ -10,7 +10,7 @@ namespace GreenZone.Persistance.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
-        private readonly GreenZoneDBContext _context;
+        protected readonly GreenZoneDBContext _context;
 
         public UnitOfWork(GreenZoneDBContext context)
         {
