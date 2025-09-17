@@ -13,6 +13,7 @@ namespace GreenZone.Application.Validators.BasketItems
 		public BasketItemsUpdateDtoValidator()
 		{			 
 			RuleFor(basketItem => basketItem.Quantity).GreaterThan(0).WithMessage("Quantity must be greater than zero.");
+			RuleFor(basketItem => basketItem.ProductId).NotEmpty().WithMessage("ProductId is required.");
 		}
 	}
 }

@@ -9,6 +9,7 @@ namespace GreenZone.Contracts.Dtos.BasketItemsDtos
 {
     public record class BasketItemsUpdateDto
     {      
-        public int Quantity { get; set; } 
+        public Guid ProductId { get; set; }
+		public int Quantity { get; set; } 
     }
 }

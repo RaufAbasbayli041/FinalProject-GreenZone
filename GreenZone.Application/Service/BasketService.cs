@@ -16,14 +16,16 @@ namespace GreenZone.Application.Service
 	public class BasketService : IBasketService
 	{
 		private readonly IBasketRepository _basketRepository;
+		private readonly IBasketItemsRepository _basketItemsRepository;
 		private readonly IUnitOfWork _unitOfWork;
 		private readonly IMapper _mapper;
 
-		public BasketService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IMapper mapper)
+		public BasketService(IBasketRepository basketRepository, IUnitOfWork unitOfWork, IMapper mapper, IBasketItemsRepository basketItemsRepository)
 		{
 			_basketRepository = basketRepository;
 			_unitOfWork = unitOfWork;
 			_mapper = mapper;
+			_basketItemsRepository = basketItemsRepository;
 		}
 
 		public async Task AddItemstoBasketAsync(Guid customerId,BasketItemsCreateDto basketItemsCreateDto)
@@ -40,15 +42,15 @@ namespace GreenZone.Application.Service
 			}
 			else
 			{
-				basket.BasketItems.Add(new BasketItems
+				 basketItem = new BasketItems
 				{
 					Id = Guid.NewGuid(),
 					ProductId = basketItemsCreateDto.ProductId,
 					Quantity = basketItemsCreateDto.Quantity,
 					BasketId = basket.Id
-				});
-			}
-
+				};
+			await _basketItemsRepository.AddAsync(basketItem);
+			} 
 			await _unitOfWork.SaveChangesAsync();
 		}
 
@@ -71,7 +73,6 @@ namespace GreenZone.Application.Service
 
 		public async Task RemoveItemsFromBasketAsync(Guid customerId, Guid productId, int quantity)
 		{
-
 			if (quantity <= 0)
 			{
 				throw new ArgumentException("Quantity must be greater than zero.");
@@ -98,7 +99,7 @@ namespace GreenZone.Application.Service
 			var basketItem = basket.BasketItems.FirstOrDefault(bi => bi.ProductId == productId);
 			if (basketItem == null)
 			{
-				throw new InvalidOperationException("product not found in the basket.");
+				throw new NotFoundException("product not found in the basket.");
 			}
 			basketItem.Quantity -= quantity;
 			if (basketItem.Quantity <= 0)
@@ -109,9 +110,31 @@ namespace GreenZone.Application.Service
 
 		}
 
-		public Task UpdateItemsInBasketAsync(BasketItemsUpdateDto basketItemsUpdateDto)
-		{
-			throw new NotImplementedException();
+		public async Task UpdateItemsInBasketAsync(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto)
+		{ 
+			if (customerId == Guid.Empty)
+			{
+			 throw new NotFoundException ("CustomerId not found.");
+			}
+			if (basketItemsUpdateDto.Quantity <= 0)
+			{
+				throw new ArgumentException("Quantity must be greater than zero.");
+			}
+			var existingBasket = await _basketRepository.GetBasketByCustomerAsync(customerId);
+			if (existingBasket == null)
+			{
+				throw new NotFoundException("Basket not found for the customer.");
+			}
+			var basketItem = existingBasket.BasketItems.FirstOrDefault(bi => bi.ProductId == basketItemsUpdateDto.ProductId);
+			if (basketItem == null)
+			{
+				throw new NotFoundException("Product not found in the basket.");
+			}
+			basketItem.Quantity = basketItemsUpdateDto.Quantity;
+			await _basketItemsRepository.UpdateAsync(basketItem);
+			await _unitOfWork.SaveChangesAsync();
+
+
 		}
 	}
 }

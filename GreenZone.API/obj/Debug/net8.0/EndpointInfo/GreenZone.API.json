@@ -162,7 +162,8 @@
             "in": "path",
             "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -233,6 +234,16 @@
       "put": {
         "tags": [
           "Basket"
+        ],
+        "parameters": [
+          {
+            "name": "customerId",
+            "in": "query",
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -1104,6 +1115,10 @@
       "BasketItemsUpdateDto": {
         "type": "object",
         "properties": {
+          "productId": {
+            "type": "string",
+            "format": "uuid"
+          },
           "quantity": {
             "type": "integer",
             "format": "int32"

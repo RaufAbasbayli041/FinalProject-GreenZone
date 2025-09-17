@@ -3,16 +3,36 @@
   "WorkspaceRootPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.application\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.api\\controllers\\basketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|solutionrelative:greenzone.api\\controllers\\basketcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|solutionrelative:greenzone.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.contracts\\contracts\\ibasketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|solutionrelative:greenzone.contracts\\contracts\\ibasketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.application\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\basketservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.contracts\\dtos\\basketitemsdtos\\basketitemsupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|solutionrelative:greenzone.contracts\\dtos\\basketitemsdtos\\basketitemsupdatedto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.application\\validators\\basketitems\\basketitemsupdatedtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\validators\\basketitems\\basketitemsupdatedtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.application\\extensions\\validatorsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\extensions\\validatorsextension.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|d:\\evrascon\\rauf\\visual studio\\api\\finalproject-greenzone\\greenzone.application\\validators\\basket\\basketdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\validators\\basket\\basketdtovalidator.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -22,19 +42,58 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 7,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 5,
+              "Title": "BasketItemsUpdateDtoValidator.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Validators\\BasketItems\\BasketItemsUpdateDtoValidator.cs",
+              "RelativeDocumentMoniker": "GreenZone.Application\\Validators\\BasketItems\\BasketItemsUpdateDtoValidator.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Validators\\BasketItems\\BasketItemsUpdateDtoValidator.cs",
+              "RelativeToolTip": "GreenZone.Application\\Validators\\BasketItems\\BasketItemsUpdateDtoValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAA8AAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T13:21:17.327Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "ValidatorsExtension.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Extensions\\ValidatorsExtension.cs",
+              "RelativeDocumentMoniker": "GreenZone.Application\\Extensions\\ValidatorsExtension.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Extensions\\ValidatorsExtension.cs",
+              "RelativeToolTip": "GreenZone.Application\\Extensions\\ValidatorsExtension.cs",
+              "ViewState": "AgIAABwAAAAAAAAAAAAgwDgAAABWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T13:21:13.1Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "BasketItemsUpdateDto.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\Dtos\\BasketItemsDtos\\BasketItemsUpdateDto.cs",
+              "RelativeDocumentMoniker": "GreenZone.Contracts\\Dtos\\BasketItemsDtos\\BasketItemsUpdateDto.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\Dtos\\BasketItemsDtos\\BasketItemsUpdateDto.cs",
+              "RelativeToolTip": "GreenZone.Contracts\\Dtos\\BasketItemsDtos\\BasketItemsUpdateDto.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAArAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T13:21:03.582Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
               "Title": "IBasketService.cs",
               "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\Contracts\\IBasketService.cs",
               "RelativeDocumentMoniker": "GreenZone.Contracts\\Contracts\\IBasketService.cs",
               "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Contracts\\Contracts\\IBasketService.cs",
               "RelativeToolTip": "GreenZone.Contracts\\Contracts\\IBasketService.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAAAnAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAqwA8AAAAxAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T13:11:15.472Z",
+              "WhenOpened": "2025-09-17T13:16:57.103Z",
               "EditorCaption": ""
             },
             {
@@ -44,27 +103,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 2,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\OrderController.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\OrderController.cs",
+              "RelativeToolTip": "GreenZone.API\\Controllers\\OrderController.cs",
+              "ViewState": "AgIAADEAAAAAAAAAAAAcwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-17T13:16:43.427Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "BasketController.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\BasketController.cs",
+              "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\BasketController.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\BasketController.cs",
+              "RelativeToolTip": "GreenZone.API\\Controllers\\BasketController.cs",
+              "ViewState": "AgIAABkAAAAAAAAAAAAEwCgAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-09-16T13:05:10.811Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "BasketService.cs",
               "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Service\\BasketService.cs",
               "RelativeDocumentMoniker": "GreenZone.Application\\Service\\BasketService.cs",
               "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Service\\BasketService.cs",
               "RelativeToolTip": "GreenZone.Application\\Service\\BasketService.cs",
-              "ViewState": "AgIAAA0AAAAAAAAAAAAuwBgAAAAcAAAAAAAAAA==",
+              "ViewState": "AgIAAGoAAAAAAAAAAAAmwHQAAAA6AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-16T13:05:28.451Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "BasketController.cs",
-              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\BasketController.cs",
-              "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\BasketController.cs",
-              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.API\\Controllers\\BasketController.cs",
-              "RelativeToolTip": "GreenZone.API\\Controllers\\BasketController.cs",
-              "ViewState": "AgIAAAsAAAAAAAAAAAAuwBwAAABLAAAAAAAAAA==",
+              "DocumentIndex": 7,
+              "Title": "BasketDtoValidator.cs",
+              "DocumentMoniker": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Validators\\Basket\\BasketDtoValidator.cs",
+              "RelativeDocumentMoniker": "GreenZone.Application\\Validators\\Basket\\BasketDtoValidator.cs",
+              "ToolTip": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\GreenZone.Application\\Validators\\Basket\\BasketDtoValidator.cs",
+              "RelativeToolTip": "GreenZone.Application\\Validators\\Basket\\BasketDtoValidator.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-16T13:05:10.811Z",
+              "WhenOpened": "2025-09-17T07:55:05.516Z",
               "EditorCaption": ""
             }
           ]

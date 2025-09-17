@@ -13,7 +13,7 @@ namespace GreenZone.Contracts.Contracts
 	{
 		Task<BasketReadDto> GetBasketByCustomerAsync(Guid customerId);
 		Task AddItemstoBasketAsync(Guid customerId, BasketItemsCreateDto basketItemsCreateDto);
-		Task UpdateItemsInBasketAsync(BasketItemsUpdateDto basketItemsUpdateDto);
+		Task UpdateItemsInBasketAsync(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto);
 		Task RemoveItemsFromBasketAsync(Guid customerId, Guid productId, int quantity);
 		Task ClearBasketAsync(Guid customerId);
 	}

@@ -103,13 +103,13 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "basketItemsCreateDto",
-        "Type": "GreenZone.Contracts.Dtos.BasketItemsDtos.BasketItemsCreateDto",
+        "Name": "customerId",
+        "Type": "System.Guid",
         "IsRequired": true
       },
       {
-        "Name": "customerId",
-        "Type": "",
+        "Name": "basketItemsCreateDto",
+        "Type": "GreenZone.Contracts.Dtos.BasketItemsDtos.BasketItemsCreateDto",
         "IsRequired": true
       }
     ],
@@ -149,6 +149,11 @@
     "IsController": true,
     "Order": 0,
     "Parameters": [
+      {
+        "Name": "customerId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
       {
         "Name": "basketItemsUpdateDto",
         "Type": "GreenZone.Contracts.Dtos.BasketItemsDtos.BasketItemsUpdateDto",

@@ -1,6 +1,7 @@
 ﻿using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.BasketDtos;
 using GreenZone.Contracts.Dtos.BasketItemsDtos;
+using GreenZone.Domain.Entity;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -24,9 +25,9 @@ namespace GreenZone.API.Controllers
         }
        
         [HttpPost("{customerId}/items")]
-        public async Task<IActionResult> AddItemsToBasket(BasketItemsCreateDto basketItemsCreateDto)
+        public async Task<IActionResult> AddItemsToBasket(Guid customerId, BasketItemsCreateDto basketItemsCreateDto)
         {
-            await _basketService.AddItemstoBasketAsync(basketItemsCreateDto);
+            await _basketService.AddItemstoBasketAsync(customerId, basketItemsCreateDto);
             return NoContent();
         }
         [HttpDelete("{customerId}/items")]
@@ -41,14 +42,12 @@ namespace GreenZone.API.Controllers
             await _basketService.ClearBasketAsync(customerId);
             return NoContent();
         }
-
-        [HttpPut("items")]
-        public async Task<IActionResult> UpdateItemsInBasket(BasketItemsUpdateDto basketItemsUpdateDto)
+       [HttpPut("items")]
+       public async Task<IActionResult> UpdateItemsInBasket(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto)
         {
-            await _basketService.UpdateItemsInBasketAsync(basketItemsUpdateDto);
+            await _basketService.UpdateItemsInBasketAsync(customerId, basketItemsUpdateDto);
             return NoContent();
 		}
-
 
 	}
 }
