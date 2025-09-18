@@ -1,4 +1,5 @@
-﻿using GreenZone.Contracts.Contracts;
+﻿using GreenZone.Application.Service;
+using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.OrderDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -11,6 +12,7 @@ namespace GreenZone.API.Controllers
     {
         private readonly IOrderService _orderService;
         private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly ILogger<OrderService> _logger;
 
         public OrderController(IOrderService orderService, IWebHostEnvironment webHostEnvironment)
         {
@@ -41,6 +43,12 @@ namespace GreenZone.API.Controllers
                 return BadRequest(ModelState);
             }
             var createdOrder = await _orderService.AddAsync(orderCreateDto);
+            _logger.LogInformation($"Order created date:{createdOrder.OrderDate}" +
+                                    $"Customer Id:{createdOrder.CustomerId}" + 
+                                    $"Adress: {createdOrder.ShippingAddress} ");
+
+
+
             return CreatedAtAction(nameof(GetById), new { id = createdOrder.Id }, createdOrder);
         }
         [HttpPut("{id}")]

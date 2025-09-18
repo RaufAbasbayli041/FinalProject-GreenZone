@@ -14,5 +14,7 @@ namespace GreenZone.Contracts.Contracts
         Task<OrderReadDto> GetOrderWithDetailsAsync(Guid orderId);
         Task<ICollection<OrderReadDto>> GetAllOrdersFullData();
         Task<ICollection<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+
+        Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto);
     }
 }

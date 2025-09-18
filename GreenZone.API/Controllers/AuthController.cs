@@ -16,11 +16,15 @@ namespace GreenZone.API.Controllers
     {
         private readonly IAuthService _authService;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly ILogger<AuthController> _logger;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public AuthController(IAuthService authService, UserManager<ApplicationUser> userManager)
+        public AuthController(IAuthService authService, UserManager<ApplicationUser> userManager, ILogger<AuthController> logger, IWebHostEnvironment webHostEnvironment)
         {
             _authService = authService;
             _userManager = userManager;
+            _logger = logger;
+            _webHostEnvironment = webHostEnvironment;
         }
         [HttpPost("login")]
 
@@ -37,6 +41,7 @@ namespace GreenZone.API.Controllers
             {
                 return Unauthorized("Invalid email or password, or email not confirmed.");
 			}
+            _logger.LogInformation($"{logInDto.UserName} logIn ");
 			return Ok(result);
 
 
@@ -50,6 +55,7 @@ namespace GreenZone.API.Controllers
             {
                 return BadRequest(result.Errors);
             }
+            _logger.LogInformation($"{registerDto.UserName} registered");
             return Ok(result);
         }
         [HttpPost("logout")]

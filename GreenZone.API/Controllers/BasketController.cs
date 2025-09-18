@@ -12,9 +12,11 @@ namespace GreenZone.API.Controllers
     public class BasketController : ControllerBase
     {
         private readonly IBasketService _basketService;
-        public BasketController(IBasketService basketService)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        public BasketController(IBasketService basketService, IWebHostEnvironment webHostEnvironment)
         {
             _basketService = basketService;
+            _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet("{customerId}")]
         public async Task<IActionResult> GetBasketByCustomerId(Guid customerId)

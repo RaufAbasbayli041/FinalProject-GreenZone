@@ -12,5 +12,7 @@ namespace GreenZone.Domain.Repository
         Task<Order> GetOrderWithDetailsAsync(Guid orderId);
         Task<ICollection<Order>> GetAllOrdersFullData();
         Task<ICollection<Order>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+
+        
     }
 }

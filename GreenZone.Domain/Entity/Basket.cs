@@ -10,7 +10,7 @@ namespace GreenZone.Domain.Entity
     {
         public Guid CustomerId { get; set; } 
         public Customer Customer { get; set; } // Navigation property to Customer entity
-
         public ICollection<BasketItems> BasketItems { get; set; } = new List<BasketItems>();
+        public decimal TotalAmount => BasketItems.Sum(x=>x.TotalPrice); 
     }
 }
