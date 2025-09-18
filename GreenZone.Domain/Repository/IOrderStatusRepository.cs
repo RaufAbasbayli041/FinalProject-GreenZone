@@ -1,9 +1,10 @@
-﻿using GreenZone.Domain.Entity;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 
 namespace GreenZone.Domain.Repository
 {
@@ -12,5 +13,7 @@ namespace GreenZone.Domain.Repository
         Task <OrderStatus> GetOrderStatusDetail (OrderStatus orderStatus);
         Task <ICollection<OrderStatus>> GetAllOrderStatusDetails ();
 
-    }
+        Task<OrderStatus> GetByNameAsync(OrderStatusName name);
+
+	}
 }
