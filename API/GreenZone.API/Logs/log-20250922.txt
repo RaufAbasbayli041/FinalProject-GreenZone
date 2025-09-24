@@ -1,0 +1,120 @@
+2025-09-22 21:45:42.006 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-09-22 21:45:42.371 +04:00 [INF] Executed DbCommand (14ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 21:45:42.391 +04:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 21:45:42.393 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 21:45:42.395 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 21:45:42.429 +04:00 [INF] Executed DbCommand (27ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-22 21:45:42.439 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-22 21:45:42.589 +04:00 [INF] Executed DbCommand (25ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:45:42.617 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:45:42.618 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:45:42.666 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-22 21:45:42.732 +04:00 [INF] Now listening on: https://localhost:7100
+2025-09-22 21:45:42.732 +04:00 [INF] Now listening on: http://localhost:5260
+2025-09-22 21:45:42.770 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-22 21:45:42.771 +04:00 [INF] Hosting environment: Development
+2025-09-22 21:45:42.771 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API
+2025-09-22 21:45:43.078 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-09-22 21:45:43.213 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 136.1098ms
+2025-09-22 21:45:43.226 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-22 21:45:43.226 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_vs/browserLink - null null
+2025-09-22 21:45:43.230 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 3.8129ms
+2025-09-22 21:45:43.261 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_vs/browserLink - 200 null text/javascript; charset=UTF-8 34.7565ms
+2025-09-22 21:45:43.401 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-09-22 21:45:43.416 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 14.3212ms
+2025-09-22 21:46:06.221 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-09-22 21:46:06.483 +04:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 21:46:06.502 +04:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 21:46:06.504 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 21:46:06.505 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 21:46:06.520 +04:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-22 21:46:06.530 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-22 21:46:06.661 +04:00 [INF] Executed DbCommand (13ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:46:06.685 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:46:06.686 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 21:46:06.727 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-22 21:46:06.781 +04:00 [INF] Now listening on: https://localhost:7100
+2025-09-22 21:46:06.781 +04:00 [INF] Now listening on: http://localhost:5260
+2025-09-22 21:46:06.811 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-22 21:46:06.811 +04:00 [INF] Hosting environment: Development
+2025-09-22 21:46:06.811 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API
+2025-09-22 21:46:07.342 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-09-22 21:46:07.432 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 90.5351ms
+2025-09-22 21:46:07.440 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-22 21:46:07.440 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_vs/browserLink - null null
+2025-09-22 21:46:07.444 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 3.3703ms
+2025-09-22 21:46:07.457 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_vs/browserLink - 200 null text/javascript; charset=UTF-8 16.4943ms
+2025-09-22 21:46:07.548 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-09-22 21:46:07.557 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 9.4731ms
+2025-09-22 22:01:59.171 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-09-22 22:01:59.630 +04:00 [INF] Executed DbCommand (19ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 22:01:59.652 +04:00 [INF] Executed DbCommand (13ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 22:01:59.655 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-09-22 22:01:59.656 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-09-22 22:01:59.673 +04:00 [INF] Executed DbCommand (10ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-09-22 22:01:59.684 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-09-22 22:01:59.849 +04:00 [INF] Executed DbCommand (21ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 22:01:59.874 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 22:01:59.876 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-09-22 22:01:59.967 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-09-22 22:02:00.146 +04:00 [INF] Now listening on: https://localhost:7100
+2025-09-22 22:02:00.146 +04:00 [INF] Now listening on: http://localhost:5260
+2025-09-22 22:02:00.184 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-09-22 22:02:00.185 +04:00 [INF] Hosting environment: Development
+2025-09-22 22:02:00.185 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\GreenZone.API
+2025-09-22 22:02:01.091 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-09-22 22:02:01.279 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 193.0713ms
+2025-09-22 22:02:01.290 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-09-22 22:02:01.290 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_vs/browserLink - null null
+2025-09-22 22:02:01.297 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 6.3795ms
+2025-09-22 22:02:01.341 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_vs/browserLink - 200 null text/javascript; charset=UTF-8 50.9ms
+2025-09-22 22:02:01.414 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-09-22 22:02:01.431 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 17.9007ms

@@ -1,0 +1,24 @@
+﻿using GreenZone.Domain.Entity;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace GreenZone.Domain.Repository
+{
+    public interface IOrderRepository : IGenericRepository<Order>
+    {
+        Task<Order> GetOrderWithDetailsAsync(Guid orderId);
+        Task<ICollection<Order>> GetAllOrdersFullData();
+        Task<ICollection<Order>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+
+		Task<ICollection<Order>> GetOrdersByCustomerIdAsync(Guid customerId);
+        
+        Task<ICollection<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
+
+        Task <decimal> GetTotalSalesAsync(DateTime startDate, DateTime endDate);
+        Task<int> GetOrderCountByStatusAsync (Guid orderStatusId);
+
+	}
+}
