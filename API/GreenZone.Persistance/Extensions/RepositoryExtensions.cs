@@ -18,13 +18,14 @@ namespace GreenZone.Persistance.Extensions
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<ICustomerRepository, CustomerRepository>();
-            services.AddScoped<IProductDocumentsRepository, ProductDocumentsRepository>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrderStatusRepository, OrderStatusRepository>();
             services.AddScoped<IPaymentRepository, PaymentRepository>();
             services.AddScoped<IBasketRepository, BasketRepository>();
             services.AddScoped<IBasketItemsRepository, BasketItemsRepository>();
 			services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IDeliveryRepository, DeliveryRepository>();
+            services.AddScoped<IDeliveryStatusRepository, DeliveryStatusRepository>();
 
             return services;
         }

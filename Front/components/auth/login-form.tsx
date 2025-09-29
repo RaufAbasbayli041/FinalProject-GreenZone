@@ -9,17 +9,19 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/contexts/language-context-new"
+import { Eye, EyeOff, ArrowLeft } from "lucide-react"
 
 export function LoginForm() {
   const { t } = useLanguage()
 
   const [formData, setFormData] = useState({
-    email: "",
+    userName: "",
     password: "",
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [showPassword, setShowPassword] = useState(false)
 
   const { login } = useAuth()
   const router = useRouter()
@@ -29,17 +31,11 @@ export function LoginForm() {
     setLoading(true)
     setError("")
 
-    const result = await login(formData.email, formData.password)
+    const result = await login(formData.userName, formData.password)
 
     if (result.success) {
-      const users = JSON.parse(localStorage.getItem("gazonpro_users") || "[]")
-      const user = users.find((u: any) => u.email === formData.email)
-
-      if (user?.isAdmin) {
-        router.push("/admin")
-      } else {
-        router.push("/profile")
-      }
+      // Перенаправляем на главную страницу после успешного входа
+      router.push("/")
     } else {
       setError(result.message)
     }
@@ -50,44 +46,67 @@ export function LoginForm() {
   return (
     <Card className="w-full max-w-md mx-auto">
       <CardHeader>
-        <CardTitle>{t("auth.login")}</CardTitle>
-        <CardDescription>{t("auth.loginSuccess")}</CardDescription>
-        <div className="text-xs text-muted-foreground bg-muted p-2 rounded">
-          <p>
-            <strong>{t("auth.testAdmin")}:</strong>
-          </p>
-          <p>Email: admin@gazonpro.ru</p>
-          <p>
-            {t("auth.password")}: {t("auth.anyPassword")}
-          </p>
+        <div className="flex items-center gap-2 mb-4">
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={() => router.push("/")}
+            className="p-2"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </Button>
+          <CardTitle className="flex-1">{t("auth.login")}</CardTitle>
         </div>
+        <CardDescription>{t("auth.welcomeBack")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="email">{t("auth.email")}</Label>
+            <Label htmlFor="userName">{t("auth.userName")}</Label>
             <Input
-              id="email"
-              type="email"
-              value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              id="userName"
+              type="text"
+              value={formData.userName}
+              onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
+              placeholder={t("auth.enterUserName")}
               required
             />
           </div>
 
           <div>
             <Label htmlFor="password">{t("auth.password")}</Label>
-            <Input
-              id="password"
-              type="password"
-              value={formData.password}
-              onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              required
-              minLength={6}
-            />
+            <div className="relative">
+              <Input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                placeholder={t("auth.enterPassword")}
+                required
+                minLength={6}
+                className="pr-10"
+              />
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? (
+                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                ) : (
+                  <Eye className="h-4 w-4 text-muted-foreground" />
+                )}
+              </Button>
+            </div>
           </div>
 
-          {error && <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">{error}</div>}
+          {error && (
+            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
+              {error}
+            </div>
+          )}
 
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? `${t("auth.login")}...` : t("auth.login")}

@@ -1,4 +1,5 @@
 ﻿using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System;
@@ -13,11 +14,14 @@ namespace GreenZone.Persistance.Configurations
     {       
         public void Configure(EntityTypeBuilder<DeliveryStatus> builder)
         {
-            builder.Property(ds => ds.Name)
-                .IsRequired()
-                .HasMaxLength(50);
-            builder.Property(ds => ds.Description)
-                .HasMaxLength(200);
+            builder. HasData(
+                new DeliveryStatus { Id = Guid.NewGuid(), Name = "Created", StatusType = DeliveryStatusType.Created },
+                new DeliveryStatus { Id = Guid.NewGuid(), Name = "In Progress", StatusType = DeliveryStatusType.InProgress },
+                new DeliveryStatus { Id = Guid.NewGuid(), Name = "Delivered", StatusType = DeliveryStatusType.Delivered },
+                new DeliveryStatus { Id = Guid.NewGuid(), Name = "Cancelled", StatusType = DeliveryStatusType.Cancelled }
+            );
+            
+             
             builder.HasMany(ds => ds.Deliveries)
                 .WithOne(d => d.DeliveryStatus)
                 .HasForeignKey(d => d.DeliveryStatusId)

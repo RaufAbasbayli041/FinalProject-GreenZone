@@ -13,7 +13,7 @@ namespace GreenZone.Contracts.Contracts
     {        
         Task<ProductReadDto> UploadImageAsync(Guid id, string imagePath);
         Task<IEnumerable<ProductReadDto>> GetProductsByCategoryAsync(Guid categoryId, int pages, int pageSize );
-        Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page , int pageSize );
-        Task<ProductReadDto> GetProductWithDocumentsAsync(Guid id);
+        Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page , int pageSize ); 
+        Task<ProductReadDto> UploadDocuments(Guid id, List<ProductDocuments> documents);
     }
 }

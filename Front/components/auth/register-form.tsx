@@ -10,7 +10,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
 import { EmailService } from "@/lib/email-service"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/contexts/language-context-new"
 
 export function RegisterForm() {
   const { t } = useLanguage()
@@ -21,6 +21,9 @@ export function RegisterForm() {
     phone: "",
     password: "",
     confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    identityCard: "",
   })
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
@@ -45,7 +48,15 @@ export function RegisterForm() {
       return
     }
 
-    const result = await register(formData.name, formData.email, formData.password, formData.phone)
+    const result = await register(
+      formData.name, 
+      formData.email, 
+      formData.password, 
+      formData.phone,
+      formData.firstName,
+      formData.lastName,
+      formData.identityCard
+    )
 
     if (result.success) {
       EmailService.sendRegistrationConfirmation(formData.email, formData.name)
@@ -93,6 +104,39 @@ export function RegisterForm() {
               type="tel"
               value={formData.phone}
               onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="firstName">{t("auth.firstName")}</Label>
+            <Input
+              id="firstName"
+              type="text"
+              value={formData.firstName}
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="lastName">{t("auth.lastName")}</Label>
+            <Input
+              id="lastName"
+              type="text"
+              value={formData.lastName}
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+              required
+            />
+          </div>
+
+          <div>
+            <Label htmlFor="identityCard">{t("auth.identityCard")}</Label>
+            <Input
+              id="identityCard"
+              type="text"
+              value={formData.identityCard}
+              onChange={(e) => setFormData({ ...formData, identityCard: e.target.value })}
               required
             />
           </div>

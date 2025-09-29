@@ -6,11 +6,12 @@ using GreenZone.Application.Validators;
 using GreenZone.Application.Validators.Basket;
 using GreenZone.Application.Validators.BasketItems;
 using GreenZone.Application.Validators.Customer;
+using GreenZone.Application.Validators.Delivery;
+using GreenZone.Application.Validators.DeliveryStatus;
 using GreenZone.Application.Validators.Order;
 using GreenZone.Application.Validators.OrderITem;
 using GreenZone.Application.Validators.Payment;
-using GreenZone.Application.Validators.Product;
-using GreenZone.Application.Validators.ProductDocuments;
+using GreenZone.Application.Validators.Product; 
 using GreenZone.Domain.Entity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
@@ -34,9 +35,6 @@ namespace GreenZone.Application.Extensions
             services.AddValidatorsFromAssemblyContaining<CustomerCreateDtoValidator>();
             services.AddValidatorsFromAssemblyContaining<CustomerUpdateDtoValidator>();
 
-            // product documents validators
-            services.AddValidatorsFromAssemblyContaining<ProductDocumentsCreateDtoValidator>();
-            services.AddValidatorsFromAssemblyContaining<ProductDocumentsUpdateDtoValidator>();
 
             // order validators
             services.AddValidatorsFromAssemblyContaining<OrderCreateDtoValidator>();
@@ -56,9 +54,16 @@ namespace GreenZone.Application.Extensions
             services.AddValidatorsFromAssemblyContaining<BasketItemsCreateDtoValidator>();
             services.AddValidatorsFromAssemblyContaining<BasketItemsUpdateDtoValidator>();
 
+            // delivery validators
+            services.AddValidatorsFromAssemblyContaining<DeliveryCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<DeliveryUpdateDtoValidator>();
+
+            // delivery status validators
+            services.AddValidatorsFromAssemblyContaining<DeliveryStatusCreateDtoValidator>();
+            services.AddValidatorsFromAssemblyContaining<DeliveryStatusUpdateDtoValidator>();
 
 
-			return services;
+            return services;
         }
 
     }

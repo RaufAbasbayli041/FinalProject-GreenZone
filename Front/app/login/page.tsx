@@ -1,7 +1,7 @@
 "use client"
 
 import { LoginForm } from "@/components/auth/login-form"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/contexts/language-context-new"
 
 export default function LoginPage() {
   const { t } = useLanguage()

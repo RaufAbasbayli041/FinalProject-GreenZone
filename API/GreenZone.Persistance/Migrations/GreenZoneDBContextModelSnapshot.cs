@@ -225,37 +225,20 @@ namespace GreenZone.Persistance.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime?>("ActualDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
-
                     b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime?>("DeliveredAt")
                         .HasColumnType("datetime2");
 
                     b.Property<Guid>("DeliveryStatusId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("InstallerName")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Notes")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
                     b.Property<Guid>("OrderId")
                         .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("ScheduledDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("GETUTCDATE()");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -278,18 +261,15 @@ namespace GreenZone.Persistance.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasMaxLength(50)
-                        .HasColumnType("nvarchar(50)");
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("StatusType")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -297,6 +277,44 @@ namespace GreenZone.Persistance.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DeliveryStatuses");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("668a9789-37ec-46f1-9304-ae91534a1184"),
+                            CreatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4721),
+                            IsDeleted = false,
+                            Name = "Created",
+                            StatusType = 1,
+                            UpdatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4722)
+                        },
+                        new
+                        {
+                            Id = new Guid("fb8687a0-a312-44c2-ae11-5f1c02dabc45"),
+                            CreatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4730),
+                            IsDeleted = false,
+                            Name = "In Progress",
+                            StatusType = 2,
+                            UpdatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4730)
+                        },
+                        new
+                        {
+                            Id = new Guid("0d12e2fa-d2fc-407a-bd3a-c9188e67c4bf"),
+                            CreatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4731),
+                            IsDeleted = false,
+                            Name = "Delivered",
+                            StatusType = 3,
+                            UpdatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4732)
+                        },
+                        new
+                        {
+                            Id = new Guid("a189cecc-91ca-48b1-9791-faae15b0956f"),
+                            CreatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4733),
+                            IsDeleted = false,
+                            Name = "Cancelled",
+                            StatusType = 4,
+                            UpdatedAt = new DateTime(2025, 9, 28, 11, 49, 33, 425, DateTimeKind.Utc).AddTicks(4733)
+                        });
                 });
 
             modelBuilder.Entity("GreenZone.Domain.Entity.Order", b =>
@@ -533,11 +551,6 @@ namespace GreenZone.Persistance.Migrations
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("DocumentName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
                     b.Property<string>("DocumentUrl")
                         .IsRequired()
                         .HasMaxLength(500)
@@ -545,10 +558,6 @@ namespace GreenZone.Persistance.Migrations
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
-
-                    b.Property<string>("OriginalName")
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
 
                     b.Property<Guid>("ProductId")
                         .HasColumnType("uniqueidentifier");

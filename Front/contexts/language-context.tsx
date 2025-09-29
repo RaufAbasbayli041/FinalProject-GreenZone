@@ -1,4 +1,8 @@
-export type Language = "en" | "az" | "ru";
+"use client"
+import React, { createContext, useContext, useEffect, useState, ReactNode } from "react"
+import { fetchTranslations } from "@/services/api"
+import { Language, LanguageState } from "@/lib/types"
+import translations from "@/lib/translations"
 
 export type TranslationMap = Record<string, string>;
 
@@ -531,3 +535,55 @@ export const translations: Record<Language, TranslationMap> = {
     "status.cancelled": "Отменён",
   },
 };
+
+type LanguageContextValue = {
+  language: Language
+  setLanguage: (l: Language) => void
+  t: (key: string) => string
+}
+
+const LanguageContext = createContext<LanguageContextValue>({
+  language: "en",
+  setLanguage: () => {},
+  t: (k) => k,
+})
+
+export function LanguageProvider({ children }: { children: ReactNode }) {
+  const [language, setLanguage] = useState<Language>("en")
+  const [remoteTranslations, setRemoteTranslations] = useState<TranslationMap | null>(null)
+
+  useEffect(() => {
+    const stored = (typeof window !== "undefined" && localStorage.getItem("language")) as Language | null
+    if (stored && ["en", "az", "ru"].includes(stored)) setLanguage(stored)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("language", language)
+    let mounted = true
+    fetchTranslations(language)
+      .then((data) => {
+        if (!mounted) return
+        setRemoteTranslations(data || {})
+      })
+      .catch(() => {
+        setRemoteTranslations({}) // fallback
+      })
+    return () => {
+      mounted = false
+    }
+  }, [language])
+
+  const t = (key: string) => {
+    return remoteTranslations?.[key] ?? translations[language]?.[key] ?? key
+  }
+
+  return (
+    <LanguageContext.Provider value={{ language, setLanguage, t }}>
+      {children}
+    </LanguageContext.Provider>
+  )
+}
+
+export function useLanguage() {
+  return useContext(LanguageContext)
+}

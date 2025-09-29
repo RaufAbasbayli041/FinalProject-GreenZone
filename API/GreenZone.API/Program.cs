@@ -60,7 +60,11 @@ namespace GreenZone.API
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
-                    policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                     policy.WithOrigins(
+                        "http://localhost:3000",
+                        "https://localhost:3000",
+                        "http://localhost:3003",
+                        "https://localhost:3003")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials());
@@ -73,15 +77,17 @@ namespace GreenZone.API
 			builder.Services.AddValidatorsRegistration();
 			builder.Services.AddDistributedMemoryCache();
 
-			builder.Services.AddSession(opt =>
-			{
-				opt.IdleTimeout = TimeSpan.FromMinutes(30);
-				opt.Cookie.HttpOnly = true;
-				opt.Cookie.IsEssential = true;
-				opt.Cookie.Path = "/";
-			});
+            builder.Services.AddSession(opt =>
+            {
+                opt.IdleTimeout = TimeSpan.FromMinutes(30);
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+                opt.Cookie.Path = "/";
+                opt.Cookie.SameSite = SameSiteMode.None;
+                opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
+            });
 
-			builder.Services.ConfigureApplicationCookie(options =>
+            builder.Services.ConfigureApplicationCookie(options =>
 			{
 				options.LoginPath = "/Account/Login";
 				options.LogoutPath = "/Account/Logout";
@@ -149,11 +155,31 @@ namespace GreenZone.API
                     });
             });
 
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Admin", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+
+                options.AddPolicy("Customer", policy =>
+                {
+                    policy.RequireRole("Customer");
+                });
+
+                options.AddPolicy("Employee", policy =>
+                {
+                    policy.RequireRole("Employee");
+                });
+            });
+
 
             var app = builder.Build();
-			
-			// Configure the HTTP request pipeline.
-			if (app.Environment.IsDevelopment())
+            await DBHelper.SeedDatabaseAsync(app.Services);
+
+            
+            // Configure the HTTP request pipeline.
+            if (app.Environment.IsDevelopment())
 			{
 				app.UseSwagger();
 				app.UseSwaggerUI();
@@ -161,35 +187,18 @@ namespace GreenZone.API
 
 			app.UseHttpsRedirection();
 
+			app.UseCors("AllowFrontend");
+			app.UseCookiePolicy();
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-			app.UseCors("AllowFrontend");
             app.UseSession();
 
-			// Seed Roles
-			using (var scope = app.Services.CreateScope())
-			{
-				var services = scope.ServiceProvider;
-				try
-				{
-					// Ensure the database is created
-					var context = services.GetRequiredService<GreenZoneDBContext>();
-					await context.Database.MigrateAsync();
-					// Set up roles
-					await DBHelper.SetRoles(services);
-				}
-				catch (Exception ex)
-				{
-					// Handle exceptions (e.g., log them)
-					Console.WriteLine($"An error occurred while initializing the database: {ex.Message}");
-				}
-
-			}
-
-			app.MapControllers();
+            app.MapControllers();
 
 			app.Run();
 		}
-	}
+
+		  
+    }
 }

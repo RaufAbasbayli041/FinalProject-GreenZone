@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {}
+    "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+    "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
         "projectName": "GreenZone.Domain",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
         "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\C#\\FINAL PROJECT\\GreenZone\\GreenZone.Domain\\obj\\",
+        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -50,6 +50,10 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "BCrypt.Net-Next": {
+              "target": "Package",
+              "version": "[4.0.3, )"
+            },
             "Microsoft.AspNetCore.Identity.EntityFrameworkCore": {
               "target": "Package",
               "version": "[8.0.19, )"

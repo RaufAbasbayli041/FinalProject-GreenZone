@@ -28,19 +28,31 @@ namespace GreenZone.Persistance.Repository
                         .ToListAsync();
             return datas;
         }
-
-        public async Task<Product> GetProductWithDocumentsAsync(Guid id)
+        public override async Task<IEnumerable<Product>> GetAllAsync()
         {
             var datas = await _context.Products
-                            .Include(p => p.Documents)
-                            .AsNoTracking()
-                            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+                        .Include(p => p.Category)
+                        .Where(p => !p.IsDeleted)
+                        .AsNoTracking()
+                        .ToListAsync();
             return datas;
+
         }
+
+        public override async Task<Product> GetByIdAsync(Guid id)
+        {
+            var data = await _context.Products
+                            .Include(p => p.Category)
+                            .Include(p => p.Documents)
+                            .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+            return data;
+        }
+
 
         public async Task<IEnumerable<Product>> SearchProductsAsync(string keyword, int pages, int pageSize)
         {
             var datas = await _context.Products
+                .Include(p => p.Category)
                        .Where(p => !p.IsDeleted && (p.Title.ToLower().Contains(keyword.ToLower())))
                        .Skip((pages - 1) * pageSize)
                        .Take(pageSize)
@@ -62,6 +74,23 @@ namespace GreenZone.Persistance.Repository
             return product;
         }
 
+        public async Task<Product> UploadDocuments(Guid id, List<ProductDocuments> documents)
+        {
+            var product = await _context.Products
+                 .Include(p => p.Documents)
+                 .FirstOrDefaultAsync(p => p.Id == id && !p.IsDeleted);
+            if (product == null)
+            {
+                throw new ArgumentException("Product not found");
+            }
 
+            foreach (var doc in documents)
+            {
+                product.Documents.Add(doc);
+
+            }
+            await _context.SaveChangesAsync();
+            return product;
+        }
     }
 }

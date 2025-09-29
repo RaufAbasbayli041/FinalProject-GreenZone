@@ -19,7 +19,7 @@ namespace GreenZone.Application.Service
     {
         protected readonly IGenericRepository<TEntity> _repository;
         protected readonly IMapper _mapper;
-         private readonly IValidator<TCreateDto> _createValidator;
+        private readonly IValidator<TCreateDto> _createValidator;
         private readonly IValidator<TUpdateDto> _updateValidator;
         private readonly IUnitOfWork _unitOfWork;
         public GenericService(IGenericRepository<TEntity> repository, IMapper mapper, IValidator<TCreateDto> createValidator, IValidator<TUpdateDto> updateValidator, IUnitOfWork unitOfWork)
@@ -31,7 +31,7 @@ namespace GreenZone.Application.Service
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<TReadDto> GetByIdAsync(Guid id)
+        public virtual async Task<TReadDto> GetByIdAsync(Guid id)
         {
             var data = await _repository.GetByIdAsync(id);
             if (data == null) return null;
@@ -62,7 +62,7 @@ namespace GreenZone.Application.Service
             return readDto;
         }
 
-        public virtual async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto dto)
+        public async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto dto)
         {
             var validationResult = await _updateValidator.ValidateAsync(dto);
             if (!validationResult.IsValid)

@@ -19,13 +19,14 @@ namespace GreenZone.Application.Extensions
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICustomerService, CustomerService>();
-            services.AddScoped<IProductDocumentsService, ProductDocumentsService>();
             services.AddScoped<IAuthService,AuthService>();
             services.AddScoped<IOrderService, OrderService>();
             services.AddScoped<IEmailSenderOpt, EmailSenderOpt>();
 			services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IBasketService, BasketService>();
-           
+            services.AddScoped<IDeliveryService, DeliveryService>();
+            services.AddScoped<IDeliveryStatusService, DeliveryStatusService>();
+
             return services;
 
         }

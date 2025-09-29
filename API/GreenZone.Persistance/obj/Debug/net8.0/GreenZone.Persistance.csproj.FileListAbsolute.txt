@@ -34,3 +34,39 @@ D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Persistance\
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.pdb
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.genruntimeconfig.cache
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Persistance\obj\Debug\net8.0\ref\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.deps.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.runtimeconfig.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.AssemblyReference.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfoInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfo.cs
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.sourcelink.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZon.7C21201E.Up2Date
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\refint\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.genruntimeconfig.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\ref\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.deps.json
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.runtimeconfig.json
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.pdb
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.AssemblyReference.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfoInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfo.cs
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.sourcelink.json
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZon.7C21201E.Up2Date
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\refint\GreenZone.Persistance.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.pdb
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.genruntimeconfig.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\ref\GreenZone.Persistance.dll

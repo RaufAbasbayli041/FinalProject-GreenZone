@@ -358,7 +358,7 @@ export default function ProfilePage() {
                               if (!product) return null
 
                               return (
-                                <div key={index} className="flex justify-between items-center p-3 bg-muted rounded-lg">
+                                <div key={`${item.productId}-${index}`} className="flex justify-between items-center p-3 bg-muted rounded-lg">
                                   <div className="flex items-center gap-3">
                                     <img
                                       src={product.image || "/placeholder.svg"}

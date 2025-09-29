@@ -12,7 +12,8 @@ namespace GreenZone.Domain.Repository
         Task<Product> UploadImageAsync(Guid id, string imagePath);
         Task<IEnumerable<Product>> GetProductsByCategoryAsync(Guid categoryId, int pages , int pageSize);
         Task<IEnumerable<Product>> SearchProductsAsync(string keyword, int page, int pageSize);
-        Task<Product> GetProductWithDocumentsAsync(Guid id);  
+        
+        Task<Product> UploadDocuments(Guid id, List<ProductDocuments> documents);
 
 
     }

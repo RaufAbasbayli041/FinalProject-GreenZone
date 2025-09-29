@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GreenZone.Domain")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1aebc5e417c3da8dc12ba46911a0623fceedeb30")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+a3cabfbf9d4a6c2ac9ec3e3b51c6556a4b306dc7")]
 [assembly: System.Reflection.AssemblyProductAttribute("GreenZone.Domain")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GreenZone.Domain")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

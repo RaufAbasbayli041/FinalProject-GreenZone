@@ -1,9 +1,14 @@
 "use client"
 
-import { useLanguage } from "@/contexts/language-context"
 import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 import { Globe } from "lucide-react"
+import { useLanguage } from "@/contexts/language-context"
 
 const languages = [
   { code: "en", name: "English", flag: "🇺🇸" },

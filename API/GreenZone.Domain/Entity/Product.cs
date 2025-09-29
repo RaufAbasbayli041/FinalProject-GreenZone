@@ -16,7 +16,8 @@ namespace GreenZone.Domain.Entity
         public string? ImageUrl { get; set; } // URL or path to the product image
         public Guid CategoryId { get; set; }
         public Category Category { get; set; }
-        public ICollection<ProductDocuments> Documents { get; set; } = new List<ProductDocuments>();
+        
+        public ICollection<ProductDocuments> ?Documents { get; set; }  
         public ICollection<OrderItem> OrderItems { get; set; } = new List<OrderItem>();
         public ICollection<BasketItems> BasketItems { get; set; } = new List<BasketItems>();
     }

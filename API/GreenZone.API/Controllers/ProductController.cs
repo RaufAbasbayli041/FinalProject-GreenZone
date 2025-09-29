@@ -2,15 +2,18 @@
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos;
 using GreenZone.Contracts.Dtos.ProductDtos;
+using GreenZone.Domain.Entity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using static System.Net.Mime.MediaTypeNames;
+using Microsoft.AspNetCore.Mvc; 
 
 namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+   // [Authorize("Admin")]
+
     public class ProductController : ControllerBase
     {
         private readonly IWebHostEnvironment _webHostEnvironment;
@@ -21,12 +24,15 @@ namespace GreenZone.API.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
         [HttpGet]
+
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllProducts()
         {
             var products = await _productService.GetAllAsync();
             return Ok(products);
         }
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetProductById(Guid id)
         {
             var product = await _productService.GetByIdAsync(id);
@@ -36,7 +42,7 @@ namespace GreenZone.API.Controllers
             }
             return Ok(product);
         }
-        [HttpPost]
+        [HttpPost] 
         public async Task<IActionResult> CreateProduct([FromBody] ProductCreateDto productCreateDto)
         {
             if (!ModelState.IsValid)
@@ -46,7 +52,8 @@ namespace GreenZone.API.Controllers
             var createdProduct = await _productService.AddAsync(productCreateDto);
             return CreatedAtAction(nameof(GetProductById), new { id = createdProduct.Id }, createdProduct);
         }
-        [HttpPut("{id}")]
+        [HttpPut("{id}")] 
+
         public async Task<IActionResult> UpdateProduct(Guid id, [FromBody] ProductUpdateDto productUpdateDto)
         {
             if (!ModelState.IsValid)
@@ -60,7 +67,8 @@ namespace GreenZone.API.Controllers
             }
             return Ok(updatedProduct);
         }
-        [HttpDelete("{id}")]
+        [HttpDelete("{id}")] 
+
         public async Task<IActionResult> DeleteProduct(Guid id)
         {
             var deleted = await _productService.DeleteAsync(id);
@@ -71,14 +79,15 @@ namespace GreenZone.API.Controllers
             return NoContent();
         }
 
-        [HttpPost("upload-image/{id}")]
+        [HttpPost("upload-image/{id}")] 
+
         public async Task<IActionResult> UploadImage(Guid id, [FromForm] FileUploadDto image)
         {
             if (image == null || image.Image.Length == 0)
             {
                 return BadRequest("No image file provided");
             }
-            var folder = _webHostEnvironment.WebRootPath + "/pokemon/images";
+            var folder = _webHostEnvironment.WebRootPath + "/images";
             if (!Directory.Exists(folder))
             {
                 Directory.CreateDirectory(folder);
@@ -112,6 +121,22 @@ namespace GreenZone.API.Controllers
         {
             var products = await _productService.GetProductsByCategoryAsync(categoryId, page, pageSize);
             return Ok(products);
+        }
+        [HttpPost("upload-documents/{id}")] 
+
+        public async Task<IActionResult> UploadDocuments(Guid id, [FromBody] List<ProductDocuments> documents)
+        {
+            
+            var productDocuments = documents.Select(d => new ProductDocuments
+            { 
+                DocumentUrl = d.DocumentUrl
+            }).ToList();
+            var updatedProduct = await _productService.UploadDocuments(id, productDocuments);
+            if (updatedProduct == null)
+            {
+                return NotFound("Product not found");
+            }
+            return Ok(updatedProduct);
         }
 
 

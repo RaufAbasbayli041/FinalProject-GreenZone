@@ -321,6 +321,265 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "GetAll",
+    "RelativePath": "api/Delivery",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "Create",
+    "RelativePath": "api/Delivery",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "GetById",
+    "RelativePath": "api/Delivery/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "Update",
+    "RelativePath": "api/Delivery/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryDtos.DeliveryReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "Delete",
+    "RelativePath": "api/Delivery/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryController",
+    "Method": "ChangeStatus",
+    "RelativePath": "api/Delivery/{id}/status",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "status",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryStatusController",
+    "Method": "GetAll",
+    "RelativePath": "api/DeliveryStatus",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.IEnumerable\u00601[[GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryStatusController",
+    "Method": "Create",
+    "RelativePath": "api/DeliveryStatus",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "dto",
+        "Type": "GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryStatusController",
+    "Method": "GetById",
+    "RelativePath": "api/DeliveryStatus/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryStatusController",
+    "Method": "Update",
+    "RelativePath": "api/DeliveryStatus/{id}",
+    "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "dto",
+        "Type": "GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusUpdateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "GreenZone.Contracts.Dtos.DeliveryStatusDtos.DeliveryStatusReadDto",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      }
+    ]
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.DeliveryStatusController",
+    "Method": "Delete",
+    "RelativePath": "api/DeliveryStatus/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GreenZone.API.Controllers.OrderController",
     "Method": "GetAll",
     "RelativePath": "api/Order",
@@ -664,6 +923,27 @@
   },
   {
     "ContainingType": "GreenZone.API.Controllers.ProductController",
+    "Method": "UploadDocuments",
+    "RelativePath": "api/Product/upload-documents/{id}",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      },
+      {
+        "Name": "documents",
+        "Type": "System.Collections.Generic.List\u00601[[GreenZone.Domain.Entity.ProductDocuments, GreenZone.Domain, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.ProductController",
     "Method": "UploadImage",
     "RelativePath": "api/Product/upload-image/{id}",
     "HttpMethod": "POST",
@@ -679,85 +959,6 @@
         "Name": "Image",
         "Type": "Microsoft.AspNetCore.Http.IFormFile",
         "IsRequired": false
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.ProductDocumentsController",
-    "Method": "GetAllProductDocuments",
-    "RelativePath": "api/ProductDocuments",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.ProductDocumentsController",
-    "Method": "CreateProductDocument",
-    "RelativePath": "api/ProductDocuments",
-    "HttpMethod": "POST",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "productDocumentsCreateDto",
-        "Type": "GreenZone.Contracts.Dtos.ProductDocumentsDto.ProductDocumentsCreateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.ProductDocumentsController",
-    "Method": "GetProductDocumentById",
-    "RelativePath": "api/ProductDocuments/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.ProductDocumentsController",
-    "Method": "UpdateProductDocument",
-    "RelativePath": "api/ProductDocuments/{id}",
-    "HttpMethod": "PUT",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
-      },
-      {
-        "Name": "productDocumentsUpdateDto",
-        "Type": "GreenZone.Contracts.Dtos.ProductDocumentsDto.ProductDocumentsUpdateDto",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.ProductDocumentsController",
-    "Method": "DeleteProductDocument",
-    "RelativePath": "api/ProductDocuments/{id}",
-    "HttpMethod": "DELETE",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
-        "Type": "System.Guid",
-        "IsRequired": true
       }
     ],
     "ReturnTypes": []

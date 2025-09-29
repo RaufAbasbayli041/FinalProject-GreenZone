@@ -69,8 +69,8 @@ namespace GreenZone.Application.Service
                 return new AuthResultDto
                 {
                     Token = token,
-                    Expiration = DateTime.UtcNow.AddMinutes(60) ,// Token expiration time
-                    
+                    Expiration = DateTime.UtcNow.AddMinutes(60),// Token expiration time
+
                 };
             }
             else
@@ -121,19 +121,26 @@ namespace GreenZone.Application.Service
             await _emailSenderOpt.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm mail</a>");
 
 
+
             await _userManager.AddToRoleAsync(user, "Customer");
             var customer = new Customer
             {
                 UserId = user.Id,
                 IdentityCard = registerDto.IdentityCard,
+
                 Basket = new Basket()
-                {
-                    Id = Guid.NewGuid(),
-					BasketItems = new List<BasketItems>()
-				}
             };
-            
-            
+
+            var Basket = new Basket()
+            {
+                Id = Guid.NewGuid(),
+                BasketItems = new List<BasketItems>(),
+                CustomerId = customer.Id
+
+            };
+
+            customer.Basket = Basket;   
+
             await _customerRepository.AddAsync(customer);
             await _unitOfWork.SaveChangesAsync();
             return IdentityResult.Success;
@@ -152,7 +159,7 @@ namespace GreenZone.Application.Service
 
             var claims = new List<Claim>
             {
-                new Claim(JwtRegisteredClaimNames.Sub, user.Id),
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
                 new Claim(ClaimTypes.Name, user.UserName)
                 };

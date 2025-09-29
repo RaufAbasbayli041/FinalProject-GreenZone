@@ -29,14 +29,7 @@ namespace GreenZone.Application.Service
             return productDtos;
         }
 
-        public async Task<ProductReadDto> GetProductWithDocumentsAsync(Guid id)
-        {
-            if (id == Guid.Empty) { throw new NotNullException(); }
-            var data = await _productRepository.GetProductWithDocumentsAsync(id);
-            if (data == null) { throw new NotNullException(); }
-            var dto = _mapper.Map<ProductReadDto>(data);
-            return dto;
-        }
+
 
         public async Task<IEnumerable<ProductReadDto>> SearchProductsAsync(string keyword, int page, int pageSize)
         {
@@ -64,6 +57,30 @@ namespace GreenZone.Application.Service
             product.ImageUrl = imageUrl;
             var updatedProduct = await _productRepository.UpdateAsync(product);
             var productDto = _mapper.Map<ProductReadDto>(updatedProduct);
+            return productDto;
+        }
+        public override async Task<IEnumerable<ProductReadDto>> GetAllAsync()
+        {
+            var products = await _productRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ProductReadDto>>(products);
+        }
+        public override async Task<ProductReadDto> GetByIdAsync(Guid id)
+        {
+            if (id == Guid.Empty) return null;
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null) return null;
+            return _mapper.Map<ProductReadDto>(product);
+        }
+
+
+        public async Task<ProductReadDto> UploadDocuments(Guid id, List<ProductDocuments> documents)
+        {
+            if (id == Guid.Empty) throw new NotFoundException("Product ID cannot be null or empty");
+            var product = await _productRepository.UploadDocuments(id, documents);
+
+            if (documents == null || !documents.Any()) throw new NotFoundException("Documents cannot be null or empty");
+
+            var productDto = _mapper.Map<ProductReadDto>(product);
             return productDto;
         }
     }

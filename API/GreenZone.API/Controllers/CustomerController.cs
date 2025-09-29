@@ -8,8 +8,8 @@ using Microsoft.AspNetCore.Mvc;
 namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
-    [ApiController] 
-
+    [ApiController]
+    [Authorize("Admin")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;

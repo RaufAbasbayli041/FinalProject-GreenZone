@@ -24,3 +24,29 @@ D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Domain\obj\D
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.deps.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.AssemblyReference.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfoInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfo.cs
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.sourcelink.json
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\C#\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.deps.json
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.AssemblyReference.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfoInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfo.cs
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.CoreCompileInputs.cache
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.sourcelink.json
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll

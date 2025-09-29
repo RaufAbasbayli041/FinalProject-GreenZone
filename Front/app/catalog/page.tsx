@@ -9,17 +9,19 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
-import type { Product } from "@/lib/types"
-import { storage } from "@/lib/storage"
-import { initialProducts } from "@/lib/data"
+import type { Product, Category } from "@/lib/types"
+import { fetchProducts, getAllCategories } from "@/services/api"
 import { useAuth } from "@/contexts/auth-context"
 import { useCart } from "@/contexts/cart-context"
 import { CartIcon } from "@/components/cart/cart-icon"
-import { useLanguage } from "@/contexts/language-context"
+import { useLanguage } from "@/contexts/language-context-new"
 
 export default function CatalogPage() {
   const [products, setProducts] = useState<Product[]>([])
   const [filteredProducts, setFilteredProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [categories, setCategories] = useState<Category[]>([])
   const [searchQuery, setSearchQuery] = useState("")
   const [selectedCategory, setSelectedCategory] = useState<string>("all")
   const [priceRange, setPriceRange] = useState([0, 2000])
@@ -31,19 +33,38 @@ export default function CatalogPage() {
   const router = useRouter()
 
   useEffect(() => {
-    const loadedProducts = storage.getProducts()
-    const allProducts = loadedProducts.length > 0 ? loadedProducts : initialProducts
-    setProducts(allProducts)
-    setFilteredProducts(allProducts)
-  }, [])
+    const loadData = async () => {
+      setLoading(true)
+      setError(null)
+      
+      try {
+        const [productsData, categoriesData] = await Promise.all([
+          fetchProducts(),
+          getAllCategories()
+        ])
+        setProducts(productsData)
+        setFilteredProducts(productsData)
+        setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
+      } catch (error) {
+        console.error('Ошибка загрузки данных:', error)
+        setError('Не удалось загрузить данные. Убедитесь, что бэкенд запущен.')
+        setProducts([])
+        setFilteredProducts([])
+      } finally {
+        setLoading(false)
+      }
+    }
+
+    loadData()
+  }, [t])
 
   useEffect(() => {
     const filtered = products.filter((product) => {
       const matchesSearch =
-        product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
-      const matchesCategory = selectedCategory === "all" || product.category === selectedCategory
-      const matchesPrice = product.price >= priceRange[0] && product.price <= priceRange[1]
+      const matchesCategory = selectedCategory === "all" || product.categoryId === selectedCategory
+      const matchesPrice = product.pricePerSquareMeter >= priceRange[0] && product.pricePerSquareMeter <= priceRange[1]
 
       return matchesSearch && matchesCategory && matchesPrice
     })
@@ -51,13 +72,11 @@ export default function CatalogPage() {
     filtered.sort((a, b) => {
       switch (sortBy) {
         case "price-low":
-          return a.price - b.price
+          return a.pricePerSquareMeter - b.pricePerSquareMeter
         case "price-high":
-          return b.price - a.price
+          return b.pricePerSquareMeter - a.pricePerSquareMeter
         case "name":
-          return a.name.localeCompare(b.name)
-        case "popular":
-          return (b.popular ? 1 : 0) - (a.popular ? 1 : 0)
+          return a.title.localeCompare(b.title)
         default:
           return 0
       }
@@ -66,16 +85,9 @@ export default function CatalogPage() {
     setFilteredProducts(filtered)
   }, [products, searchQuery, selectedCategory, priceRange, sortBy])
 
-  const categories = [
-    { value: "all", label: t("catalog.allCategories") },
-    { value: "landscape", label: t("catalog.landscape") },
-    { value: "sports", label: t("catalog.sports") },
-    { value: "decorative", label: t("catalog.decorative") },
-  ]
-
   const handleAddToCart = (product: Product) => {
     addToCart(product, 1, false)
-    alert(`${product.name} ${t("products.addToCart")}!`)
+    alert(`${product.title} ${t("products.addToCart")}!`)
   }
 
   return (
@@ -221,7 +233,21 @@ export default function CatalogPage() {
               </p>
             </div>
 
-            {filteredProducts.length === 0 ? (
+            {loading ? (
+              <div className="text-center py-12">
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
+                <p className="text-xl text-muted-foreground">{t('catalog.loading')}</p>
+              </div>
+            ) : error ? (
+              <div className="text-center py-12">
+                <div className="text-6xl mb-4">⚠️</div>
+                <h3 className="text-2xl font-bold mb-4">Ошибка загрузки</h3>
+                <p className="text-muted-foreground mb-4">{error}</p>
+                <Button onClick={() => window.location.reload()}>
+                  Попробовать снова
+                </Button>
+              </div>
+            ) : filteredProducts.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground mb-4">{t("catalog.noProducts")}</p>
                 <Button
@@ -239,34 +265,33 @@ export default function CatalogPage() {
                 {filteredProducts.map((product) => (
                   <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow">
                     <img
-                      src={product.image || "/placeholder.svg"}
-                      alt={product.name}
+                      src={product.imageUrl || "/placeholder.svg"}
+                      alt={product.title}
                       className="w-full h-48 object-cover cursor-pointer"
                       onClick={() => router.push(`/catalog/${product.id}`)}
                     />
                     <CardContent className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{product.name}</h3>
+                      <h3 className="text-xl font-bold mb-2">{product.title}</h3>
                       <p className="text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
 
                       <div className="flex justify-between items-center mb-4">
                         <span className="text-2xl font-bold text-primary">
-                          {t("catalog.from")} {product.price}₽/м²
+                          {t("catalog.from")} {product.pricePerSquareMeter}₽/м²
                         </span>
-                        <div className="flex gap-1">
-                          {product.popular && <Badge variant="secondary">{t("catalog.sortPopular")}</Badge>}
-                          {product.premium && <Badge className="bg-secondary text-secondary-foreground">Премиум</Badge>}
-                        </div>
+                        <Badge variant="secondary">
+                          {product.category?.name || `Категория: ${product.categoryId}`}
+                        </Badge>
                       </div>
 
                       <ul className="text-sm text-muted-foreground mb-6 space-y-1">
                         <li>
-                          • {t("catalog.height")}: {product.specifications.height}
+                          • Толщина: {product.minThickness}-{product.maxThickness} мм
                         </li>
                         <li>
-                          • {t("catalog.density")}: {product.specifications.density}
+                          • Цена за м²: {product.pricePerSquareMeter}₽
                         </li>
                         <li>
-                          • {t("catalog.warranty")}: {product.specifications.warranty}
+                          • Категория: {product.category?.name || product.categoryId}
                         </li>
                       </ul>
 
@@ -278,7 +303,7 @@ export default function CatalogPage() {
                         >
                           {t("catalog.moreDetails")}
                         </Button>
-                        <Button variant="secondary" className="flex-1" onClick={() => handleAddToCart(product)}>
+                        <Button variant="secondary" className="flex-1" onClick={() => router.push(`/catalog/${product.id}`)}>
                           {t("products.addToCart")}
                         </Button>
                       </div>

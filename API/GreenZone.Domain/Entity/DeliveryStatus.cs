@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GreenZone.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +9,11 @@ namespace GreenZone.Domain.Entity
 {
     public class DeliveryStatus : BaseEntity
     {
-        public string Name { get; set; } // e.g., Scheduled, In Transit, Delivered, Delayed, Canceled
-        public string Description { get; set; } // Optional description of the status
-        public ICollection<Delivery> Deliveries { get; set; } // Navigation property to related deliveries
+        public string Name { get; set; } = null!;
+
+        // Enum id (int)
+        public DeliveryStatusType StatusType { get; set; }
+
+        public ICollection<Delivery> Deliveries { get; set; } = new List<Delivery>();
     }
 }

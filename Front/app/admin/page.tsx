@@ -608,7 +608,7 @@ export default function AdminPage() {
                             if (!product) return null
 
                             return (
-                              <div key={index} className="flex justify-between items-center p-2 bg-muted rounded">
+                              <div key={`${item.productId}-${index}`} className="flex justify-between items-center p-2 bg-muted rounded">
                                 <div>
                                   <p className="font-medium">{product.name}</p>
                                   <p className="text-sm text-muted-foreground">

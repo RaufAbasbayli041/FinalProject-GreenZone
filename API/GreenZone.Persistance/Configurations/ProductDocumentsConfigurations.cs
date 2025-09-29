@@ -17,14 +17,7 @@ namespace GreenZone.Persistance.Configurations
                    .HasForeignKey(pd => pd.ProductId)
                    .IsRequired()
                    .OnDelete(DeleteBehavior.Restrict);
-            builder.Property(pd => pd.DocumentName)
-                   .IsRequired()
-                   .HasMaxLength(200)
-                   .HasColumnType("nvarchar(200)");
-            builder.Property(pd => pd.OriginalName)
-                   .IsRequired(false)
-                   .HasMaxLength(200)
-                   .HasColumnType("nvarchar(200)");
+           
             builder.Property(pd => pd.DocumentUrl)
                    .IsRequired()
                    .HasMaxLength(500)

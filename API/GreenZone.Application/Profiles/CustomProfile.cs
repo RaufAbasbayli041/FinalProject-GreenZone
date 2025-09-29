@@ -1,20 +1,21 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AutoMapper;
+﻿	using AutoMapper;
 using GreenZone.Contracts.Dtos.BasketDtos;
 using GreenZone.Contracts.Dtos.BasketItemsDtos;
 using GreenZone.Contracts.Dtos.CategoryDtos;
 using GreenZone.Contracts.Dtos.CustomerDtos;
+using GreenZone.Contracts.Dtos.DeliveryDtos;
+using GreenZone.Contracts.Dtos.DeliveryStatusDtos;
 using GreenZone.Contracts.Dtos.OrderDtos;
 using GreenZone.Contracts.Dtos.OrderItemDto;
 using GreenZone.Contracts.Dtos.PaymentDto;
-using GreenZone.Contracts.Dtos.ProductDocumentsDto;
 using GreenZone.Contracts.Dtos.ProductDtos;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GreenZone.Application.Profiles
 {
@@ -32,8 +33,11 @@ namespace GreenZone.Application.Profiles
 
 			// product mappings
 			CreateMap<ProductCreateDto, Product>().ReverseMap();
-			CreateMap<ProductReadDto, Product>().ReverseMap();
-			CreateMap<ProductUpdateDto, Product>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+            CreateMap<Product, ProductReadDto>()
+				 .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : string.Empty))
+				   .ForMember(dest => dest.Documents, opt => opt.MapFrom(src => src.Documents != null ? src.Documents.Select(d => d.DocumentUrl).ToList() : new List<string>()));
+
+            CreateMap<ProductUpdateDto, Product>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
 			// customer mappings
 			CreateMap<CustomerCreateDto, Customer>().ForMember(dest => dest.User, opt => opt.Ignore()).ReverseMap();
@@ -48,10 +52,7 @@ namespace GreenZone.Application.Profiles
 				.ReverseMap();
 			CreateMap<CustomerUpdateDto, Customer>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-			// product documents mappings
-			CreateMap<ProductDocumentsCreateDto, ProductDocuments>().ReverseMap();
-			CreateMap<ProductDocumentsReadDto, ProductDocuments>().ReverseMap();
-			CreateMap<ProductDocumentsUpdateDto, ProductDocuments>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
+			;
 
 			// order mappings
 			CreateMap<OrderCreateDto, Order>().ReverseMap();
@@ -91,6 +92,17 @@ namespace GreenZone.Application.Profiles
 
 			CreateMap<BasketItemsUpdateDto, BasketItems>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
-		}
-	}
+            // delivery mappings
+            CreateMap<Delivery, DeliveryReadDto>()
+            .ForMember(dest => dest.StatusName, opt => opt.MapFrom(src => src.DeliveryStatus.Name));
+            CreateMap<DeliveryCreateDto, Delivery>();
+            CreateMap<DeliveryUpdateDto, Delivery>();
+
+            // DeliveryStatus
+            CreateMap<DeliveryStatus, DeliveryStatusReadDto>();
+            CreateMap<DeliveryStatusCreateDto, DeliveryStatus>();
+            CreateMap<DeliveryStatusUpdateDto, DeliveryStatus>();
+
+        }
+    }
 }
