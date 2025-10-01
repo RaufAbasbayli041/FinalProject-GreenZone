@@ -35,21 +35,22 @@ namespace GreenZone.API.Controllers
                 return BadRequest("Invalid login request");
             }
 
+
             var result = await _authService.LogInAsync(logInDto);
 
             if (result == null)
             {
                 return Unauthorized("Invalid email or password, or email not confirmed.");
-			}
+            }
             _logger.LogInformation($"{logInDto.UserName} logIn ");
-			return Ok(result);
+            return Ok(result);
 
 
         }
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
         {
-          
+
             var result = await _authService.RegisterAsync(registerDto);
             if (!result.Succeeded)
             {
@@ -60,11 +61,21 @@ namespace GreenZone.API.Controllers
         }
         [HttpPost("logout")]
         public async Task<IActionResult> Logout()
-        { 
+        {
             await _authService.LogOutAsync();
             return Ok("User logged out successfully.");
         }
-       
+
+        [HttpGet("confirm-email")]
+        public async Task<IActionResult> ConfirmEmail(string userId, string code)
+        {
+            var result = await _authService.ConfirmEmailAsync(userId, code);
+            if (result)
+            {
+                return Ok("Email confirmed successfully.");
+            }
+            return BadRequest("Error confirming email.");
+        }
 
     }
 }

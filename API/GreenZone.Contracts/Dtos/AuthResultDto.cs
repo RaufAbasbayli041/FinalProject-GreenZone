@@ -10,6 +10,7 @@ namespace GreenZone.Contracts.Dtos
 	public class AuthResultDto
 	{
 		public string Token { get; set; }
-		public DateTime Expiration { get; set; }
+		public Guid CustomerId { get; set; }
+        public DateTime Expiration { get; set; }
     }
 }

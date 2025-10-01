@@ -31,6 +31,7 @@ import type {
   PaymentStatus,
   ProductDocuments
 } from '@/lib/types'
+import { getCustomerByUserId } from './customer-api'
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7100'
 
@@ -38,6 +39,55 @@ const BASE = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7100'
 function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null
   return localStorage.getItem('auth_token')
+}
+
+// Функция для получения userId из JWT токена
+export function getUserIdFromToken(): string | null {
+  const token = getAuthToken()
+  if (!token) return null
+  
+  try {
+    // Декодируем JWT токен (только payload часть)
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    return payload.userId || payload.sub || null
+  } catch (error) {
+    console.error('Ошибка декодирования токена:', error)
+    return null
+  }
+}
+
+// Функция для получения customerId по userId
+export async function getCustomerIdByUserId(userId: string): Promise<string | null> {
+  try {
+    console.log('Получение customerId для userId:', userId)
+    
+    // Простое решение: используем userId как customerId
+    // Это работает, если в системе userId = customerId
+    const customer = await getCustomerByUserId(userId)
+    
+    if (customer) {
+      console.log('Найден customerId:', customer.id)
+      return customer.id
+    } else {
+      console.log('Клиент не найден, используем userId как customerId:', userId)
+      return userId
+    }
+  } catch (error) {
+    console.error('Ошибка получения customerId:', error)
+    // В случае ошибки, используем userId как customerId
+    console.log('Используем userId как customerId из-за ошибки:', userId)
+    return userId
+  }
+}
+
+// Функция для получения корзины по userId (используем userId напрямую)
+export async function getBasketByUserId(userId: string): Promise<Basket | null> {
+  try {
+    return await getBasketByCustomerId(userId)
+  } catch (error) {
+    console.error('Ошибка получения корзины по userId:', error)
+    return null
+  }
 }
 
 async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
@@ -190,6 +240,15 @@ export async function searchProducts(keyword: string, page: number = 1, pageSize
   }
 }
 
+export async function getProductById(id: string): Promise<Product> {
+  try {
+    return await fetchJSON<Product>(`/api/Product/${id}`)
+  } catch (e: any) {
+    console.log('API получения продукта по ID недоступен:', e.message)
+    throw e
+  }
+}
+
 export async function fetchProductsByCategory(categoryId: string, page: number = 1, pageSize: number = 10): Promise<ProductSearchResult> {
   try {
     return await fetchJSON<ProductSearchResult>(`/api/Product/by-category/${categoryId}?page=${page}&pageSize=${pageSize}`)
@@ -260,30 +319,6 @@ export function getCurrentToken(): string | null {
   return getAuthToken()
 }
 
-// Функция для получения ID из JWT токена
-export function getUserIdFromToken(): string | null {
-  try {
-    const token = getAuthToken()
-    if (!token) return null
-    
-    // Декодируем JWT токен (только payload часть)
-    const payload = token.split('.')[1]
-    if (!payload) return null
-    
-    const decoded = JSON.parse(atob(payload))
-    console.log('JWT токен декодирован:', decoded)
-    
-    // В JWT токене Sub содержит user.Id.ToString()
-    const userId = decoded.sub || decoded.userId || decoded.id || null
-    
-    console.log('Найденный ID из токена:', userId)
-    
-    return userId
-  } catch (error) {
-    console.error('Ошибка декодирования токена:', error)
-    return null
-  }
-}
 
 // Функция для получения информации о текущем пользователе
 export async function getCurrentUser(): Promise<any> {
@@ -295,16 +330,6 @@ export async function getCurrentUser(): Promise<any> {
   }
 }
 
-// Функция для получения customerId по userId
-export async function getCustomerIdByUserId(userId: string): Promise<string | null> {
-  try {
-    const userInfo = await fetchJSON(`/api/Auth/user/${userId}`)
-    return userInfo.customerId || userInfo.id || null
-  } catch (error: any) {
-    console.log('API получения customerId по userId недоступен:', error.message)
-    throw error
-  }
-}
 
 // Функция для получения корзины пользователя
 export async function getBasket(customerId: string): Promise<any> {
@@ -432,14 +457,22 @@ export async function getBasketByCustomerId(customerId: string): Promise<Basket>
   try {
     return await fetchJSON<Basket>(`/api/Basket/${customerId}`)
   } catch (e: any) {
-    console.log('API корзины недоступен:', e.message)
-    // Заглушка для корзины
-    return {
-      id: 'mock-basket-' + customerId,
-      customerId: customerId,
-      items: [],
-      totalAmount: 0
+    console.log('API корзины недоступен или корзина не найдена:', e.message)
+    
+    // Если корзина не найдена (500 ошибка), возвращаем пустую корзину
+    if (e.message.includes('500') || e.message.includes('Basket not found')) {
+      return {
+        id: '',
+        customerId: customerId,
+        basketItems: [], // Исправляем: используем basketItems вместо items
+        totalAmount: 0,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        isDeleted: false
+      }
     }
+    
+    throw e
   }
 }
 
@@ -469,9 +502,9 @@ export async function removeItemsFromBasket(customerId: string, productId: strin
 
 export async function updateItemsInBasket(customerId: string, items: BasketItemsUpdateDto): Promise<void> {
   try {
-    await fetchJSON('/api/Basket/items', { 
+    await fetchJSON(`/api/Basket/${customerId}/items`, { 
       method: 'PUT', 
-      body: JSON.stringify({ customerId, ...items }) 
+      body: JSON.stringify(items) 
     })
   } catch (e: any) {
     console.log('API обновления корзины недоступен:', e.message)

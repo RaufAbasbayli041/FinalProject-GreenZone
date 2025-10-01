@@ -45,7 +45,7 @@ export async function getAllCustomers(): Promise<Customer[]> {
 
 export async function getCustomerById(id: string): Promise<Customer> {
   try {
-    return await fetchJSON<Customer>(`/api/customer/${id}`)
+    return await fetchJSON<Customer>(`/api/Customer/${id}`)
   } catch (e: any) {
     console.log('API клиента недоступен:', e.message)
     throw e
@@ -54,7 +54,7 @@ export async function getCustomerById(id: string): Promise<Customer> {
 
 export async function updateCustomer(id: string, customerData: CustomerUpdateDto): Promise<Customer> {
   try {
-    return await fetchJSON<Customer>(`/api/customer/${id}`, { 
+    return await fetchJSON<Customer>(`/api/Customer/${id}`, { 
       method: 'PUT', 
       body: JSON.stringify(customerData) 
     })
@@ -66,7 +66,7 @@ export async function updateCustomer(id: string, customerData: CustomerUpdateDto
 
 export async function getAllCustomersWithOrders(page: number = 1, pageSize: number = 10): Promise<Customer[]> {
   try {
-    return await fetchJSON<Customer[]>(`/api/customer/with-orders?page=${page}&pageSize=${pageSize}`)
+    return await fetchJSON<Customer[]>(`/api/Customer/with-orders?page=${page}&pageSize=${pageSize}`)
   } catch (e: any) {
     console.log('API клиентов с заказами недоступен:', e.message)
     throw e
@@ -75,16 +75,43 @@ export async function getAllCustomersWithOrders(page: number = 1, pageSize: numb
 
 export async function getCustomerFullData(customerId: string): Promise<Customer> {
   try {
-    return await fetchJSON<Customer>(`/api/customer/full-data/${customerId}`)
+    return await fetchJSON<Customer>(`/api/Customer/full-data/${customerId}`)
   } catch (e: any) {
     console.log('API полных данных клиента недоступен:', e.message)
     throw e
   }
 }
 
+export async function getCustomerByUserId(userId: string): Promise<Customer | null> {
+  try {
+    console.log('Поиск клиента по userId:', userId)
+    
+    // Получаем всех клиентов и ищем по userId
+    try {
+      const customers = await getAllCustomers()
+      console.log('Получены все клиенты:', customers.length)
+      
+      const customer = customers.find(c => c.userId === userId)
+      if (customer) {
+        console.log('Найден клиент по userId:', customer)
+        return customer
+      } else {
+        console.log('Клиент не найден по userId, возвращаем null')
+        return null
+      }
+    } catch (error) {
+      console.log('Ошибка поиска клиента по userId:', error)
+      return null
+    }
+  } catch (e: any) {
+    console.log('API поиска клиента по userId недоступен:', e.message)
+    return null
+  }
+}
+
 export async function deleteCustomer(id: string): Promise<void> {
   try {
-    await fetchJSON(`/api/customer/${id}`, { method: 'DELETE' })
+    await fetchJSON(`/api/Customer/${id}`, { method: 'DELETE' })
   } catch (e: any) {
     console.log('API удаления клиента недоступен:', e.message)
     throw e

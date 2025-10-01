@@ -54,13 +54,13 @@ export default function Home() {
         
         // Более детальная обработка ошибок
         if (error.message.includes('401')) {
-          setError('Требуется авторизация. Пожалуйста, войдите в систему.')
+          setError(t('error.loginRequired'))
         } else if (error.message.includes('404')) {
-          setError('API не найден. Убедитесь, что бэкенд запущен.')
+          setError(t('error.apiNotFound'))
         } else if (error.message.includes('500')) {
-          setError('Ошибка сервера. Попробуйте позже.')
+          setError(t('error.serverError'))
         } else {
-          setError(`Ошибка загрузки: ${error.message}`)
+          setError(`${t('error.loadingError')}: ${error.message}`)
         }
         
         setProducts([])
@@ -78,7 +78,7 @@ export default function Home() {
 
     const area = Number.parseFloat(orderForm.area)
     if (area <= 0) {
-      alert("Пожалуйста, введите корректную площадь")
+      alert(t('order.areaError'))
       return
     }
 
@@ -103,7 +103,7 @@ export default function Home() {
 
     EmailService.sendOrderEmail(orderData)
       .then(() => {
-        alert("Заказ отправлен! Мы свяжемся с вами в ближайшее время.")
+        alert(t('order.success'))
         setOrderForm({
           area: "",
           installation: false,
@@ -117,7 +117,7 @@ export default function Home() {
       })
       .catch((error) => {
         console.error("Ошибка отправки заказа:", error)
-        alert("Произошла ошибка при отправке заказа. Пожалуйста, попробуйте еще раз.")
+        alert(t('order.error'))
       })
   }
 
@@ -128,50 +128,14 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button variant="ghost" className="text-2xl font-black text-primary">
-                {t("common.brandName")}
-              </Button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Button variant="ghost">{t("nav.home")}</Button>
-              <Button variant="ghost" onClick={() => router.push("/catalog")}>
-                {t("nav.catalog")}
-              </Button>
-            </nav>
-            <div className="flex items-center gap-2">
-              <LanguageSwitcher />
-              <CartIcon />
-              {isAuthenticated && user ? (
-                <Button variant="outline" onClick={() => router.push("/profile")}>
-                  {user.name}
-                </Button>
-              ) : (
-                <>
-                  <Button variant="outline" onClick={() => router.push("/login")}>
-                    {t("nav.login")}
-                  </Button>
-                  <Button className="bg-primary hover:bg-primary/90" onClick={() => router.push("/register")}>
-                    {t("nav.register")}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
 
       {/* Hero Section */}
       <section className="hero-section py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center animate-fade-in">
-            <h1 className="text-4xl lg:text-6xl font-black text-foreground mb-6 animate-slide-up">
+            <div className="text-4xl lg:text-6xl font-black text-foreground mb-6 animate-slide-up">
               {t("home.title")}
-            </h1>
+            </div>
             <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-slide-up">
               {t("home.subtitle")}
             </p>
@@ -191,9 +155,9 @@ export default function Home() {
       <section className="py-16 bg-muted/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-4">
+            <div className="text-3xl lg:text-4xl font-black text-foreground mb-4">
               {t("benefits.title")}
-            </h2>
+            </div>
             <p className="text-xl text-muted-foreground">{t("benefits.subtitle")}</p>
           </div>
 
@@ -203,7 +167,7 @@ export default function Home() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl">🏆</span>
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.warranty")}</h3>
+                <div className="text-xl font-bold mb-4">{t("benefits.warranty")}</div>
                 <p className="text-muted-foreground">{t("benefits.warranty.desc")}</p>
               </CardContent>
             </Card>
@@ -213,7 +177,7 @@ export default function Home() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl">🔧</span>
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.installation")}</h3>
+                <div className="text-xl font-bold mb-4">{t("benefits.installation")}</div>
                 <p className="text-muted-foreground">{t("benefits.installation.desc")}</p>
               </CardContent>
             </Card>
@@ -223,7 +187,7 @@ export default function Home() {
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
                   <span className="text-2xl">🚚</span>
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.delivery")}</h3>
+                <div className="text-xl font-bold mb-4">{t("benefits.delivery")}</div>
                 <p className="text-muted-foreground">{t("benefits.delivery.desc")}</p>
               </CardContent>
             </Card>
@@ -235,7 +199,7 @@ export default function Home() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-4">{t("products.title")}</h2>
+            <div className="text-3xl lg:text-4xl font-black text-foreground mb-4">{t("products.title")}</div>
             <p className="text-xl text-muted-foreground">{t('catalog.selectPerfect')}</p>
           </div>
 
@@ -248,15 +212,15 @@ export default function Home() {
             ) : error ? (
               <div className="col-span-full text-center py-12">
                 <div className="text-6xl mb-4">⚠️</div>
-                <h3 className="text-2xl font-bold mb-4">Ошибка загрузки</h3>
+                <div className="text-2xl font-bold mb-4">{t('error.loading')}</div>
                 <p className="text-muted-foreground mb-4">{error}</p>
                 <div className="flex gap-2 justify-center">
                   <Button onClick={() => window.location.reload()} className="btn-primary">
-                    Попробовать снова
+                    {t('error.tryAgain')}
                   </Button>
                   {error.includes('авторизация') && (
                     <Button variant="outline" onClick={() => router.push("/login")} className="btn-secondary">
-                      Войти в систему
+                      {t('error.loginToSystem')}
                     </Button>
                   )}
                 </div>
@@ -271,7 +235,7 @@ export default function Home() {
                     onClick={() => router.push(`/catalog/${product.id}`)}
                   />
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{product.title || 'Unnamed Product'}</h3>
+                    <div className="text-xl font-bold mb-2">{product.title || 'Unnamed Product'}</div>
                     <p className="text-muted-foreground mb-4">{product.description || 'No description available'}</p>
                     <div className="flex justify-between items-center mb-4">
                       <span className="text-2xl font-bold text-primary">от {product.pricePerSquareMeter || 0}₽/м²</span>
@@ -432,8 +396,8 @@ export default function Home() {
             ) : (
               <div className="col-span-full text-center py-12">
                 <div className="text-6xl mb-4">📦</div>
-                <h3 className="text-2xl font-bold mb-4">Продукты не найдены</h3>
-                <p className="text-muted-foreground text-lg">В данный момент нет доступных продуктов</p>
+                <div className="text-2xl font-bold mb-4">{t('catalog.noProducts')}</div>
+                <p className="text-muted-foreground text-lg">{t('catalog.noProductsDesc')}</p>
               </div>
             )}
           </div>
@@ -450,7 +414,7 @@ export default function Home() {
       <footer className="bg-muted py-12">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">{t("common.brandName")}</h3>
+            <div className="text-2xl font-bold mb-4">{t("common.brandName")}</div>
             <p className="text-muted-foreground mb-4">{t("footer.description")}</p>
             <div className="flex justify-center gap-4">
               <Button variant="outline" onClick={() => router.push("/catalog")}>

@@ -13,10 +13,10 @@ interface AuthContextType {
   isCustomer: boolean
   login: (userName: string, password: string) => Promise<{ success: boolean; message: string }>
   register: (
-    name: string,
+    userName: string,
     email: string,
     password: string,
-    phone: string,
+    phoneNumber: string,
     firstName?: string,
     lastName?: string,
     identityCard?: string,
@@ -74,49 +74,39 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   const register = async (
-    name: string,
+    userName: string,
     email: string,
     password: string,
-    phone: string,
+    phoneNumber: string,
     firstName?: string,
     lastName?: string,
     identityCard?: string,
   ): Promise<{ success: boolean; message: string }> => {
     try {
-      const users = storage.getUsers()
-
-      // Проверяем, существует ли пользователь с таким email
-      if (users.find((u) => u.email === email)) {
-        return { success: false, message: "Пользователь с таким email уже существует" }
-      }
-
-      // Создаем нового пользователя с ролью Customer
-      const newUser: User = {
-        id: generateId(),
-        name,
+      // Импортируем API функцию для регистрации
+      const { register: apiRegister } = await import('@/services/api')
+      
+      const registerData = {
+        userName,
         email,
-        phone,
-        createdAt: new Date(),
-        isAdmin: false,
-        role: UserRole.CUSTOMER,
-        firstName,
-        lastName,
-        phoneNumber: phone,
-        identityCard,
+        firstName: firstName || '',
+        lastName: lastName || '',
+        phoneNumber,
+        password,
+        confirmPassword: password, // Для простоты используем тот же пароль
+        identityCard: identityCard || ''
       }
-
-      // Сохраняем пользователя
-      const updatedUsers = [...users, newUser]
-      storage.setUsers(updatedUsers)
-
-      // Автоматически входим в систему
-      const newAuthState = { user: newUser, isAuthenticated: true }
-      setAuthState(newAuthState)
-      storage.setAuthState(newAuthState)
-
-      return { success: true, message: "Регистрация успешна" }
-    } catch (error) {
-      return { success: false, message: "Ошибка при регистрации" }
+      
+      const result = await apiRegister(registerData)
+      
+      if (result.succeeded) {
+        return { success: true, message: "Регистрация успешна. Проверьте email для подтверждения аккаунта." }
+      } else {
+        return { success: false, message: result.message || "Ошибка при регистрации" }
+      }
+    } catch (error: any) {
+      console.error("Ошибка регистрации:", error)
+      return { success: false, message: error.message || "Ошибка при регистрации" }
     }
   }
 

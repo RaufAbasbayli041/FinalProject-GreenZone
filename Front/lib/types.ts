@@ -94,13 +94,20 @@ export interface BasketItem {
   productId: string
   product?: Product
   quantity: number
+  totalPrice?: number
+  createdAt?: string
+  updatedAt?: string
+  isDeleted?: boolean
 }
 
 export interface Basket {
   id: string
   customerId: string
-  items: BasketItem[]
+  basketItems: BasketItem[] // Исправляем: используем basketItems вместо items
   totalAmount: number
+  createdAt?: string
+  updatedAt?: string
+  isDeleted?: boolean
 }
 
 export interface BasketItemsCreateDto {

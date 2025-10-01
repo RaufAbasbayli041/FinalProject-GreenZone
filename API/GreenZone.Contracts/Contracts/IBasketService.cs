@@ -12,8 +12,8 @@ namespace GreenZone.Contracts.Contracts
 	public interface IBasketService
 	{
 		Task<BasketReadDto> GetBasketByCustomerAsync(Guid customerId);
-		Task AddItemstoBasketAsync(Guid customerId, BasketItemsCreateDto basketItemsCreateDto);
-		Task UpdateItemsInBasketAsync(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto);
+        Task<BasketReadDto> AddItemstoBasketAsync(Guid customerId, BasketItemsCreateDto basketItemsCreateDto);
+        Task<BasketReadDto> UpdateItemsInBasketAsync(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto);
 		Task RemoveItemsFromBasketAsync(Guid customerId, Guid productId, int quantity);
 		Task ClearBasketAsync(Guid customerId);
 	}

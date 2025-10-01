@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Contracts.Dtos.BasketItemsDtos
 {
-    public record class BasketItemsUpdateDto
-    {      
+    public record class BasketItemsUpdateDto  
+    {       
         public Guid ProductId { get; set; }
 		public int Quantity { get; set; } 
     }

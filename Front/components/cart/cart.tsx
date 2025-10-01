@@ -36,16 +36,16 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
     }
   }
 
-  const handleQuantityChange = async (itemId: string, newQuantity: number) => {
+  const handleQuantityChange = async (productId: string, newQuantity: number) => {
     if (newQuantity < 1) return
 
     try {
-      setUpdating(itemId)
-      const item = basket?.items.find(i => i.id === itemId)
+      setUpdating(productId)
+      const item = basket?.items.find(i => i.productId === productId)
       if (!item) return
 
       await updateItemsInBasket(customerId, {
-        productId: item.productId,
+        productId: productId,
         quantity: newQuantity
       })
       
@@ -57,13 +57,13 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
     }
   }
 
-  const handleRemoveItem = async (itemId: string) => {
+  const handleRemoveItem = async (productId: string) => {
     try {
-      setUpdating(itemId)
-      const item = basket?.items.find(i => i.id === itemId)
+      setUpdating(productId)
+      const item = basket?.items.find(i => i.productId === productId)
       if (!item) return
 
-      await removeItemsFromBasket(customerId, item.productId, item.quantity)
+      await removeItemsFromBasket(customerId, productId, item.quantity)
       await loadBasket() // Перезагружаем корзину
     } catch (error) {
       console.error('Ошибка удаления товара:', error)
@@ -104,8 +104,11 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
         <Card>
           <CardContent className="text-center py-12">
             <ShoppingCart className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-            <h3 className="text-lg font-semibold mb-2">Корзина пуста</h3>
-            <p className="text-muted-foreground">Добавьте товары в корзину, чтобы продолжить покупки</p>
+            <h3 className="text-lg font-semibold mb-2">В корзине нет продуктов</h3>
+            <p className="text-muted-foreground mb-6">Добавьте товары в корзину, чтобы продолжить покупки</p>
+            <Button onClick={() => window.location.href = '/'}>
+              Перейти к покупкам
+            </Button>
           </CardContent>
         </Card>
       </div>
@@ -149,8 +152,8 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleQuantityChange(item.id, item.quantity - 1)}
-                      disabled={updating === item.id || item.quantity <= 1}
+                      onClick={() => handleQuantityChange(item.productId, item.quantity - 1)}
+                      disabled={updating === item.productId || item.quantity <= 1}
                     >
                       <Minus className="h-4 w-4" />
                     </Button>
@@ -158,17 +161,17 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
                     <Input
                       type="number"
                       value={item.quantity}
-                      onChange={(e) => handleQuantityChange(item.id, parseInt(e.target.value) || 1)}
+                      onChange={(e) => handleQuantityChange(item.productId, parseInt(e.target.value) || 1)}
                       className="w-16 text-center"
-                      disabled={updating === item.id}
+                      disabled={updating === item.productId}
                       min="1"
                     />
                     
                     <Button
                       variant="outline"
                       size="sm"
-                      onClick={() => handleQuantityChange(item.id, item.quantity + 1)}
-                      disabled={updating === item.id}
+                      onClick={() => handleQuantityChange(item.productId, item.quantity + 1)}
+                      disabled={updating === item.productId}
                     >
                       <Plus className="h-4 w-4" />
                     </Button>
@@ -181,8 +184,8 @@ export const Cart: React.FC<CartProps> = ({ customerId, onOrderPlaced }) => {
                     <Button
                       variant="ghost"
                       size="sm"
-                      onClick={() => handleRemoveItem(item.id)}
-                      disabled={updating === item.id}
+                      onClick={() => handleRemoveItem(item.productId)}
+                      disabled={updating === item.productId}
                       className="text-red-600 hover:text-red-700"
                     >
                       <Trash2 className="h-4 w-4" />

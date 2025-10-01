@@ -15,6 +15,7 @@ import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/contexts/auth-context"
 import { useCart } from "@/contexts/cart-context"
 import { CartIcon } from "@/components/cart/cart-icon"
+import { useLanguage } from "@/contexts/language-context-new"
 import type { Order, Product } from "@/lib/types"
 import { storage } from "@/lib/storage"
 import { initialProducts } from "@/lib/data"
@@ -22,6 +23,7 @@ import { initialProducts } from "@/lib/data"
 export default function ProfilePage() {
   const { user, isAuthenticated, logout, loading } = useAuth()
   const { getTotalItems } = useCart()
+  const { t } = useLanguage()
   const router = useRouter()
 
   const [orders, setOrders] = useState<Order[]>([])
@@ -63,7 +65,7 @@ export default function ProfilePage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Загрузка...</p>
+          <p>{t('common.loading')}</p>
         </div>
       </div>
     )
@@ -101,7 +103,7 @@ export default function ProfilePage() {
     storage.setAuthState({ user: updatedUser, isAuthenticated: true })
 
     setIsEditDialogOpen(false)
-    alert("Профиль успешно обновлен!")
+    alert(t('profile.profileUpdated'))
 
     // Перезагружаем страницу для обновления данных
     window.location.reload()
@@ -147,36 +149,10 @@ export default function ProfilePage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button variant="ghost" onClick={() => router.push("/")} className="text-2xl font-black text-primary">
-                Green Zone
-              </Button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Button variant="ghost" onClick={() => router.push("/")}>
-                Главная
-              </Button>
-              <Button variant="ghost" onClick={() => router.push("/catalog")}>
-                Каталог
-              </Button>
-            </nav>
-            <div className="flex items-center gap-2">
-              <CartIcon />
-              <span className="text-sm text-muted-foreground">Добро пожаловать, {user.name}</span>
-              <Button variant="outline" onClick={handleLogout}>
-                Выйти
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <main className="max-w-6xl mx-auto p-6">
         <div className="mb-8">
-          <h2 className="text-3xl font-black mb-2">Личный кабинет</h2>
+          <div className="text-3xl font-black mb-2">Личный кабинет</div>
           <p className="text-muted-foreground">Управляйте своим профилем и заказами</p>
         </div>
 
@@ -321,7 +297,7 @@ export default function ProfilePage() {
               <Card>
                 <CardContent className="text-center py-12">
                   <div className="text-6xl mb-4">📦</div>
-                  <h3 className="text-xl font-bold mb-2">У вас пока нет заказов</h3>
+                  <div className="text-xl font-bold mb-2">У вас пока нет заказов</div>
                   <p className="text-muted-foreground mb-6">Оформите первый заказ в нашем каталоге</p>
                   <Button onClick={() => router.push("/catalog")}>Перейти к каталогу</Button>
                 </CardContent>

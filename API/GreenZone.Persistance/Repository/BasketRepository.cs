@@ -19,13 +19,14 @@ namespace GreenZone.Persistance.Repository
         public async Task ClearBasketAsync(Guid customerId)
         {
             var cart = await _context.Baskets
+                .Where(c => !c.IsDeleted)
                 .Include(c => c.BasketItems)
                 .ThenInclude(ci => ci.Product)
                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
             if (cart != null)
             {
-                _context.BasketItems.RemoveRange(cart.BasketItems);
+                cart.BasketItems = cart.BasketItems.Where(bi => bi.Product != null).ToList();
                 await _context.SaveChangesAsync();
             }
         }
@@ -33,10 +34,10 @@ namespace GreenZone.Persistance.Repository
         public async Task<Basket> GetBasketByCustomerAsync(Guid customerId)
         {
             var cart = await _context.Baskets
-                 .Where(c => c.CustomerId == customerId && !c.IsDeleted)
-                 .Include(c => c.BasketItems)
+                 .Where( b=>!b.IsDeleted)
+                 .Include(b => b.BasketItems)
                  .ThenInclude(ci => ci.Product)
-                 .FirstOrDefaultAsync();
+                 .FirstOrDefaultAsync(b => b.CustomerId == customerId);
             return cart;
         }
     }

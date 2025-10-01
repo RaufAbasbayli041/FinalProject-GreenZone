@@ -144,21 +144,6 @@ export default function ProductDetailPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="bg-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <Button variant="ghost" className="text-2xl font-black text-primary">
-                  {t("common.brandName")}
-                </Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <LanguageSwitcher />
-                <CartIcon />
-              </div>
-            </div>
-          </div>
-        </header>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
@@ -173,21 +158,6 @@ export default function ProductDetailPage() {
   if (error || !product) {
     return (
       <div className="min-h-screen bg-background">
-        <header className="bg-white shadow-sm border-b">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex justify-between items-center h-16">
-              <div className="flex items-center">
-                <Button variant="ghost" className="text-2xl font-black text-primary">
-                  {t("common.brandName")}
-                </Button>
-              </div>
-              <div className="flex items-center gap-2">
-                <LanguageSwitcher />
-                <CartIcon />
-              </div>
-            </div>
-          </div>
-        </header>
         
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
           <div className="text-center">
@@ -216,43 +186,6 @@ export default function ProductDetailPage() {
   return (
     <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button variant="ghost" onClick={() => router.push("/")} className="text-2xl font-black text-primary">
-                {t("common.brandName")}
-              </Button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Button variant="ghost" onClick={() => router.push("/")}>
-                {t("nav.home")}
-              </Button>
-              <Button variant="ghost" onClick={() => router.push("/catalog")}>
-                {t("nav.catalog")}
-              </Button>
-            </nav>
-            <div className="flex items-center gap-2">
-              <LanguageSwitcher />
-              <CartIcon />
-              {isAuthenticated && user ? (
-                <Button variant="outline" onClick={() => router.push("/profile")}>
-                  {user.name}
-                </Button>
-              ) : (
-                <>
-                  <Button variant="outline" onClick={() => router.push("/login")}>
-                    {t("nav.login")}
-                  </Button>
-                  <Button className="bg-primary hover:bg-primary/90" onClick={() => router.push("/register")}>
-                    {t("nav.register")}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Breadcrumb */}

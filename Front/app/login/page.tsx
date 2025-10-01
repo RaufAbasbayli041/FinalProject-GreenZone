@@ -10,7 +10,7 @@ export default function LoginPage() {
     <div className="min-h-screen bg-background flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-black text-primary mb-2">Green Zone</h1>
+          <div className="text-3xl font-black text-primary mb-2">Green Zone</div>
           <p className="text-muted-foreground">{t("auth.welcomeBack")}</p>
         </div>
         <LoginForm />

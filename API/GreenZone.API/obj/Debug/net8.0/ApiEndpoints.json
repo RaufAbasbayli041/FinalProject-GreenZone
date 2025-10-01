@@ -1,6 +1,27 @@
 [
   {
     "ContainingType": "GreenZone.API.Controllers.AuthController",
+    "Method": "ConfirmEmail",
+    "RelativePath": "api/Auth/confirm-email",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": false
+      },
+      {
+        "Name": "code",
+        "Type": "System.String",
+        "IsRequired": false
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.AuthController",
     "Method": "Login",
     "RelativePath": "api/Auth/login",
     "HttpMethod": "POST",
@@ -123,7 +144,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.BasketController",
     "Method": "UpdateItemsInBasket",
-    "RelativePath": "api/Basket/items",
+    "RelativePath": "api/Basket/{customerId}/items",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -131,7 +152,7 @@
       {
         "Name": "customerId",
         "Type": "System.Guid",
-        "IsRequired": false
+        "IsRequired": true
       },
       {
         "Name": "basketItemsUpdateDto",

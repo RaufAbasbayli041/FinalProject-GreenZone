@@ -47,7 +47,7 @@ export default function CatalogPage() {
         setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
       } catch (error) {
         console.error('Ошибка загрузки данных:', error)
-        setError('Не удалось загрузить данные. Убедитесь, что бэкенд запущен.')
+        setError(t('error.apiNotFound'))
         setProducts([])
         setFilteredProducts([])
       } finally {
@@ -92,51 +92,11 @@ export default function CatalogPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button variant="ghost" onClick={() => router.push("/")} className="text-2xl font-black text-primary">
-                Green Zone
-              </Button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Button variant="ghost" onClick={() => router.push("/")}>
-                {t("nav.home")}
-              </Button>
-              <Button variant="ghost" className="text-primary">
-                {t("nav.catalog")}
-              </Button>
-              <Button variant="ghost" onClick={() => router.push("/#services")}>
-                Услуги
-              </Button>
-            </nav>
-            <div className="flex items-center gap-2">
-              <CartIcon />
-              {isAuthenticated && user ? (
-                <Button variant="outline" onClick={() => router.push("/profile")}>
-                  {user.name}
-                </Button>
-              ) : (
-                <>
-                  <Button variant="outline" onClick={() => router.push("/login")}>
-                    {t("nav.login")}
-                  </Button>
-                  <Button className="bg-primary hover:bg-primary/90" onClick={() => router.push("/register")}>
-                    {t("nav.register")}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-black text-foreground mb-2">{t("catalog.title")}</h1>
+          <div className="text-3xl font-black text-foreground mb-2">{t("catalog.title")}</div>
           <p className="text-muted-foreground">{t("catalog.subtitle")}</p>
         </div>
 
@@ -241,10 +201,10 @@ export default function CatalogPage() {
             ) : error ? (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">⚠️</div>
-                <h3 className="text-2xl font-bold mb-4">Ошибка загрузки</h3>
+                <div className="text-2xl font-bold mb-4">{t('error.loading')}</div>
                 <p className="text-muted-foreground mb-4">{error}</p>
                 <Button onClick={() => window.location.reload()}>
-                  Попробовать снова
+                  {t('error.tryAgain')}
                 </Button>
               </div>
             ) : filteredProducts.length === 0 ? (
@@ -271,7 +231,7 @@ export default function CatalogPage() {
                       onClick={() => router.push(`/catalog/${product.id}`)}
                     />
                     <CardContent className="p-6">
-                      <h3 className="text-xl font-bold mb-2">{product.title}</h3>
+                      <div className="text-xl font-bold mb-2">{product.title}</div>
                       <p className="text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
 
                       <div className="flex justify-between items-center mb-4">

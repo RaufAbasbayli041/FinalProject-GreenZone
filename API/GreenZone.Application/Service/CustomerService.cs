@@ -40,9 +40,9 @@ namespace GreenZone.Application.Service
             return dto;
         }
 
-        public async Task<CustomerReadDto> GetCustomerWithOrdersAsync(Guid customerId)
+        public override async Task<CustomerReadDto> GetByIdAsync(Guid customerId)
         {
-            var data =  await _customerRepository.GetCustomerWithOrdersAsync(customerId);
+            var data =  await _customerRepository.GetByIdAsync(customerId);
             var dto = _mapper.Map<CustomerReadDto> (data);
             return dto;
         }
@@ -52,6 +52,13 @@ namespace GreenZone.Application.Service
             var datas = await _customerRepository.GetAllAsync();
             var dtos = _mapper.Map<IEnumerable<CustomerReadDto>>(datas);
             return dtos;
+        }
+
+        public async Task<CustomerReadDto> GetCustomerByUserIdAsync(string userId)
+        { 
+            var data = await  _customerRepository.GetCustomerByUserIdAsync(userId);
+            var dto = _mapper.Map<CustomerReadDto>(data);
+            return dto;
         }
     }
 }

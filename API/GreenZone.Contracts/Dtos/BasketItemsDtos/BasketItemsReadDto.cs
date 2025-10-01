@@ -12,5 +12,9 @@ namespace GreenZone.Contracts.Dtos.BasketItemsDtos
         public Guid ProductId { get; set; }       
         public int Quantity { get; set; }
         public decimal TotalPrice { get; set; }
+
+        // Navigation property to Product
+        public string ProductTitle { get; set; }
+        public string? ProductImageUrl { get; set; }
     }
 }

@@ -9,7 +9,7 @@ namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Admin")]
+   // [Authorize("Admin")]
     public class CustomerController : ControllerBase
     {
         private readonly ICustomerService _customerService;
@@ -29,7 +29,7 @@ namespace GreenZone.API.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetCustomerById(Guid id)
         {
-            var customer = await _customerService.GetCustomerWithOrdersAsync(id);
+            var customer = await _customerService.GetByIdAsync(id);
             if (customer == null)
             {
                 return NotFound();

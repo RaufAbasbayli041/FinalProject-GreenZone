@@ -6,14 +6,23 @@ using System.Threading.Tasks;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Repository;
 using GreenZone.Persistance.Database;
+using Microsoft.EntityFrameworkCore;
 
 namespace GreenZone.Persistance.Repository
 {
-	public class BasketItemsRepository : GenericRepository<BasketItems>, IBasketItemsRepository
+    public class BasketItemsRepository : GenericRepository<BasketItems>, IBasketItemsRepository
 	{
 		public BasketItemsRepository(GreenZoneDBContext context) : base(context)
 		{
 		}
 
-	}
+        public async Task<BasketItems> GetItemsByProductIdAsync(Guid basketId, Guid productId)
+        {
+            var item = await _context.BasketItems
+                .Where(bi => !bi.IsDeleted)
+                .Include(bi => bi.Product)
+                .FirstOrDefaultAsync(bi => bi.ProductId == productId && bi.BasketId == basketId);
+            return item;
+        }
+    }
 }

@@ -16,9 +16,9 @@ export function RegisterForm() {
   const { t } = useLanguage()
 
   const [formData, setFormData] = useState({
-    name: "",
+    userName: "",
     email: "",
-    phone: "",
+    phoneNumber: "",
     password: "",
     confirmPassword: "",
     firstName: "",
@@ -49,17 +49,17 @@ export function RegisterForm() {
     }
 
     const result = await register(
-      formData.name, 
+      formData.userName, 
       formData.email, 
       formData.password, 
-      formData.phone,
+      formData.phoneNumber,
       formData.firstName,
       formData.lastName,
       formData.identityCard
     )
 
     if (result.success) {
-      EmailService.sendRegistrationConfirmation(formData.email, formData.name)
+      EmailService.sendRegistrationConfirmation(formData.email, formData.userName)
       router.push("/profile")
     } else {
       setError(result.message)
@@ -77,11 +77,11 @@ export function RegisterForm() {
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="name">{t("auth.name")}</Label>
+            <Label htmlFor="userName">{t("auth.userName")}</Label>
             <Input
-              id="name"
-              value={formData.name}
-              onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              id="userName"
+              value={formData.userName}
+              onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
               required
             />
           </div>
@@ -98,12 +98,12 @@ export function RegisterForm() {
           </div>
 
           <div>
-            <Label htmlFor="phone">{t("auth.phone")}</Label>
+            <Label htmlFor="phoneNumber">{t("auth.phoneNumber")}</Label>
             <Input
-              id="phone"
+              id="phoneNumber"
               type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+              value={formData.phoneNumber}
+              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
               required
             />
           </div>

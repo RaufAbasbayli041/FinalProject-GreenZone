@@ -1,21 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
-using System.Security.Claims;
-using System.Text;
-using System.Threading.Tasks;
-using GreenZone.Application.Exceptions;
+﻿using GreenZone.Application.Exceptions;
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos;
 using GreenZone.Contracts.Dtos.CustomerDtos;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Repository;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
+using System;
+using System.Collections.Generic;
+using System.IdentityModel.Tokens.Jwt;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
+using System.Security.Claims;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GreenZone.Application.Service
 {
@@ -53,23 +55,42 @@ namespace GreenZone.Application.Service
                 throw new ArgumentException(nameof(logInDto));
             }
 
-            var result = await _signInManager.PasswordSignInAsync(user, logInDto.Password, isPersistent: true, lockoutOnFailure: false);
+            user = await _userManager.FindByIdAsync(user.Id);
 
             if (!user.EmailConfirmed)
             {
                 throw new UnAuthorizedException("Please confirm your email.");
             }
+            var result = await _signInManager.CheckPasswordSignInAsync(user, logInDto.Password, lockoutOnFailure: false);
+            if (result.Succeeded)
+            {
+                _logger.LogInformation("User {UserName} logged in successfully.", logInDto.UserName);
+            }
+            else
+            {
+                _logger.LogWarning("Invalid login attempt for user {UserName}.", logInDto.UserName);
+                return null;
+            }
+
+
             if (result.Succeeded)
             {
                 var roles = await _userManager.GetRolesAsync(user);
                 var token = GenerateJwtTokenAsync(user, roles);
 
+                var customer = await _customerRepository.GetCustomerByUserIdAsync(user.Id);
+                if (customer == null)
+                {
+                    _logger.LogError("Customer not found for user {UserName} (userId: {UserId})", user.UserName, user.Id);
+                    throw new NotFoundException("Customer not found for this user.");
+                }
                 _logger.LogInformation("User {UserName} logged in successfully.", logInDto.UserName);
 
                 return new AuthResultDto
                 {
                     Token = token,
                     Expiration = DateTime.UtcNow.AddMinutes(60),// Token expiration time
+                    CustomerId = customer.Id
 
                 };
             }
@@ -113,14 +134,10 @@ namespace GreenZone.Application.Service
                 return IdentityResult.Failed(new IdentityError { Description = "Token generation failed." });
             }
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
-            var confirmationLink = $"https://localhost:7100/api/auth/confirm-email?userId={user.Id}&token={encodedToken}";
-
-
+            var confirmationLink = $"https://localhost:7100/api/auth/confirm-email?userId={user.Id}&code={encodedToken}";
 
             // You can use an email service to send the confirmation link to the user's email address.
             await _emailSenderOpt.SendEmailAsync(user.Email, "Confirm your email", $"Please confirm your account by clicking this link: <a href='{confirmationLink}'>Confirm mail</a>");
-
-
 
             await _userManager.AddToRoleAsync(user, "Customer");
             var customer = new Customer
@@ -128,20 +145,19 @@ namespace GreenZone.Application.Service
                 UserId = user.Id,
                 IdentityCard = registerDto.IdentityCard,
 
-                Basket = new Basket()
             };
-
+            await _customerRepository.AddAsync(customer);
+            await _unitOfWork.SaveChangesAsync();
             var Basket = new Basket()
             {
                 Id = Guid.NewGuid(),
                 BasketItems = new List<BasketItems>(),
-                CustomerId = customer.Id
+                Customer = customer,
 
             };
 
-            customer.Basket = Basket;   
+            customer.Basket = Basket;
 
-            await _customerRepository.AddAsync(customer);
             await _unitOfWork.SaveChangesAsync();
             return IdentityResult.Success;
 
@@ -179,6 +195,21 @@ namespace GreenZone.Application.Service
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        public async Task<bool> ConfirmEmailAsync(string userId, string code)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return false;
+
+            var decodedCode = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
+            var result = await _userManager.ConfirmEmailAsync(user, decodedCode);
+
+            if (result.Succeeded)
+            {
+                await _userManager.UpdateAsync(user);
+                return true;
+            }
+            return false;
+        }
 
     }
 }

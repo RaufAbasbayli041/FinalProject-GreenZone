@@ -15,12 +15,14 @@ import { Textarea } from "@/components/ui/textarea"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Separator } from "@/components/ui/separator"
 import { useAuth } from "@/contexts/auth-context"
+import { useLanguage } from "@/contexts/language-context-new"
 import type { Order, Product, User } from "@/lib/types"
 import { storage, generateId } from "@/lib/storage"
 import { initialProducts } from "@/lib/data"
 
 export default function AdminPage() {
   const { user, isAuthenticated, logout, loading } = useAuth()
+  const { t } = useLanguage()
   const router = useRouter()
 
   const [products, setProducts] = useState<Product[]>([])
@@ -72,7 +74,7 @@ export default function AdminPage() {
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p>Загрузка...</p>
+          <p>{t('common.loading')}</p>
         </div>
       </div>
     )
@@ -82,9 +84,9 @@ export default function AdminPage() {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
-          <h1 className="text-2xl font-bold mb-4">Доступ запрещен</h1>
-          <p className="text-muted-foreground mb-4">У вас нет прав для доступа к админ-панели</p>
-          <Button onClick={() => router.push("/")}>На главную</Button>
+          <div className="text-2xl font-bold mb-4">{t('admin.accessDenied')}</div>
+          <p className="text-muted-foreground mb-4">{t('admin.noAccess')}</p>
+          <Button onClick={() => router.push("/")}>{t('admin.goHome')}</Button>
         </div>
       </div>
     )
@@ -241,28 +243,10 @@ export default function AdminPage() {
 
   return (
     <div className="min-h-screen bg-background">
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button variant="ghost" onClick={() => router.push("/")} className="text-2xl font-black text-primary">
-                Green Zone
-              </Button>
-              <Badge className="ml-2 bg-destructive text-destructive-foreground">АДМИН</Badge>
-            </div>
-            <div className="flex items-center gap-4">
-              <span className="text-sm text-muted-foreground">Администратор: {user.name}</span>
-              <Button variant="outline" onClick={handleLogout}>
-                Выйти
-              </Button>
-            </div>
-          </div>
-        </div>
-      </header>
 
       <main className="max-w-7xl mx-auto p-6">
         <div className="mb-8">
-          <h2 className="text-3xl font-black mb-2">Панель администратора</h2>
+          <div className="text-3xl font-black mb-2">Панель администратора</div>
           <p className="text-muted-foreground">Управление товарами, заказами и пользователями</p>
         </div>
 
@@ -314,7 +298,7 @@ export default function AdminPage() {
 
           <TabsContent value="products" className="space-y-6">
             <div className="flex justify-between items-center">
-              <h3 className="text-xl font-bold">Управление товарами</h3>
+              <div className="text-xl font-bold">Управление товарами</div>
               <Dialog open={isProductDialogOpen} onOpenChange={setIsProductDialogOpen}>
                 <DialogTrigger asChild>
                   <Button
@@ -519,7 +503,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="orders" className="space-y-6">
-            <h3 className="text-xl font-bold">Управление заказами</h3>
+            <div className="text-xl font-bold">Управление заказами</div>
 
             <div className="space-y-4">
               {orders.map((order) => (
@@ -658,7 +642,7 @@ export default function AdminPage() {
           </TabsContent>
 
           <TabsContent value="users" className="space-y-6">
-            <h3 className="text-xl font-bold">Управление пользователями</h3>
+            <div className="text-xl font-bold">Управление пользователями</div>
 
             <div className="space-y-4">
               {users.map((userData) => (

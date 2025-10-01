@@ -10,7 +10,7 @@ namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize("Customer")]
+    //[Authorize("Customer")]
 
     public class BasketController : ControllerBase
     {
@@ -30,10 +30,10 @@ namespace GreenZone.API.Controllers
         }
        
         [HttpPost("{customerId}/items")]
-        public async Task<IActionResult> AddItemsToBasket(Guid customerId, BasketItemsCreateDto basketItemsCreateDto)
+        public async Task<IActionResult> AddItemsToBasket(Guid customerId, [FromBody] BasketItemsCreateDto basketItemsCreateDto)
         {
-            await _basketService.AddItemstoBasketAsync(customerId, basketItemsCreateDto);
-            return NoContent();
+           var updatedBasket = await _basketService.AddItemstoBasketAsync(customerId, basketItemsCreateDto);
+            return Ok(updatedBasket);
         }
         [HttpDelete("{customerId}/items")]
         public async Task<IActionResult> RemoveItemsFromBasket(Guid customerId, [FromQuery] Guid productId, [FromQuery] int quantity)
@@ -47,12 +47,13 @@ namespace GreenZone.API.Controllers
             await _basketService.ClearBasketAsync(customerId);
             return NoContent();
         }
-       [HttpPut("items")]
-       public async Task<IActionResult> UpdateItemsInBasket(Guid customerId, BasketItemsUpdateDto basketItemsUpdateDto)
+        [HttpPut("{customerId}/items")]
+        public async Task<IActionResult> UpdateItemsInBasket(Guid customerId, [FromBody] BasketItemsUpdateDto basketItemsUpdateDto)
         {
-            await _basketService.UpdateItemsInBasketAsync(customerId, basketItemsUpdateDto);
-            return NoContent();
-		}
+           var updatedBasket = await _basketService.UpdateItemsInBasketAsync(customerId, basketItemsUpdateDto);
+            return Ok(updatedBasket);
 
-	}
+        }
+
+    }
 }
