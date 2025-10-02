@@ -26,8 +26,7 @@ namespace GreenZone.Persistance.Repository
 
             if (cart != null)
             {
-                cart.BasketItems = cart.BasketItems.Where(bi => bi.Product != null).ToList();
-                await _context.SaveChangesAsync();
+                _context.BasketItems.RemoveRange(cart.BasketItems);
             }
         }
 

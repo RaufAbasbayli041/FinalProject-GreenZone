@@ -15,7 +15,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("GreenZone.API")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+3cd299480ea5804a426faf98f219406bae66b931")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+5b5579d9df11d2770fddb385c7c0f81ceb02a556")]
 [assembly: System.Reflection.AssemblyProductAttribute("GreenZone.API")]
 [assembly: System.Reflection.AssemblyTitleAttribute("GreenZone.API")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

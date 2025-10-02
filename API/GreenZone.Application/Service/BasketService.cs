@@ -62,7 +62,9 @@ namespace GreenZone.Application.Service
 
         public async Task ClearBasketAsync(Guid customerId)
         {
+
             await _basketRepository.ClearBasketAsync(customerId);
+            await _unitOfWork.SaveChangesAsync();
         }
 
         public async Task<BasketReadDto> GetBasketByCustomerAsync(Guid customerId)

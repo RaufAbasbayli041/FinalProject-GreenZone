@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ShoppingCart } from 'lucide-react'
 import { useNotification } from '@/components/ui/notification-center'
+import { useCart } from '@/contexts/cart-context'
 import { 
   getMockBasket, 
   addMockItemToBasket, 
@@ -39,6 +40,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   
   const { addNotification } = useNotification()
+  const { loadBasketFromAPI } = useCart()
 
   useEffect(() => {
     loadBasket()
@@ -130,8 +132,18 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
           
           console.log('Корзина с загруженными товарами:', updatedBasket)
           setBasket(updatedBasket)
+          
+          // Синхронизируем с cart-context для обновления навбара
+          if (loadBasketFromAPI) {
+            loadBasketFromAPI(updatedBasket)
+          }
         } else {
           setBasket(basketData)
+          
+          // Синхронизируем с cart-context для обновления навбара
+          if (loadBasketFromAPI) {
+            loadBasketFromAPI(basketData)
+          }
         }
         return
       } catch (apiError) {
@@ -141,6 +153,11 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       // Fallback к mock данным
       const mockBasketData = getMockBasket(customerId)
       setBasket(mockBasketData)
+      
+      // Синхронизируем с cart-context для обновления навбара
+      if (loadBasketFromAPI) {
+        loadBasketFromAPI(mockBasketData)
+      }
     } catch (error) {
       console.error('Ошибка загрузки корзины:', error)
       addNotification({
@@ -169,8 +186,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         })
         
         // Получаем обновленную корзину
-        const updatedBasket = await getBasketByCustomerId(customerId)
-        setBasket(updatedBasket)
+        await loadBasket() // Перезагружаем корзину с обработкой продуктов
         
         addNotification({
           type: 'success',
@@ -214,8 +230,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         await removeItemsFromBasket(customerId, productId, 999) // Большое число для полного удаления
         
         // Получаем обновленную корзину
-        const updatedBasket = await getBasketByCustomerId(customerId)
-        setBasket(updatedBasket)
+        await loadBasket() // Перезагружаем корзину с обработкой продуктов
         
         addNotification({
           type: 'success',
@@ -268,8 +283,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         await clearBasket(customerId)
         
         // Получаем обновленную корзину
-        const clearedBasket = await getBasketByCustomerId(customerId)
-        setBasket(clearedBasket)
+        await loadBasket() // Перезагружаем корзину с обработкой продуктов
         
         addNotification({
           type: 'success',
