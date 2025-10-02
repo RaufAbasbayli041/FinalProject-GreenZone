@@ -96,7 +96,12 @@ export default function CatalogPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
         <div className="mb-8">
-          <div className="text-3xl font-black text-foreground mb-2">{t("catalog.title")}</div>
+          <div className="flex justify-between items-end mb-2">
+            <div className="text-3xl font-black text-foreground">{t("catalog.title")}</div>
+            {!loading && (
+              <p className="text-muted-foreground">{t("catalog.productsFound")}: {filteredProducts.length}</p>
+            )}
+          </div>
           <p className="text-muted-foreground">{t("catalog.subtitle")}</p>
         </div>
 
@@ -187,11 +192,6 @@ export default function CatalogPage() {
 
           {/* Products Grid */}
           <div className="lg:col-span-3">
-            <div className="flex justify-between items-center mb-6">
-              <p className="text-muted-foreground">
-                {t("catalog.productsFound")}: {filteredProducts.length}
-              </p>
-            </div>
 
             {loading ? (
               <div className="text-center py-12">
@@ -223,47 +223,53 @@ export default function CatalogPage() {
             ) : (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow">
+                  <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow h-full flex flex-col">
                     <img
                       src={product.imageUrl || "/placeholder.svg"}
                       alt={product.title}
-                      className="w-full h-48 object-cover cursor-pointer"
+                      className="w-full h-48 object-cover cursor-pointer flex-shrink-0"
                       onClick={() => router.push(`/catalog/${product.id}`)}
                     />
-                    <CardContent className="p-6">
-                      <div className="text-xl font-bold mb-2">{product.title}</div>
-                      <p className="text-muted-foreground mb-4 line-clamp-2">{product.description}</p>
+                    <CardContent className="p-6 flex flex-col flex-grow">
+                      {/* Title - Fixed height */}
+                      <div className="text-xl font-bold mb-2 h-12 flex items-center line-clamp-2">
+                        {product.title}
+                      </div>
+                      
+                      {/* Description - Fixed height */}
+                      <p className="text-muted-foreground mb-4 h-10 line-clamp-2 overflow-hidden">
+                        {product.description}
+                      </p>
 
-                      <div className="flex justify-between items-center mb-4">
-                        <span className="text-2xl font-bold text-primary">
+                      {/* Price and Badge - Fixed height */}
+                      <div className="flex justify-between items-center mb-4 h-8">
+                        <span className="text-lg font-bold text-primary">
                           {t("catalog.from")} {product.pricePerSquareMeter}₽/м²
                         </span>
-                        <Badge variant="secondary">
+                        <Badge variant="secondary" className="text-xs">
                           {product.category?.name || `Категория: ${product.categoryId}`}
                         </Badge>
                       </div>
 
-                      <ul className="text-sm text-muted-foreground mb-6 space-y-1">
-                        <li>
-                          • Толщина: {product.minThickness}-{product.maxThickness} мм
-                        </li>
-                        <li>
-                          • Цена за м²: {product.pricePerSquareMeter}₽
-                        </li>
-                        <li>
-                          • Категория: {product.category?.name || product.categoryId}
-                        </li>
-                      </ul>
+                      {/* Specifications - Fixed height */}
+                      <div className="text-sm text-muted-foreground mb-6 h-20">
+                        <div className="space-y-1">
+                          <div>• Толщина: {product.minThickness}-{product.maxThickness} мм</div>
+                          <div>• Цена за м²: {product.pricePerSquareMeter}₽</div>
+                          <div>• Категория: {product.category?.name || product.categoryId}</div>
+                        </div>
+                      </div>
 
-                      <div className="flex gap-2">
+                      {/* Buttons - Pushed to bottom */}
+                      <div className="flex gap-2 mt-auto">
                         <Button
                           variant="outline"
-                          className="flex-1 bg-transparent"
+                          className="flex-1 bg-transparent h-10"
                           onClick={() => router.push(`/catalog/${product.id}`)}
                         >
                           {t("catalog.moreDetails")}
                         </Button>
-                        <Button variant="secondary" className="flex-1" onClick={() => router.push(`/catalog/${product.id}`)}>
+                        <Button variant="secondary" className="flex-1 h-10" onClick={() => router.push(`/catalog/${product.id}`)}>
                           {t("products.addToCart")}
                         </Button>
                       </div>

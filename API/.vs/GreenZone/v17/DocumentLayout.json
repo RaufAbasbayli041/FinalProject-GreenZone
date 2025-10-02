@@ -104,7 +104,7 @@
               "RelativeDocumentMoniker": "GreenZone.Persistance\\Repository\\BasketRepository.cs",
               "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\BasketRepository.cs",
               "RelativeToolTip": "GreenZone.Persistance\\Repository\\BasketRepository.cs",
-              "ViewState": "AgIAAA4AAAAAAAAAAAAxwBoAAAAdAAAAAAAAAA==",
+              "ViewState": "AgIAAA8AAAAAAAAAAAAAACcAAAAYAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-09-30T19:07:07.025Z",
               "EditorCaption": ""
@@ -131,8 +131,7 @@
               "RelativeToolTip": "GreenZone.Contracts\\Dtos\\ProductDtos\\ProductReadDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T19:02:19.513Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-30T19:02:19.513Z"
             },
             {
               "$type": "Document",
@@ -144,8 +143,7 @@
               "RelativeToolTip": "GreenZone.Contracts\\Dtos\\BasketItemsDtos\\BasketItemsReadDto.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T19:01:51.839Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-30T19:01:51.839Z"
             },
             {
               "$type": "Document",
@@ -157,8 +155,7 @@
               "RelativeToolTip": "GreenZone.Persistance\\Repository\\BasketItemsRepository.cs",
               "ViewState": "AgIAAA4AAAAAAAAAAAAIwA4AAABKAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T18:23:32.913Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-30T18:23:32.913Z"
             },
             {
               "$type": "Document",
@@ -170,8 +167,7 @@
               "RelativeToolTip": "GreenZone.Application\\Service\\BasketService.cs",
               "ViewState": "AgIAACoAAAAAAAAAAAAwwEEAAAA0AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-09-30T13:21:36.302Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-09-30T13:21:36.302Z"
             },
             {
               "$type": "Document",

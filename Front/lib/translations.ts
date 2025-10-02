@@ -57,6 +57,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.call': 'Позвонить',
     'cta.calculate': 'Рассчитать стоимость',
 
+    // Contact Section
+    'contact.title': 'Контакты',
+    'contact.subtitle': 'Свяжитесь с нами любым удобным способом',
+    'contact.phone': 'Телефон',
+    'contact.address': 'Адрес',
+    'contact.addressValue': 'Москва, ул. Примерная, 123',
+    'contact.hours': 'Режим работы',
+    'contact.hoursValue': 'Пн-Пт: 9:00-18:00',
+
     // Footer
     'footer.description': 'Профессиональная установка и продажа искусственного газона',
     'footer.catalog': 'Каталог',
@@ -564,6 +573,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.call': 'Call',
     'cta.calculate': 'Calculate Cost',
 
+    // Contact Section
+    'contact.title': 'Contacts',
+    'contact.subtitle': 'Contact us in any convenient way',
+    'contact.phone': 'Phone',
+    'contact.address': 'Address',
+    'contact.addressValue': 'Moscow, Example St., 123',
+    'contact.hours': 'Working Hours',
+    'contact.hoursValue': 'Mon-Fri: 9:00-18:00',
+
     // Footer
     'footer.description': 'Professional installation and sale of artificial grass',
     'footer.catalog': 'Catalog',
@@ -1070,6 +1088,15 @@ export const translations: Record<Language, Record<string, string>> = {
     'cta.description': 'Pulsuz məsləhət üçün bizimlə əlaqə saxlayın',
     'cta.call': 'Zəng et',
     'cta.calculate': 'Qiymət hesabla',
+
+    // Əlaqə bölməsi
+    'contact.title': 'Əlaqə',
+    'contact.subtitle': 'Hər hansı rahat üsulla bizimlə əlaqə saxlayın',
+    'contact.phone': 'Telefon',
+    'contact.address': 'Ünvan',
+    'contact.addressValue': 'Moskva, Nümunə küçəsi, 123',
+    'contact.hours': 'İş saatları',
+    'contact.hoursValue': 'B.E: 9:00-18:00',
 
     // Footer
     'footer.description': 'Peşəkar süni çəmən quraşdırılması və satışı',

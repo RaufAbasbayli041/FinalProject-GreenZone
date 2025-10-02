@@ -19,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru">
+    <html lang="ru" suppressHydrationWarning={true}>
       <body suppressHydrationWarning={true}>
         <Providers>
           <div className="flex flex-col">

@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button'
 import { useAuth } from '@/contexts/auth-context'
 import { useCart } from '@/contexts/cart-context'
 import { useLanguage } from '@/contexts/language-context-new'
+import { LanguageSwitcher } from '@/components/language-switcher-new'
 import { 
   Menu, 
   X, 
@@ -56,30 +57,33 @@ export const Navbar: React.FC = () => {
               href="/" 
               className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
             >
-              Главная
+              {t('nav.home')}
             </Link>
             <Link 
               href="/catalog" 
               className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
             >
-              Каталог
+              {t('nav.catalog')}
             </Link>
             <Link 
               href="/about" 
               className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
             >
-              О нас
+              {t('nav.about')}
             </Link>
             <Link 
               href="/contact" 
               className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
             >
-              Контакты
+              {t('nav.contact')}
             </Link>
           </div>
 
           {/* Правые элементы */}
           <div className="flex items-center space-x-4">
+            {/* Переключатель языка */}
+            <LanguageSwitcher />
+            
             {/* Корзина */}
             <Link href="/cart" className="relative">
               <Button variant="ghost" size="sm" className="relative">
@@ -94,25 +98,27 @@ export const Navbar: React.FC = () => {
 
             {/* Пользователь */}
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center space-x-2">
+              <div className="hidden md:flex items-center space-x-3">
+                <span className="text-sm text-gray-700 font-medium">
+                  {user?.name || user?.firstName || 'Пользователь'}
+                </span>
                 <Link href="/profile">
-                  <Button variant="ghost" size="sm">
-                    <User className="h-4 w-4 mr-2" />
-                    {user?.firstName || 'Профиль'}
+                  <Button variant="ghost" size="sm" className="p-2">
+                    <User className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Button variant="ghost" size="sm" onClick={handleLogout}>
+                <Button variant="ghost" size="sm" onClick={handleLogout} className="p-2">
                   <LogOut className="h-4 w-4" />
                 </Button>
               </div>
             ) : (
               <div className="hidden md:flex items-center space-x-2">
                 <Link href="/login">
-                  <Button variant="ghost" size="sm">Войти</Button>
+                  <Button variant="ghost" size="sm">{t('nav.login')}</Button>
                 </Link>
                 <Link href="/register">
                   <Button size="sm" className="bg-[#10B981] hover:bg-[#059669] text-white">
-                    Регистрация
+                    {t('nav.register')}
                   </Button>
                 </Link>
               </div>
@@ -140,7 +146,7 @@ export const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Home className="h-4 w-4 mr-2" />
-                Главная
+                {t('nav.home')}
               </Link>
               <Link 
                 href="/catalog" 
@@ -148,30 +154,35 @@ export const Navbar: React.FC = () => {
                 onClick={() => setIsMenuOpen(false)}
               >
                 <Package className="h-4 w-4 mr-2" />
-                Каталог
+                {t('nav.catalog')}
               </Link>
               <Link 
                 href="/about" 
                 className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                О нас
+                {t('nav.about')}
               </Link>
               <Link 
                 href="/contact" 
                 className="text-[#6B7280] hover:text-[#1F2937] transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
-                Контакты
+                {t('nav.contact')}
               </Link>
               
               {/* Мобильная авторизация */}
               {isAuthenticated ? (
                 <div className="flex flex-col space-y-2 pt-4 border-t border-[#E5E7EB]">
+                  <div className="px-2 py-1">
+                    <span className="text-sm text-gray-700 font-medium">
+                      {user?.name || user?.firstName || 'Пользователь'}
+                    </span>
+                  </div>
                   <Link href="/profile" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="ghost" size="sm" className="w-full justify-start">
                       <User className="h-4 w-4 mr-2" />
-                      {user?.firstName || 'Профиль'}
+                      {t('nav.profile')}
                     </Button>
                   </Link>
                   <Button 
@@ -181,19 +192,19 @@ export const Navbar: React.FC = () => {
                     className="w-full justify-start"
                   >
                     <LogOut className="h-4 w-4 mr-2" />
-                    Выйти
+                    {t('nav.logout')}
                   </Button>
                 </div>
               ) : (
                 <div className="flex flex-col space-y-2 pt-4 border-t border-[#E5E7EB]">
                   <Link href="/login" onClick={() => setIsMenuOpen(false)}>
                     <Button variant="ghost" size="sm" className="w-full">
-                      Войти
+                      {t('nav.login')}
                     </Button>
                   </Link>
                   <Link href="/register" onClick={() => setIsMenuOpen(false)}>
                     <Button size="sm" className="w-full bg-[#10B981] hover:bg-[#059669] text-white">
-                      Регистрация
+                      {t('nav.register')}
                     </Button>
                   </Link>
                 </div>
