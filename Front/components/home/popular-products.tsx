@@ -4,7 +4,7 @@ import React, { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
-import { ShoppingCart, Star, Ruler, Layers, Loader2 } from 'lucide-react'
+import { ShoppingCart, Ruler, Layers, Loader2 } from 'lucide-react'
 import { fetchProducts } from '@/services/api'
 import { useCart } from '@/contexts/cart-context'
 import { useLanguage } from '@/contexts/language-context-new'
@@ -100,14 +100,14 @@ export const PopularProducts: React.FC = () => {
   }
 
   return (
-    <section className="py-20 bg-[#FAF8F5]">
-      <div className="container mx-auto px-8">
+    <section className="py-20 bg-[#FAF8F5] w-full overflow-hidden">
+      <div className="w-full px-4 sm:px-6 lg:px-8">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold text-[#1F2937] mb-4">
+          <h2 className="text-3xl sm:text-4xl font-bold text-[#1F2937] mb-4">
             {t('products.title')}
           </h2>
-          <p className="text-xl text-[#6B7280] max-w-2xl mx-auto leading-relaxed">
+          <p className="text-lg sm:text-xl text-[#6B7280] max-w-2xl mx-auto leading-relaxed">
             {t('catalog.selectPerfect')}
           </p>
         </div>
@@ -162,15 +162,6 @@ export const PopularProducts: React.FC = () => {
               
               {/* Content */}
               <div className="p-6 space-y-4">
-                {/* Rating - Static for now since API doesn't provide ratings */}
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-1">
-                    <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
-                    <span className="text-sm font-medium text-[#1F2937]">4.8</span>
-                  </div>
-                  <span className="text-sm text-[#6B7280]">(127 {t('product.reviews')})</span>
-                </div>
-                
                 {/* Title & Description */}
                 <div>
                   <h3 className="text-xl font-semibold text-[#1F2937] mb-2 group-hover:text-[#10B981] transition-colors duration-300">
@@ -197,15 +188,15 @@ export const PopularProducts: React.FC = () => {
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-[#6B7280]">
                     <div className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></div>
-                    <span>UV-стойкость</span>
+                    <span>{t('product.features.uvProtection')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-[#6B7280]">
                     <div className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></div>
-                    <span>Дренажная система</span>
+                    <span>{t('product.features.drainage')}</span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-[#6B7280]">
                     <div className="w-1.5 h-1.5 bg-[#10B981] rounded-full"></div>
-                    <span>Антибактериальное покрытие</span>
+                    <span>{t('product.features.antibacterial')}</span>
                   </div>
                 </div>
                 

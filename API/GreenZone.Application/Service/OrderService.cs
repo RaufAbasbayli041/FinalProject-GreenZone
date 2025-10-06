@@ -2,6 +2,7 @@
 using FluentValidation;
 using GreenZone.Application.Exceptions;
 using GreenZone.Contracts.Contracts;
+using GreenZone.Contracts.Dtos.DeliveryDtos;
 using GreenZone.Contracts.Dtos.OrderDtos;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
@@ -17,7 +18,7 @@ namespace GreenZone.Application.Service
         private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderStatusRepository _orderStatusRepository;
         private readonly ILogger<OrderService> _logger;
-
+        private readonly IDeliveryService _deliveryService;
         public OrderService(
             IOrderRepository orderRepository,
             IMapper mapper,
@@ -26,7 +27,8 @@ namespace GreenZone.Application.Service
             IUnitOfWork unitOfWork,
             IBasketRepository basketRepository,
             IOrderStatusRepository orderStatusRepository,
-            ILogger<OrderService> logger)
+            ILogger<OrderService> logger,
+            IDeliveryService deliveryService)
             : base(orderRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _orderRepository = orderRepository;
@@ -34,6 +36,7 @@ namespace GreenZone.Application.Service
             _unitOfWork = unitOfWork;
             _orderStatusRepository = orderStatusRepository;
             _logger = logger;
+            _deliveryService = deliveryService;
         }
 
         public async Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto)
@@ -81,7 +84,7 @@ namespace GreenZone.Application.Service
             await _orderRepository.AddAsync(order);
             await _unitOfWork.SaveChangesAsync();
 
-            excistingBasket.BasketItems.Clear();
+            excistingBasket.BasketItems.Clear(); 
             await _unitOfWork.SaveChangesAsync();
 
             _logger.LogInformation("Order {OrderId} created successfully from basket {BasketId}", order.Id, basketId);
@@ -149,6 +152,20 @@ namespace GreenZone.Application.Service
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Delivered);
             _logger.LogInformation("Order {OrderId} was delivered", orderId);
+
+            var createdStatus = await _deliveryService.GetStatusByTypeAsync(DeliveryStatusType.Created);
+            if (createdStatus == null)
+                throw new NotFoundException("Delivery status 'Created' not found in database.");
+
+            // 3️⃣ Создаём новую запись доставки
+            var delivery = new DeliveryCreateDto
+            {
+                OrderId = orderId,
+                DeliveryStatusId = createdStatus.Id,
+                DeliveredAt = null
+            };
+
+            await _deliveryService.AddAsync(delivery);
             return order;
         }
 

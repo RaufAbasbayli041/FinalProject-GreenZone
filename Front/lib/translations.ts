@@ -515,7 +515,29 @@ export const translations: Record<Language, Record<string, string>> = {
     'action.search': 'Поиск',
     'action.loading': 'Загрузка...',
     'action.success': 'Успешно',
-    'action.error': 'Ошибка'
+    'action.error': 'Ошибка',
+
+    // Additional missing keys
+    'nav.cart': 'Корзина',
+    'catalog.goToCatalog': 'Перейти в каталог',
+    'product.features.uvProtection': 'UV-защита',
+    'product.features.drainage': 'Дренажная система',
+    'product.features.antibacterial': 'Антибактериальное покрытие',
+
+    // Process section
+    'process.title': 'Как это работает?',
+    'process.subtitle': 'Простой процесс от выбора до установки — всего 4 шага к идеальному газону',
+    'process.step1.title': 'Выберите товар',
+    'process.step1.desc': 'Просмотрите наш каталог и найдите идеальный газон для вашего проекта',
+    'process.step2.title': 'Оформите заказ',
+    'process.step2.desc': 'Заполните простую форму заказа и выберите удобный способ оплаты',
+    'process.step3.title': 'Получите доставку',
+    'process.step3.desc': 'Доставим ваш заказ в удобное время по указанному адресу',
+    'process.step4.title': 'Наслаждайтесь результатом',
+    'process.step4.desc': 'Профессиональная укладка и красивый газон на долгие годы',
+    'process.deliveryTime': 'Среднее время доставки',
+    'process.qualityGuarantee': 'Гарантия качества',
+    'process.customerSupport': 'Поддержка клиентов'
   },
 
   [Language.EN]: {
@@ -1031,7 +1053,29 @@ export const translations: Record<Language, Record<string, string>> = {
     'action.search': 'Search',
     'action.loading': 'Loading...',
     'action.success': 'Success',
-    'action.error': 'Error'
+    'action.error': 'Error',
+
+    // Additional missing keys
+    'nav.cart': 'Cart',
+    'catalog.goToCatalog': 'Go to Catalog',
+    'product.features.uvProtection': 'UV Protection',
+    'product.features.drainage': 'Drainage System',
+    'product.features.antibacterial': 'Antibacterial Coating',
+
+    // Process section
+    'process.title': 'How it works?',
+    'process.subtitle': 'Simple process from selection to installation — just 4 steps to perfect lawn',
+    'process.step1.title': 'Choose product',
+    'process.step1.desc': 'Browse our catalog and find the perfect grass for your project',
+    'process.step2.title': 'Place order',
+    'process.step2.desc': 'Fill out a simple order form and choose convenient payment method',
+    'process.step3.title': 'Get delivery',
+    'process.step3.desc': 'We deliver your order at convenient time to specified address',
+    'process.step4.title': 'Enjoy result',
+    'process.step4.desc': 'Professional installation and beautiful lawn for years to come',
+    'process.deliveryTime': 'Average delivery time',
+    'process.qualityGuarantee': 'Quality guarantee',
+    'process.customerSupport': 'Customer support'
   },
 
   [Language.AZ]: {
@@ -1550,7 +1594,29 @@ export const translations: Record<Language, Record<string, string>> = {
     'action.search': 'Axtar',
     'action.loading': 'Yüklənir...',
     'action.success': 'Uğurlu',
-    'action.error': 'Xəta'
+    'action.error': 'Xəta',
+
+    // Additional missing keys
+    'nav.cart': 'Səbət',
+    'catalog.goToCatalog': 'Kataloqa keç',
+    'product.features.uvProtection': 'UV qorunması',
+    'product.features.drainage': 'Drenaj sistemi',
+    'product.features.antibacterial': 'Antibakterial örtük',
+
+    // Process section
+    'process.title': 'Necə işləyir?',
+    'process.subtitle': 'Seçimdən quraşdırmaya qədər sadə proses — mükəmməl çəmən üçün cəmi 4 addım',
+    'process.step1.title': 'Məhsul seçin',
+    'process.step1.desc': 'Kataloqumuzu nəzərdən keçirin və layihəniz üçün ideal çəməni tapın',
+    'process.step2.title': 'Sifariş verin',
+    'process.step2.desc': 'Sadə sifariş formasını doldurun və rahat ödəniş üsulunu seçin',
+    'process.step3.title': 'Çatdırılmanı alın',
+    'process.step3.desc': 'Sifarişinizi göstərilən ünvana rahat vaxtda çatdırırıq',
+    'process.step4.title': 'Nəticədən həzz alın',
+    'process.step4.desc': 'Peşəkar quraşdırma və illər boyu gözəl çəmən',
+    'process.deliveryTime': 'Orta çatdırılma vaxtı',
+    'process.qualityGuarantee': 'Keyfiyyət zəmanəti',
+    'process.customerSupport': 'Müştəri dəstəyi'
   }
 }
 

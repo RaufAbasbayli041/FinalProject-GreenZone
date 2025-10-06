@@ -11,8 +11,10 @@ import {
   Twitter,
   Clock
 } from 'lucide-react'
+import { useLanguage } from '@/contexts/language-context-new'
 
 export const Footer: React.FC = () => {
+  const { t } = useLanguage()
   return (
     <footer className="bg-[#1F2937] text-white">
       <div className="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
@@ -26,8 +28,7 @@ export const Footer: React.FC = () => {
               <span className="text-xl font-bold">GreenZone</span>
             </div>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Профессиональная продажа и установка искусственного газона для дома, 
-              стадионов и коммерческих объектов. Качественные материалы и быстрая доставка.
+              {t('footer.description')}
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-400 hover:text-[#10B981] transition-colors">
@@ -44,31 +45,31 @@ export const Footer: React.FC = () => {
 
           {/* Навигация */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Навигация</h3>
+            <h3 className="text-lg font-semibold">{t('nav.home')}</h3>
             <ul className="space-y-2">
               <li>
                 <Link href="/" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Главная
+                  {t('nav.home')}
                 </Link>
               </li>
               <li>
                 <Link href="/catalog" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Каталог
+                  {t('nav.catalog')}
                 </Link>
               </li>
               <li>
                 <Link href="/about" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  О нас
+                  {t('nav.about')}
                 </Link>
               </li>
               <li>
                 <Link href="/contact" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Контакты
+                  {t('nav.contact')}
                 </Link>
               </li>
               <li>
                 <Link href="/cart" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Корзина
+                  {t('nav.cart')}
                 </Link>
               </li>
             </ul>
@@ -76,31 +77,26 @@ export const Footer: React.FC = () => {
 
           {/* Категории */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Категории</h3>
+            <h3 className="text-lg font-semibold">{t('footer.catalog')}</h3>
             <ul className="space-y-2">
               <li>
-                <Link href="/catalog?category=home" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Для дома
+                <Link href="/catalog?category=landscape" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  {t('footer.catalog.landscape')}
                 </Link>
               </li>
               <li>
                 <Link href="/catalog?category=sports" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Спортивные площадки
-                </Link>
-              </li>
-              <li>
-                <Link href="/catalog?category=commercial" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Коммерческие объекты
-                </Link>
-              </li>
-              <li>
-                <Link href="/catalog?category=stadium" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Стадионы
+                  {t('footer.catalog.sports')}
                 </Link>
               </li>
               <li>
                 <Link href="/catalog?category=decorative" className="text-gray-400 hover:text-white transition-colors text-sm">
-                  Декоративные
+                  {t('footer.catalog.decorative')}
+                </Link>
+              </li>
+              <li>
+                <Link href="/catalog?category=accessories" className="text-gray-400 hover:text-white transition-colors text-sm">
+                  {t('footer.catalog.accessories')}
                 </Link>
               </li>
             </ul>
@@ -108,34 +104,34 @@ export const Footer: React.FC = () => {
 
           {/* Контакты */}
           <div className="space-y-4">
-            <h3 className="text-lg font-semibold">Контакты</h3>
+            <h3 className="text-lg font-semibold">{t('footer.contact')}</h3>
             <div className="space-y-3">
               <div className="flex items-center space-x-3">
                 <Phone className="h-4 w-4 text-[#10B981]" />
                 <div>
-                  <p className="text-sm text-gray-400">Телефон</p>
-                  <p className="text-sm">+7 (999) 123-45-67</p>
+                  <p className="text-sm text-gray-400">{t('contact.phone')}</p>
+                  <p className="text-sm">{t('footer.contact.phone')}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Mail className="h-4 w-4 text-[#10B981]" />
                 <div>
                   <p className="text-sm text-gray-400">Email</p>
-                  <p className="text-sm">info@greenzone.ru</p>
+                  <p className="text-sm">{t('footer.contact.email')}</p>
                 </div>
               </div>
               <div className="flex items-start space-x-3">
                 <MapPin className="h-4 w-4 text-[#10B981] mt-1" />
                 <div>
-                  <p className="text-sm text-gray-400">Адрес</p>
-                  <p className="text-sm">г. Москва, ул. Примерная, д. 123</p>
+                  <p className="text-sm text-gray-400">{t('contact.address')}</p>
+                  <p className="text-sm">{t('footer.contact.address')}</p>
                 </div>
               </div>
               <div className="flex items-center space-x-3">
                 <Clock className="h-4 w-4 text-[#10B981]" />
                 <div>
-                  <p className="text-sm text-gray-400">Время работы</p>
-                  <p className="text-sm">Пн-Пт: 9:00-18:00</p>
+                  <p className="text-sm text-gray-400">{t('contact.hours')}</p>
+                  <p className="text-sm">{t('footer.contact.hours')}</p>
                 </div>
               </div>
             </div>
@@ -146,17 +142,17 @@ export const Footer: React.FC = () => {
         <div className="border-t border-gray-700 mt-8 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
             <p className="text-gray-400 text-sm">
-              © 2024 GreenZone. Все права защищены.
+              © 2024 GreenZone. {t('common.brandName')}.
             </p>
             <div className="flex space-x-6">
               <Link href="/privacy" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Политика конфиденциальности
+                Privacy Policy
               </Link>
               <Link href="/terms" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Условия использования
+                Terms of Service
               </Link>
               <Link href="/delivery" className="text-gray-400 hover:text-white transition-colors text-sm">
-                Доставка и оплата
+                Delivery & Payment
               </Link>
             </div>
           </div>
@@ -165,6 +161,9 @@ export const Footer: React.FC = () => {
     </footer>
   )
 }
+
+
+
 
 
 

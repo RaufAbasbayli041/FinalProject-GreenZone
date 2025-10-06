@@ -38,12 +38,21 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     comment: ''
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+  const [inputValues, setInputValues] = useState<Record<string, string>>({})
+  const [inputTimers, setInputTimers] = useState<Record<string, NodeJS.Timeout>>({})
   
   const { addNotification } = useNotification()
   const { loadBasketFromAPI } = useCart()
 
   useEffect(() => {
     loadBasket()
+    
+    // Очистка таймеров при размонтировании компонента
+    return () => {
+      Object.values(inputTimers).forEach(timer => {
+        if (timer) clearTimeout(timer)
+      })
+    }
   }, [customerId])
 
   const loadBasket = async () => {
@@ -216,6 +225,70 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       })
     } finally {
       setUpdating(null)
+    }
+  }
+
+  const handleInputChange = (productId: string, value: string) => {
+    setInputValues(prev => ({
+      ...prev,
+      [productId]: value
+    }))
+
+    // Очищаем предыдущий таймер для этого продукта
+    if (inputTimers[productId]) {
+      clearTimeout(inputTimers[productId])
+    }
+
+    // Устанавливаем новый таймер на 3 секунды
+    const timer = setTimeout(() => {
+      const numValue = parseFloat(value)
+      if (!isNaN(numValue) && numValue >= 0.1 && numValue <= 999) {
+        handleQuantityChange(productId, numValue)
+        console.log(`Автоматическое обновление количества для ${productId}: ${numValue}`)
+      } else {
+        // Если значение невалидно, возвращаем исходное значение
+        const item = basket?.basketItems?.find(i => i.productId === productId)
+        if (item) {
+          setInputValues(prev => ({
+            ...prev,
+            [productId]: item.quantity.toString()
+          }))
+        }
+      }
+    }, 3000)
+
+    setInputTimers(prev => ({
+      ...prev,
+      [productId]: timer
+    }))
+  }
+
+  const handleInputBlur = (productId: string) => {
+    // Очищаем таймер при потере фокуса
+    if (inputTimers[productId]) {
+      clearTimeout(inputTimers[productId])
+      setInputTimers(prev => {
+        const newTimers = { ...prev }
+        delete newTimers[productId]
+        return newTimers
+      })
+    }
+
+    const value = inputValues[productId]
+    if (value !== undefined) {
+      const numValue = parseFloat(value)
+      if (!isNaN(numValue) && numValue >= 0.1 && numValue <= 999) {
+        handleQuantityChange(productId, numValue)
+      } else {
+        // Если значение невалидно, возвращаем исходное значение
+        const item = basket?.basketItems?.find(i => i.productId === productId)
+        if (item) {
+          setInputValues(prev => ({
+            ...prev,
+            [productId]: item.quantity.toString()
+          }))
+        }
+      }
     }
   }
 
@@ -538,9 +611,10 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
                         
                         <Input
                           type="number"
-                          value={item.quantity}
-                          onChange={(e) => handleQuantityChange(item.productId, parseFloat(e.target.value) || 0.1)}
-                          className="w-20 text-center border-[#E5E7EB] focus:border-[#10B981]"
+                          value={inputValues[item.productId] !== undefined ? inputValues[item.productId] : item.quantity.toString()}
+                          onChange={(e) => handleInputChange(item.productId, e.target.value)}
+                          onBlur={() => handleInputBlur(item.productId)}
+                          className="w-24 text-center border-[#E5E7EB] focus:border-[#10B981]"
                           disabled={updating === item.productId}
                           min="0.1"
                           max="999"

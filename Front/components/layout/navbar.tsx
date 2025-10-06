@@ -100,7 +100,7 @@ export const Navbar: React.FC = () => {
             {isAuthenticated ? (
               <div className="hidden md:flex items-center space-x-3">
                 <span className="text-sm text-gray-700 font-medium">
-                  {user?.name || user?.firstName || 'Пользователь'}
+                  {user?.name || user?.firstName || t('profile.welcome')}
                 </span>
                 <Link href="/profile">
                   <Button variant="ghost" size="sm" className="p-2">
@@ -176,7 +176,7 @@ export const Navbar: React.FC = () => {
                 <div className="flex flex-col space-y-2 pt-4 border-t border-[#E5E7EB]">
                   <div className="px-2 py-1">
                     <span className="text-sm text-gray-700 font-medium">
-                      {user?.name || user?.firstName || 'Пользователь'}
+                      {user?.name || user?.firstName || t('profile.welcome')}
                     </span>
                   </div>
                   <Link href="/profile" onClick={() => setIsMenuOpen(false)}>

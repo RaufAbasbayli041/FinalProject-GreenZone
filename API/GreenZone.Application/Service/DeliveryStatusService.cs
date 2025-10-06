@@ -17,17 +17,19 @@ namespace GreenZone.Application.Service
     {
 
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IDeliveryStatusRepository _deliveryStatusRepository;
+
 
         public DeliveryStatusService(
             IGenericRepository<DeliveryStatus> repository,
             IMapper mapper,
             IValidator<DeliveryStatusCreateDto> createValidator,
             IValidator<DeliveryStatusUpdateDto> updateValidator,
-            IUnitOfWork unitOfWork
-        ) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
+            IUnitOfWork unitOfWork,
+            IDeliveryStatusRepository deliveryStatusRepository) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
         {
-
             _unitOfWork = unitOfWork;
+            _deliveryStatusRepository = deliveryStatusRepository;
         }
 
         public async Task<bool> DeleteStatusAsync(Guid id)
@@ -51,5 +53,12 @@ namespace GreenZone.Application.Service
 
             return await base.UpdateAsync(id, dto);
         }
+        public async Task<DeliveryStatusReadDto?> GetByTypeAsync(DeliveryStatusType type)
+        {
+            var entity = await _deliveryStatusRepository.GetByStatusTypeAsync(type);
+            if (entity == null) return null;
+            return _mapper.Map<DeliveryStatusReadDto>(entity);
+        }
+
     }
 }
