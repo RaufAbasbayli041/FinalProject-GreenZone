@@ -10,7 +10,7 @@ namespace GreenZone.Domain.Repository
 {
     public interface IDeliveryStatusRepository : IGenericRepository<DeliveryStatus>
     {
-        Task<DeliveryStatus?> GetByStatusTypeAsync(DeliveryStatusType statusType);
+        Task<DeliveryStatus?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType);
 
     }
 }

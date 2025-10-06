@@ -53,9 +53,9 @@ namespace GreenZone.Application.Service
 
             return await base.UpdateAsync(id, dto);
         }
-        public async Task<DeliveryStatusReadDto?> GetByTypeAsync(DeliveryStatusType type)
+        public async Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType type)
         {
-            var entity = await _deliveryStatusRepository.GetByStatusTypeAsync(type);
+            var entity = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(type);
             if (entity == null) return null;
             return _mapper.Map<DeliveryStatusReadDto>(entity);
         }

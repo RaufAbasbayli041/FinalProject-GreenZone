@@ -16,9 +16,10 @@ namespace GreenZone.Persistance.Repository
         public DeliveryStatusRepository(GreenZoneDBContext context) : base(context)
         {
         }
-        public async Task<DeliveryStatus?> GetByStatusTypeAsync(DeliveryStatusType statusType)
+        public async Task<DeliveryStatus?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType)
         {
             return await _context.DeliveryStatuses
+                .Include(ds => ds.Deliveries)
                 .FirstOrDefaultAsync(s => s.StatusType == statusType);
         }
     }

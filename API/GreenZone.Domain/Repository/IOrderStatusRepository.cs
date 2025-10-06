@@ -10,10 +10,8 @@ namespace GreenZone.Domain.Repository
 {
     public interface IOrderStatusRepository : IGenericRepository<OrderStatus>
     {
-        Task <OrderStatus> GetOrderStatusDetail (OrderStatus orderStatus);
-        Task <ICollection<OrderStatus>> GetAllOrderStatusDetails ();
+        Task<ICollection<OrderStatus>> GetAllOrderStatusesAsync();
+        Task<OrderStatus?> GetByNameAsync(OrderStatusName name);
 
-        Task<OrderStatus> GetByNameAsync(OrderStatusName name);
-
-	}
+    }
 }

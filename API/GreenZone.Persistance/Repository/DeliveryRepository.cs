@@ -15,9 +15,8 @@ namespace GreenZone.Persistance.Repository
     {
         public DeliveryRepository(GreenZoneDBContext context) : base(context)
         {
-        }
-
-        public async Task<Delivery?> GetWithStatusByIdAsync(Guid deliveryId)
+        } 
+        public async Task<Delivery?> GetDeliveryByStatusIdAsync(Guid deliveryId)
         {
             return await _context.Deliveries
                 .Include(d => d.DeliveryStatus)

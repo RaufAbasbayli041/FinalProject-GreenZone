@@ -6,7 +6,6 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { ShoppingCart } from 'lucide-react'
 import { useNotification } from '@/components/ui/notification-center'
-import { useCart } from '@/contexts/cart-context'
 import { 
   getMockBasket, 
   addMockItemToBasket, 
@@ -38,21 +37,11 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     comment: ''
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
-  const [inputValues, setInputValues] = useState<Record<string, string>>({})
-  const [inputTimers, setInputTimers] = useState<Record<string, NodeJS.Timeout>>({})
   
   const { addNotification } = useNotification()
-  const { loadBasketFromAPI } = useCart()
 
   useEffect(() => {
     loadBasket()
-    
-    // Очистка таймеров при размонтировании компонента
-    return () => {
-      Object.values(inputTimers).forEach(timer => {
-        if (timer) clearTimeout(timer)
-      })
-    }
   }, [customerId])
 
   const loadBasket = async () => {
@@ -97,24 +86,28 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
               let product = products.find(p => p.id === item.productId)
               console.log(`Поиск в products (${products.length} шт.):`, product ? 'найден' : 'не найден')
               
-              // Если товар не найден в общем списке, принудительно ищем в mock данных
+              // Если товар не найден в общем списке, пытаемся загрузить по ID
               if (!product) {
-                console.warn(`Товар с ID ${item.productId} не найден в списке продуктов. Принудительно ищем в mock данных...`)
-                product = mockProducts.find(p => p.id === item.productId)
-                if (product) {
-                  console.log(`Товар ${item.productId} найден в mock данных:`, product.title)
-                } else {
-                  console.warn(`Товар ${item.productId} не найден в mock данных`)
-                  console.log('Доступные mock продукты:', mockProducts.map(p => ({ id: p.id, title: p.title })))
-                  // Создаем fallback товар для отображения
-                  product = {
-                    id: item.productId,
-                    title: 'Товар недоступен',
-                    description: 'Товар больше не доступен',
-                    pricePerSquareMeter: 0,
-                    minThickness: 0,
-                    maxThickness: 0,
-                    categoryId: 'unknown'
+                console.warn(`Товар с ID ${item.productId} не найден в списке продуктов. Пытаемся загрузить по ID...`)
+                try {
+                  product = await getProductById(item.productId)
+                  console.log(`Товар ${item.productId} успешно загружен по ID:`, product)
+                } catch (error) {
+                  console.warn(`Не удалось загрузить товар ${item.productId} по ID:`, error)
+                  // Fallback: ищем в mock данных
+                  console.log(`Ищем в mock данных (${mockProducts.length} шт.):`)
+                  product = mockProducts.find(p => p.id === item.productId)
+                  if (product) {
+                    console.log(`Товар ${item.productId} найден в mock данных:`, product.title)
+                  } else {
+                    console.warn(`Товар ${item.productId} не найден ни в API, ни в mock данных`)
+                    console.log('Доступные mock продукты:', mockProducts.map(p => ({ id: p.id, title: p.title })))
+                    // Показываем уведомление пользователю о недоступном товаре
+                    addNotification({
+                      type: 'warning',
+                      title: 'Товар недоступен',
+                      message: `Товар с ID ${item.productId} больше не доступен и будет удален из корзины`
+                    })
                   }
                 }
               } else {
@@ -141,18 +134,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
           
           console.log('Корзина с загруженными товарами:', updatedBasket)
           setBasket(updatedBasket)
-          
-          // Синхронизируем с cart-context для обновления навбара
-          if (loadBasketFromAPI) {
-            loadBasketFromAPI(updatedBasket)
-          }
         } else {
           setBasket(basketData)
-          
-          // Синхронизируем с cart-context для обновления навбара
-          if (loadBasketFromAPI) {
-            loadBasketFromAPI(basketData)
-          }
         }
         return
       } catch (apiError) {
@@ -162,11 +145,6 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       // Fallback к mock данным
       const mockBasketData = getMockBasket(customerId)
       setBasket(mockBasketData)
-      
-      // Синхронизируем с cart-context для обновления навбара
-      if (loadBasketFromAPI) {
-        loadBasketFromAPI(mockBasketData)
-      }
     } catch (error) {
       console.error('Ошибка загрузки корзины:', error)
       addNotification({
@@ -195,7 +173,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         })
         
         // Получаем обновленную корзину
-        await loadBasket() // Перезагружаем корзину с обработкой продуктов
+        const updatedBasket = await getBasketByCustomerId(customerId)
+        setBasket(updatedBasket)
         
         addNotification({
           type: 'success',
@@ -228,70 +207,6 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     }
   }
 
-  const handleInputChange = (productId: string, value: string) => {
-    setInputValues(prev => ({
-      ...prev,
-      [productId]: value
-    }))
-
-    // Очищаем предыдущий таймер для этого продукта
-    if (inputTimers[productId]) {
-      clearTimeout(inputTimers[productId])
-    }
-
-    // Устанавливаем новый таймер на 3 секунды
-    const timer = setTimeout(() => {
-      const numValue = parseFloat(value)
-      if (!isNaN(numValue) && numValue >= 0.1 && numValue <= 999) {
-        handleQuantityChange(productId, numValue)
-        console.log(`Автоматическое обновление количества для ${productId}: ${numValue}`)
-      } else {
-        // Если значение невалидно, возвращаем исходное значение
-        const item = basket?.basketItems?.find(i => i.productId === productId)
-        if (item) {
-          setInputValues(prev => ({
-            ...prev,
-            [productId]: item.quantity.toString()
-          }))
-        }
-      }
-    }, 3000)
-
-    setInputTimers(prev => ({
-      ...prev,
-      [productId]: timer
-    }))
-  }
-
-  const handleInputBlur = (productId: string) => {
-    // Очищаем таймер при потере фокуса
-    if (inputTimers[productId]) {
-      clearTimeout(inputTimers[productId])
-      setInputTimers(prev => {
-        const newTimers = { ...prev }
-        delete newTimers[productId]
-        return newTimers
-      })
-    }
-
-    const value = inputValues[productId]
-    if (value !== undefined) {
-      const numValue = parseFloat(value)
-      if (!isNaN(numValue) && numValue >= 0.1 && numValue <= 999) {
-        handleQuantityChange(productId, numValue)
-      } else {
-        // Если значение невалидно, возвращаем исходное значение
-        const item = basket?.basketItems?.find(i => i.productId === productId)
-        if (item) {
-          setInputValues(prev => ({
-            ...prev,
-            [productId]: item.quantity.toString()
-          }))
-        }
-      }
-    }
-  }
-
   const handleRemoveItem = async (productId: string, productName: string) => {
     try {
       setUpdating(productId)
@@ -303,7 +218,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         await removeItemsFromBasket(customerId, productId, 999) // Большое число для полного удаления
         
         // Получаем обновленную корзину
-        await loadBasket() // Перезагружаем корзину с обработкой продуктов
+        const updatedBasket = await getBasketByCustomerId(customerId)
+        setBasket(updatedBasket)
         
         addNotification({
           type: 'success',
@@ -356,7 +272,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         await clearBasket(customerId)
         
         // Получаем обновленную корзину
-        await loadBasket() // Перезагружаем корзину с обработкой продуктов
+        const clearedBasket = await getBasketByCustomerId(customerId)
+        setBasket(clearedBasket)
         
         addNotification({
           type: 'success',
@@ -611,10 +528,9 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
                         
                         <Input
                           type="number"
-                          value={inputValues[item.productId] !== undefined ? inputValues[item.productId] : item.quantity.toString()}
-                          onChange={(e) => handleInputChange(item.productId, e.target.value)}
-                          onBlur={() => handleInputBlur(item.productId)}
-                          className="w-24 text-center border-[#E5E7EB] focus:border-[#10B981]"
+                          value={item.quantity}
+                          onChange={(e) => handleQuantityChange(item.productId, parseFloat(e.target.value) || 0.1)}
+                          className="w-20 text-center border-[#E5E7EB] focus:border-[#10B981]"
                           disabled={updating === item.productId}
                           min="0.1"
                           max="999"

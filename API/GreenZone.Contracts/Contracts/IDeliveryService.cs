@@ -12,6 +12,7 @@ namespace GreenZone.Contracts.Contracts
 {
     public interface IDeliveryService : IGenericService<Delivery, DeliveryCreateDto, DeliveryReadDto, DeliveryUpdateDto>
     {
-        Task<Delivery?> ChangeStatusAsync(Guid deliveryId, DeliveryStatusType newStatus);
+        Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus);
+       
     }
 }

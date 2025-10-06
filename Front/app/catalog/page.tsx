@@ -247,16 +247,16 @@ export default function CatalogPage() {
                           {t("catalog.from")} {product.pricePerSquareMeter}₽/м²
                         </span>
                         <Badge variant="secondary" className="text-xs">
-                          {product.category?.name || `${t('product.category')}: ${product.categoryId}`}
+                          {product.category?.name || `Категория: ${product.categoryId}`}
                         </Badge>
                       </div>
 
                       {/* Specifications - Fixed height */}
                       <div className="text-sm text-muted-foreground mb-6 h-20">
                         <div className="space-y-1">
-                          <div>• {t('product.thickness')}: {product.minThickness}-{product.maxThickness} мм</div>
-                          <div>• {t('product.pricePerSquareMeter')}: {product.pricePerSquareMeter}₽</div>
-                          <div>• {t('product.category')}: {product.category?.name || product.categoryId}</div>
+                          <div>• Толщина: {product.minThickness}-{product.maxThickness} мм</div>
+                          <div>• Цена за м²: {product.pricePerSquareMeter}₽</div>
+                          <div>• Категория: {product.category?.name || product.categoryId}</div>
                         </div>
                       </div>
 

@@ -58,7 +58,7 @@ namespace GreenZone.API.Controllers
         [HttpPatch("{id}/status")]
         public async Task<ActionResult> ChangeStatus(Guid id, [FromQuery] DeliveryStatusType status)
         {
-            var delivery = await _deliveryService.ChangeStatusAsync(id, status);
+            var delivery = await _deliveryService.ChangeDeliveryStatusAsync(id, status);
             if (delivery == null) return NotFound();
             return Ok(delivery);
         }

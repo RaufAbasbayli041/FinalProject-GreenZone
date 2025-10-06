@@ -55,7 +55,7 @@ namespace GreenZone.API.Controllers
             _logger.LogInformation(
                 "Order {OrderId} created for Customer {CustomerId} with ShippingAddress: {ShippingAddress} on {Date}",
                 createdOrder.Id,
-                createdOrder.CustomerId,
+                createdOrder.CustomerId ,
                 createdOrder.ShippingAddress,
                 createdOrder.OrderDate
             );

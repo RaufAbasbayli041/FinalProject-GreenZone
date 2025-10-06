@@ -11,33 +11,36 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreenZone.Persistance.Repository
 {
-	public class OrderStatusRepository : GenericRepository<OrderStatus>, IOrderStatusRepository
-	{
-		public OrderStatusRepository(GreenZoneDBContext context) : base(context)
-		{
-		}
-		public async Task<ICollection<OrderStatus>> GetAllOrderStatusDetails()
-		{
-			var datas = await _context.OrderStatuses
-				.Where(x => !x.IsDeleted)
-				.ToListAsync();
-			return datas;
-		}
+    public class OrderStatusRepository : GenericRepository<OrderStatus>, IOrderStatusRepository
+    {
+        public OrderStatusRepository(GreenZoneDBContext context) : base(context)
+        {
+        }
+        public async Task<ICollection<OrderStatus>> GetAllOrderStatusesAsync()
+        {
+            var datas = await _context.OrderStatuses
+                .Where(x => !x.IsDeleted)
+                .Include(x=>x.Orders)
+                .ToListAsync();
+            return datas;
+        }
 
-		public async Task<OrderStatus> GetByNameAsync(OrderStatusName name)
-		{
-			var data = await _context.OrderStatuses
-				.Where(x => !x.IsDeleted && x.Name == name)
-				.FirstOrDefaultAsync();
-			return data;
-		}
+        public async Task<OrderStatus?> GetByNameAsync(OrderStatusName name)
+        {
+            var data = await _context.OrderStatuses
+                .Where(x => !x.IsDeleted && x.StatusName == name)
+                .Include(x => x.Orders)
+                .FirstOrDefaultAsync();
+            return data;
+        }
+        public override Task<OrderStatus> GetByIdAsync(Guid id)
+        {
+            var data = _context.OrderStatuses
+                .Where(x => !x.IsDeleted && x.Id == id)
+                .Include(x => x.Orders)
+                .FirstOrDefaultAsync(); return data;
+        }
 
-		public async Task<OrderStatus> GetOrderStatusDetail(OrderStatus orderStatus)
-		{
-			var data = await _context.OrderStatuses
-				.Where(x => !x.IsDeleted && x.Id == orderStatus.Id)
-				.FirstOrDefaultAsync();
-			return data;
-		}
-	}
+       
+    }
 }

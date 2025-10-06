@@ -1,6 +1,7 @@
 ﻿using GreenZone.Contracts.Dtos.DeliveryStatusDtos;
 using GreenZone.Contracts.Service;
 using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,5 +14,7 @@ namespace GreenZone.Contracts.Contracts
     {
         Task<DeliveryStatusReadDto> UpdateStatusAsync(Guid id, DeliveryStatusUpdateDto dto);
         Task<bool> DeleteStatusAsync(Guid id);
+        Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType type);
+
     }
 }

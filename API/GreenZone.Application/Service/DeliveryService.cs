@@ -17,7 +17,7 @@ namespace GreenZone.Application.Service
     public class DeliveryService : GenericService<Delivery, DeliveryCreateDto, DeliveryReadDto, DeliveryUpdateDto>, IDeliveryService
     {
         private readonly IDeliveryRepository _deliveryRepository;
-        private readonly IDeliveryStatusRepository _statusRepository;
+        private readonly IDeliveryStatusService _deliveryStatusService;
         private readonly IUnitOfWork _unitOfWork;
 
         public DeliveryService(
@@ -27,24 +27,25 @@ namespace GreenZone.Application.Service
             IValidator<DeliveryUpdateDto> updateValidator,
             IUnitOfWork unitOfWork,
             IDeliveryRepository deliveryRepository,
-            IDeliveryStatusRepository statusRepository
+            IDeliveryStatusService deliveryStatusService
             ) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _deliveryRepository = deliveryRepository;
-            _statusRepository = statusRepository;
             _unitOfWork = unitOfWork;
+            _deliveryStatusService = deliveryStatusService;
         }
 
-        public async Task<Delivery?> ChangeStatusAsync(Guid deliveryId, DeliveryStatusType newStatus)
+        public async Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus)
         {
-            var delivery = await _deliveryRepository.GetWithStatusByIdAsync(deliveryId);
+            var delivery = await _deliveryRepository.GetDeliveryByStatusIdAsync(deliveryId);
             if (delivery == null) return null;
 
-            var statuses = await _statusRepository.GetAllAsync();
-            var newStatusEntity = statuses.FirstOrDefault(s => s.StatusType == newStatus);
-            if (newStatusEntity == null) throw new Exception("Invalid status");
+            var statusDto = await _deliveryStatusService.GetDeliveryStatusByTypeAsync(newStatus);
+            if (statusDto == null)
+                throw new InvalidOperationException("Invalid delivery status type.");
 
-            delivery.DeliveryStatusId = newStatusEntity.Id;
+
+            delivery.DeliveryStatusId = statusDto.Id;
 
             if (newStatus == DeliveryStatusType.Delivered)
                 delivery.DeliveredAt = DateTime.UtcNow;
@@ -52,6 +53,7 @@ namespace GreenZone.Application.Service
             await _unitOfWork.SaveChangesAsync();
             return delivery;
         }
+
     }
 
 

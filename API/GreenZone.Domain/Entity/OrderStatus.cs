@@ -9,8 +9,8 @@ namespace GreenZone.Domain.Entity
 {
     public class OrderStatus : BaseEntity
     {
-        public OrderStatusName Name { get; set; } // Name of the order status (e.g., "Pending", "Shipped", "Delivered")
-        public string Description { get; set; } // Description of the order status
+        public string Name { get; set; } = null!;  // Name of the order status
+        public OrderStatusName StatusName { get; set; } // Enum representing the status of the order
         public ICollection<Order> Orders { get; set; } = new List<Order>(); // Navigation property to related orders
     }
 }

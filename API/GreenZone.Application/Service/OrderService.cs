@@ -8,17 +8,19 @@ using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
 using GreenZone.Domain.Repository;
 using Microsoft.Extensions.Logging;
+using System.Xml.Linq;
 
 namespace GreenZone.Application.Service
 {
     public class OrderService : GenericService<Order, OrderCreateDto, OrderReadDto, OrderUpdateDto>, IOrderService
     {
         private readonly IOrderRepository _orderRepository;
+        private readonly IOrderItemsRepository _orderItemsRepository;
         private readonly IBasketRepository _basketRepository;
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IOrderStatusRepository _orderStatusRepository;
-        private readonly ILogger<OrderService> _logger;
         private readonly IDeliveryService _deliveryService;
+        private readonly IUnitOfWork _unitOfWork;
+        private readonly ILogger<OrderService> _logger;
         public OrderService(
             IOrderRepository orderRepository,
             IMapper mapper,
@@ -28,7 +30,8 @@ namespace GreenZone.Application.Service
             IBasketRepository basketRepository,
             IOrderStatusRepository orderStatusRepository,
             ILogger<OrderService> logger,
-            IDeliveryService deliveryService)
+            IDeliveryService deliveryService,
+            IOrderItemsRepository orderItemsRepository)
             : base(orderRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _orderRepository = orderRepository;
@@ -37,13 +40,12 @@ namespace GreenZone.Application.Service
             _orderStatusRepository = orderStatusRepository;
             _logger = logger;
             _deliveryService = deliveryService;
+            _orderItemsRepository = orderItemsRepository;
         }
 
         public async Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto)
         {
-            if (basketId == Guid.Empty)
-                throw new NotFoundException("Basket Id cannot be empty.");
-
+            // get excisting Basket
             var excistingBasket = await _basketRepository.GetByIdAsync(basketId);
 
             if (excistingBasket == null)
@@ -58,6 +60,7 @@ namespace GreenZone.Application.Service
                 throw new InvalidOperationException("Cannot create an order from an empty basket.");
             }
 
+            // create order with status Pending
             var pendingStatus = await _orderStatusRepository.GetByNameAsync(OrderStatusName.Pending);
             if (pendingStatus == null)
             {
@@ -71,21 +74,40 @@ namespace GreenZone.Application.Service
                 CustomerId = excistingBasket.CustomerId,
                 OrderDate = DateTime.UtcNow,
                 ShippingAddress = orderCreateDto.ShippingAddress,
-                TotalAmount = excistingBasket.TotalAmount,
-                OrderStatus = pendingStatus,
-                OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
-                {
-                    Id = Guid.NewGuid(),
-                    ProductId = bi.ProductId,
-                    Quantity = bi.Quantity,
-                }).ToList()
+                TotalAmount = excistingBasket.BasketItems.Sum(bi => bi.Quantity * bi.Product.PricePerSquareMeter),
+                OrderStatus = pendingStatus,                 
             };
 
             await _orderRepository.AddAsync(order);
             await _unitOfWork.SaveChangesAsync();
 
-            excistingBasket.BasketItems.Clear(); 
-            await _unitOfWork.SaveChangesAsync();
+            // map basket items to order items
+            order.OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
+            {
+                ProductId = bi.ProductId,
+                Quantity = bi.Quantity,
+                OrderId = order.Id,
+            }).ToList();
+
+            // save order items
+            foreach (var item in order.OrderItems)
+            {
+                await _orderItemsRepository.AddAsync(item);
+            }
+
+
+            // creare delivery for order
+            var deliveryCreateDto = new DeliveryCreateDto
+            {
+                OrderId = order.Id,
+                Address = orderCreateDto.ShippingAddress, 
+                  };
+
+
+            // clear basket
+            excistingBasket.BasketItems.Clear();
+            await _basketRepository.UpdateAsync(excistingBasket);
+            await _unitOfWork.SaveChangesAsync(); 
 
             _logger.LogInformation("Order {OrderId} created successfully from basket {BasketId}", order.Id, basketId);
 
@@ -153,26 +175,17 @@ namespace GreenZone.Application.Service
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Delivered);
             _logger.LogInformation("Order {OrderId} was delivered", orderId);
 
-            var createdStatus = await _deliveryService.GetStatusByTypeAsync(DeliveryStatusType.Created);
-            if (createdStatus == null)
-                throw new NotFoundException("Delivery status 'Created' not found in database.");
-
-            // 3️⃣ Создаём новую запись доставки
-            var delivery = new DeliveryCreateDto
-            {
-                OrderId = orderId,
-                DeliveryStatusId = createdStatus.Id,
-                DeliveredAt = null
-            };
-
-            await _deliveryService.AddAsync(delivery);
+            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Delivered);
             return order;
+
         }
 
         public async Task<OrderReadDto> MarkAsProcessingAsync(Guid orderId)
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Processing);
             _logger.LogInformation("Order {OrderId} is processing", orderId);
+
+            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.InTransit);
             return order;
         }
 
@@ -180,6 +193,7 @@ namespace GreenZone.Application.Service
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Returned);
             _logger.LogInformation("Order {OrderId} was returned", orderId);
+            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Cancelled);
             return order;
         }
 
@@ -187,6 +201,7 @@ namespace GreenZone.Application.Service
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Shipped);
             _logger.LogInformation("Order {OrderId} was shipped", orderId);
+            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Delivered);
             return order;
         }
 

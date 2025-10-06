@@ -9,7 +9,7 @@ namespace GreenZone.Domain.Enum
     public enum DeliveryStatusType
     {
         Created = 1,
-        InProgress = 2,
+        InTransit = 2,
         Delivered = 3,
         Cancelled = 4
     }
