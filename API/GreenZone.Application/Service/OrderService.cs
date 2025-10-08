@@ -19,6 +19,7 @@ namespace GreenZone.Application.Service
         private readonly IBasketRepository _basketRepository;
         private readonly IOrderStatusRepository _orderStatusRepository;
         private readonly IDeliveryService _deliveryService;
+
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<OrderService> _logger;
         public OrderService(
@@ -75,7 +76,7 @@ namespace GreenZone.Application.Service
                 OrderDate = DateTime.UtcNow,
                 ShippingAddress = orderCreateDto.ShippingAddress,
                 TotalAmount = excistingBasket.BasketItems.Sum(bi => bi.Quantity * bi.Product.PricePerSquareMeter),
-                OrderStatus = pendingStatus,                 
+                OrderStatus = pendingStatus,
             };
 
             await _orderRepository.AddAsync(order);
@@ -100,14 +101,18 @@ namespace GreenZone.Application.Service
             var deliveryCreateDto = new DeliveryCreateDto
             {
                 OrderId = order.Id,
-                Address = orderCreateDto.ShippingAddress, 
-                  };
+                Address = orderCreateDto.ShippingAddress,
+                DeliveryStatus = DeliveryStatusType.Created,
+                CreatedAt = DateTime.UtcNow,
+            };
 
+            await _deliveryService.AddAsync(deliveryCreateDto);
+            await _unitOfWork.SaveChangesAsync();
 
             // clear basket
             excistingBasket.BasketItems.Clear();
             await _basketRepository.UpdateAsync(excistingBasket);
-            await _unitOfWork.SaveChangesAsync(); 
+            await _unitOfWork.SaveChangesAsync();
 
             _logger.LogInformation("Order {OrderId} created successfully from basket {BasketId}", order.Id, basketId);
 
@@ -175,17 +180,17 @@ namespace GreenZone.Application.Service
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Delivered);
             _logger.LogInformation("Order {OrderId} was delivered", orderId);
 
-            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Delivered);
+            await _deliveryService.ChangeDeliveryStatusAsync(DeliveryStatusType.InTransit, DeliveryStatusType.Delivered);
             return order;
 
         }
-
+            
         public async Task<OrderReadDto> MarkAsProcessingAsync(Guid orderId)
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Processing);
             _logger.LogInformation("Order {OrderId} is processing", orderId);
 
-            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.InTransit);
+            await _deliveryService.ChangeDeliveryStatusAsync(DeliveryStatusType.Created, DeliveryStatusType.InTransit);
             return order;
         }
 
@@ -193,17 +198,11 @@ namespace GreenZone.Application.Service
         {
             var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Returned);
             _logger.LogInformation("Order {OrderId} was returned", orderId);
-            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Cancelled);
+            await _deliveryService.ChangeDeliveryStatusAsync(DeliveryStatusType.Created, DeliveryStatusType.Cancelled);
             return order;
         }
 
-        public async Task<OrderReadDto> MarkAsShippedAsync(Guid orderId)
-        {
-            var order = await ChangeOrderStatusAsync(orderId, OrderStatusName.Shipped);
-            _logger.LogInformation("Order {OrderId} was shipped", orderId);
-            await _deliveryService.ChangeDeliveryStatusAsync(orderId, DeliveryStatusType.Delivered);
-            return order;
-        }
+      
 
         public async Task<OrderReadDto> SetStatusAsync(Guid orderId, Guid orderStatusId)
         {

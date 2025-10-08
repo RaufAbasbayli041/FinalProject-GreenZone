@@ -15,7 +15,13 @@ namespace GreenZone.Application.Service
 {
     public class OrderStatusService : IOrderStatusService
     {
-        private readonly I
-       
+        private readonly IOrderStatusRepository _orderStatusRepository;
+
+        public OrderStatusService(IOrderStatusRepository orderStatusRepository)
+        {
+            _orderStatusRepository = orderStatusRepository;
+        }
+
+
     }
 }

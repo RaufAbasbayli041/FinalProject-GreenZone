@@ -13,52 +13,30 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Application.Service
 {
-    public class DeliveryStatusService : GenericService<DeliveryStatus, DeliveryStatusCreateDto, DeliveryStatusReadDto, DeliveryStatusUpdateDto>, IDeliveryStatusService
+    public class DeliveryStatusService : IDeliveryStatusService
     {
-
-        private readonly IUnitOfWork _unitOfWork;
         private readonly IDeliveryStatusRepository _deliveryStatusRepository;
+        private readonly IMapper _mapper;
 
-
-        public DeliveryStatusService(
-            IGenericRepository<DeliveryStatus> repository,
-            IMapper mapper,
-            IValidator<DeliveryStatusCreateDto> createValidator,
-            IValidator<DeliveryStatusUpdateDto> updateValidator,
-            IUnitOfWork unitOfWork,
-            IDeliveryStatusRepository deliveryStatusRepository) : base(repository, mapper, createValidator, updateValidator, unitOfWork)
+        public DeliveryStatusService(IDeliveryStatusRepository deliveryStatusRepository, IMapper mapper)
         {
-            _unitOfWork = unitOfWork;
+
             _deliveryStatusRepository = deliveryStatusRepository;
+            _mapper = mapper;
         }
-
-        public async Task<bool> DeleteStatusAsync(Guid id)
+                  
+        public async Task<IEnumerable<DeliveryStatusReadDto>?> GetAllAsync()
         {
-            var entity = await _repository.GetByIdAsync(id);
-            if (entity == null) return false;
-
-            if (entity.StatusType == DeliveryStatusType.Delivered)
-                throw new InvalidOperationException("Cannot delete status 'Delivered'");
-
-            return await base.DeleteAsync(id);
+            var deliveryStatuses = await _deliveryStatusRepository.GetAllAsync();
+            var dtos =  _mapper.Map<IEnumerable<DeliveryStatusReadDto>>(deliveryStatuses);
+            return dtos;
         }
 
-        public async Task<DeliveryStatusReadDto> UpdateStatusAsync(Guid id, DeliveryStatusUpdateDto dto)
+        public async Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType)
         {
-            var entity = await _repository.GetByIdAsync(id);
-            if (entity == null) return null;
-
-            if (entity.StatusType == DeliveryStatusType.Delivered)
-                throw new InvalidOperationException("Cannot update status 'Delivered'");
-
-            return await base.UpdateAsync(id, dto);
+            var deliveryStatus = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(statusType);
+            var dto =  _mapper.Map<DeliveryStatusReadDto>(deliveryStatus);
+            return dto; 
         }
-        public async Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType type)
-        {
-            var entity = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(type);
-            if (entity == null) return null;
-            return _mapper.Map<DeliveryStatusReadDto>(entity);
-        }
-
     }
 }

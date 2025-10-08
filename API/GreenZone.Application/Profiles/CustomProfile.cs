@@ -102,8 +102,7 @@ namespace GreenZone.Application.Profiles
 
             // DeliveryStatus
             CreateMap<DeliveryStatus, DeliveryStatusReadDto>();
-            CreateMap<DeliveryStatusCreateDto, DeliveryStatus>();
-            CreateMap<DeliveryStatusUpdateDto, DeliveryStatus>();
+         
 
         }
     }

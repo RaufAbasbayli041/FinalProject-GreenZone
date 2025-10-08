@@ -15,5 +15,6 @@ namespace GreenZone.Application.Service
     {
         Task<ICollection<OrderStatusReadDto>> GetAllOrderStatusesAsync();
         Task<OrderStatusReadDto?> GetByNameAsync(OrderStatusName name);
+        Task<OrderStatusReadDto?> ChangeOrderStatusAsync(Guid id);
     }
 }

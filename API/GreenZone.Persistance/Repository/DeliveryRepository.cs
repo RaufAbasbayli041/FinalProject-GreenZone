@@ -16,11 +16,14 @@ namespace GreenZone.Persistance.Repository
         public DeliveryRepository(GreenZoneDBContext context) : base(context)
         {
         } 
-        public async Task<Delivery?> GetDeliveryByStatusIdAsync(Guid deliveryId)
+       
+        public async Task<Delivery?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus)
         {
-            return await _context.Deliveries
+            var data = await _context.Deliveries
                 .Include(d => d.DeliveryStatus)
-                .FirstOrDefaultAsync(d => d.Id == deliveryId && !d.IsDeleted);
+                .FirstOrDefaultAsync(d => d.DeliveryStatus.StatusType == deliveryStatus);
+
+            return data;
         }
     }
 }

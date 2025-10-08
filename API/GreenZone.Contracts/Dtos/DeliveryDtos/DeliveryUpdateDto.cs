@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +10,6 @@ namespace GreenZone.Contracts.Dtos.DeliveryDtos
 {
     public class DeliveryUpdateDto
     {
-        public Guid DeliveryStatusId { get; set; }
+        public DeliveryStatusType DeliveryStatus { get; set; }
     }
 }

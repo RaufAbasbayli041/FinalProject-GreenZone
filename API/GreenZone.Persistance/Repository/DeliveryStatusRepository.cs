@@ -11,14 +11,29 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Persistance.Repository
 {
-    public class DeliveryStatusRepository : GenericRepository<DeliveryStatus>, IDeliveryStatusRepository
+    public class DeliveryStatusRepository : IDeliveryStatusRepository
     {
-        public DeliveryStatusRepository(GreenZoneDBContext context) : base(context)
+        private readonly GreenZoneDBContext _context;
+
+        public DeliveryStatusRepository(GreenZoneDBContext context)
         {
+            _context = context; 
         }
+
+        public async Task<IEnumerable<DeliveryStatus>?> GetAllAsync()
+        { 
+            var statuses = await _context.DeliveryStatuses
+                .AsNoTracking()                 
+                .Include(ds => ds.Deliveries)
+                .ToListAsync();
+
+            return statuses;
+        }
+
         public async Task<DeliveryStatus?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType)
         {
             return await _context.DeliveryStatuses
+                .AsNoTracking() 
                 .Include(ds => ds.Deliveries)
                 .FirstOrDefaultAsync(s => s.StatusType == statusType);
         }

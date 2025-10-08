@@ -16,8 +16,7 @@ namespace GreenZone.Contracts.Contracts
         Task<ICollection<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
         Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto);
         Task<OrderReadDto> SetStatusAsync(Guid orderId, Guid orderStatusId);
-		Task<OrderReadDto> MarkAsProcessingAsync(Guid orderId); 
-		Task<OrderReadDto> MarkAsShippedAsync(Guid orderId);
+		Task<OrderReadDto> MarkAsProcessingAsync(Guid orderId);  
 		Task<OrderReadDto> MarkAsDeliveredAsync(Guid orderId);
 		Task<OrderReadDto> CancelOrderAsync(Guid orderId);
 		Task<OrderReadDto> MarkAsReturnedAsync(Guid orderId);

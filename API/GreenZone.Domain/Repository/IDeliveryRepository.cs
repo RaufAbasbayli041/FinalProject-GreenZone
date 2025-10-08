@@ -10,7 +10,7 @@ namespace GreenZone.Domain.Repository
 {
     public interface IDeliveryRepository : IGenericRepository<Delivery>
     {
-        Task<Delivery?> GetDeliveryByStatusIdAsync(Guid deliveryId); 
+        Task<Delivery?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus); 
 
     }
 }

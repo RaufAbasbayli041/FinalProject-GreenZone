@@ -62,7 +62,7 @@ namespace GreenZone.Application.Service
             return readDto;
         }
 
-        public async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto dto)
+        public virtual async Task<TReadDto> UpdateAsync(Guid id, TUpdateDto dto)
         {
             var validationResult = await _updateValidator.ValidateAsync(dto);
             if (!validationResult.IsValid)
@@ -79,7 +79,7 @@ namespace GreenZone.Application.Service
             return readDto;
         }
 
-        public async Task<bool> DeleteAsync(Guid id)
+        public virtual async Task<bool> DeleteAsync(Guid id)
         {
             var result = await _repository.DeleteAsync(id);
             await _unitOfWork.SaveChangesAsync();

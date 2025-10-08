@@ -2,6 +2,7 @@
 using GreenZone.Contracts.Service;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
+using GreenZone.Domain.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,11 +11,11 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Contracts.Contracts
 {
-    public interface IDeliveryStatusService : IGenericService<DeliveryStatus, DeliveryStatusCreateDto, DeliveryStatusReadDto, DeliveryStatusUpdateDto>
-    {
-        Task<DeliveryStatusReadDto> UpdateStatusAsync(Guid id, DeliveryStatusUpdateDto dto);
-        Task<bool> DeleteStatusAsync(Guid id);
+    public interface IDeliveryStatusService
+    { 
         Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType type);
+        Task<IEnumerable<DeliveryStatusReadDto>?> GetAllAsync();
+
 
     }
 }

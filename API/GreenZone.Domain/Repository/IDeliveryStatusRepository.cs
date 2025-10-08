@@ -8,9 +8,10 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Domain.Repository
 {
-    public interface IDeliveryStatusRepository : IGenericRepository<DeliveryStatus>
+    public interface IDeliveryStatusRepository
     {
         Task<DeliveryStatus?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType);
+        Task<IEnumerable<DeliveryStatus>?> GetAllAsync();
 
     }
 }

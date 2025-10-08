@@ -3,28 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.application\\service\\orderstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\orderstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.contracts\\contracts\\iorderstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|solutionrelative:greenzone.contracts\\contracts\\iorderstatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{575B2131-0AD4-4AF4-8FFC-9987D0ABF83D}|GreenZone.Domain\\GreenZone.Domain.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.domain\\entity\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{575B2131-0AD4-4AF4-8FFC-9987D0ABF83D}|GreenZone.Domain\\GreenZone.Domain.csproj|solutionrelative:greenzone.domain\\entity\\orderstatus.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.application\\service\\deliverystatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\deliverystatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.application\\service\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\orderservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.contracts\\contracts\\ideliverystatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|solutionrelative:greenzone.contracts\\contracts\\ideliverystatusservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.application\\service\\deliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\deliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.contracts\\contracts\\ideliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{5C458B4F-80F9-448E-B474-743C86D752D2}|GreenZone.Contracts\\GreenZone.Contracts.csproj|solutionrelative:greenzone.contracts\\contracts\\ideliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -43,79 +35,53 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "OrderStatusService.cs",
-              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\OrderStatusService.cs",
-              "RelativeDocumentMoniker": "GreenZone.Application\\Service\\OrderStatusService.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\OrderStatusService.cs*",
-              "RelativeToolTip": "GreenZone.Application\\Service\\OrderStatusService.cs*",
-              "ViewState": "AgIAAAcAAAAAAAAAAAAAACEAAAAfAAAAAAAAAA==",
+              "Title": "DeliveryStatusService.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryStatusService.cs",
+              "RelativeDocumentMoniker": "GreenZone.Application\\Service\\DeliveryStatusService.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryStatusService.cs*",
+              "RelativeToolTip": "GreenZone.Application\\Service\\DeliveryStatusService.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAuwB0AAABRAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:52:08.583Z",
+              "WhenOpened": "2025-10-08T17:14:16.567Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 1,
-              "Title": "IOrderStatusService.cs",
-              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IOrderStatusService.cs",
-              "RelativeDocumentMoniker": "GreenZone.Contracts\\Contracts\\IOrderStatusService.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IOrderStatusService.cs*",
-              "RelativeToolTip": "GreenZone.Contracts\\Contracts\\IOrderStatusService.cs*",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAuwA8AAAAuAAAAAAAAAA==",
+              "Title": "IDeliveryStatusService.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IDeliveryStatusService.cs",
+              "RelativeDocumentMoniker": "GreenZone.Contracts\\Contracts\\IDeliveryStatusService.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IDeliveryStatusService.cs*",
+              "RelativeToolTip": "GreenZone.Contracts\\Contracts\\IDeliveryStatusService.cs*",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAuAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:46:41.556Z",
+              "WhenOpened": "2025-10-08T17:14:08.241Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "OrderStatus.cs",
-              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\Entity\\OrderStatus.cs",
-              "RelativeDocumentMoniker": "GreenZone.Domain\\Entity\\OrderStatus.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\Entity\\OrderStatus.cs",
-              "RelativeToolTip": "GreenZone.Domain\\Entity\\OrderStatus.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:44:51.537Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "OrderService.cs",
-              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\OrderService.cs",
-              "RelativeDocumentMoniker": "GreenZone.Application\\Service\\OrderService.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\OrderService.cs",
-              "RelativeToolTip": "GreenZone.Application\\Service\\OrderService.cs",
-              "ViewState": "AgIAAHQAAAAAAAAAAAA3wB0AAAAvAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:34:44.373Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
               "Title": "DeliveryService.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryService.cs",
               "RelativeDocumentMoniker": "GreenZone.Application\\Service\\DeliveryService.cs",
               "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryService.cs",
               "RelativeToolTip": "GreenZone.Application\\Service\\DeliveryService.cs",
-              "ViewState": "AgIAABQAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABEAAAAFAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:34:03.712Z",
+              "WhenOpened": "2025-10-08T17:14:15.903Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 3,
-              "Title": "DeliveryStatusService.cs",
-              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryStatusService.cs",
-              "RelativeDocumentMoniker": "GreenZone.Application\\Service\\DeliveryStatusService.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryStatusService.cs",
-              "RelativeToolTip": "GreenZone.Application\\Service\\DeliveryStatusService.cs",
-              "ViewState": "AgIAAAkAAAAAAAAAAAAAAA8AAAA3AAAAAAAAAA==",
+              "Title": "IDeliveryService.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IDeliveryService.cs",
+              "RelativeDocumentMoniker": "GreenZone.Contracts\\Contracts\\IDeliveryService.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Contracts\\Contracts\\IDeliveryService.cs",
+              "RelativeToolTip": "GreenZone.Contracts\\Contracts\\IDeliveryService.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-06T18:34:04.61Z",
+              "WhenOpened": "2025-10-08T17:14:07.376Z",
               "EditorCaption": ""
             }
           ]
