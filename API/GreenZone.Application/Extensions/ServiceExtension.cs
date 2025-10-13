@@ -21,6 +21,7 @@ namespace GreenZone.Application.Extensions
             services.AddScoped<ICustomerService, CustomerService>();
             services.AddScoped<IAuthService,AuthService>();
             services.AddScoped<IOrderService, OrderService>();
+            services.AddScoped<IOrderStatusService, OrderStatusService>(); 
             services.AddScoped<IEmailSenderOpt, EmailSenderOpt>();
 			services.AddScoped<IPaymentService, PaymentService>();
             services.AddScoped<IBasketService, BasketService>();

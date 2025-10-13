@@ -10,9 +10,10 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Contracts.Contracts
 {
-    public interface IDeliveryService 
-    {       
+    public interface IDeliveryService : IGenericService<Delivery, DeliveryCreateDto, DeliveryReadDto , DeliveryUpdateDto>
+    {
         Task<DeliveryReadDto?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus);
-        Task<Delivery?> ChangeDeliveryStatusAsync(DeliveryStatusType oldStatus, DeliveryStatusType newStatus);
+        Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus);
+        Task<IEnumerable<DeliveryReadDto>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus);
     }
 }

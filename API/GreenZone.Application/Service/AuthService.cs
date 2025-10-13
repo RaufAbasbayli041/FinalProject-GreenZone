@@ -30,9 +30,9 @@ namespace GreenZone.Application.Service
         private readonly ILogger<AuthService> _logger;
         private readonly IBasketRepository _basketRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IConfiguration _configuration;
 
-
-        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt, ILogger<AuthService> logger, IBasketRepository basketRepository, IUnitOfWork unitOfWork)
+        public AuthService(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, ICustomerRepository customerRepository, IEmailSenderOpt emailSenderOpt, ILogger<AuthService> logger, IBasketRepository basketRepository, IUnitOfWork unitOfWork, IConfiguration configuration)
         {
             _userManager = userManager;
             _signInManager = signInManager;
@@ -41,6 +41,7 @@ namespace GreenZone.Application.Service
             _logger = logger;
             _basketRepository = basketRepository;
             _unitOfWork = unitOfWork;
+            _configuration = configuration;
         }
 
         public async Task<AuthResultDto?> LogInAsync(LogInDto logInDto)
@@ -76,7 +77,7 @@ namespace GreenZone.Application.Service
             if (result.Succeeded)
             {
                 var roles = await _userManager.GetRolesAsync(user);
-                var token = GenerateJwtTokenAsync(user, roles);
+                var token = GenerateJwtToken(user, roles);
 
                 var customer = await _customerRepository.GetCustomerByUserIdAsync(user.Id);
                 if (customer == null)
@@ -86,10 +87,11 @@ namespace GreenZone.Application.Service
                 }
                 _logger.LogInformation("User {UserName} logged in successfully.", logInDto.UserName);
 
+                var expiresInMinutes = Convert.ToDouble(_configuration["Jwt:ExpiresInMinutes"]);
                 return new AuthResultDto
                 {
                     Token = token,
-                    Expiration = DateTime.UtcNow.AddMinutes(60),// Token expiration time
+                    Expiration = DateTime.UtcNow.AddMinutes(expiresInMinutes),// Token expiration time
                     CustomerId = customer.Id
 
                 };
@@ -163,12 +165,13 @@ namespace GreenZone.Application.Service
 
         }
 
-        private string GenerateJwtTokenAsync(ApplicationUser user, IList<string> roles)
+        private string GenerateJwtToken(ApplicationUser user, IList<string> roles)
         {
             var jwtSettings = new ConfigurationBuilder()
                 .AddJsonFile("appsettings.json")
-                .Build()
-                .GetSection("Jwt");
+                .Build();
+
+            var jwtSection = _configuration.GetSection("Jwt");
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
@@ -177,12 +180,14 @@ namespace GreenZone.Application.Service
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(ClaimTypes.Name, user.UserName)
+                new Claim(ClaimTypes.NameIdentifier, user.UserName)
+
                 };
 
             foreach (var role in roles)
             {
                 claims.Add(new Claim(ClaimTypes.Role, role));
+
             }
 
             var token = new JwtSecurityToken(

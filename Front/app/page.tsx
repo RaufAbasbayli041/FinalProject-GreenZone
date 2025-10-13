@@ -18,8 +18,26 @@ import { useCart } from "@/contexts/cart-context"
 import { useLanguage } from "@/contexts/language-context-new"
 import { CartIcon } from "@/components/cart/cart-icon"
 import { LanguageSwitcher } from "@/components/language-switcher-new"
-import { NotificationCenter } from "@/components/notifications/notification-center"
 import { EmailService } from "@/lib/email-service"
+import { 
+  ArrowRight, 
+  Phone, 
+  Star, 
+  CheckCircle, 
+  Clock, 
+  Leaf, 
+  Shield, 
+  Truck, 
+  Users, 
+  Quote,
+  MapPin,
+  Mail,
+  Calendar,
+  Menu,
+  X,
+  ChevronDown,
+  Bell
+} from "lucide-react"
 
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([])
@@ -35,6 +53,8 @@ export default function Home() {
     address: "",
     notes: "",
   })
+  const [consultationPhone, setConsultationPhone] = useState("")
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
   const { user, isAuthenticated } = useAuth()
   const { addToCart } = useCart()
@@ -50,7 +70,7 @@ export default function Home() {
         const data = await fetchProducts()
         setProducts(data)
       } catch (error: any) {
-        console.error('Ошибка загрузки продуктов:', error)
+        console.error(t('error.loading'), error)
         
         // Более детальная обработка ошибок
         if (error.message.includes('401')) {
@@ -58,6 +78,8 @@ export default function Home() {
         } else if (error.message.includes('404')) {
           setError(t('error.apiNotFound'))
         } else if (error.message.includes('500')) {
+          setError(t('error.serverError'))
+        } else if (error.message.includes('fetch') || error.message.includes('network')) {
           setError(t('error.serverError'))
         } else {
           setError(`${t('error.loadingError')}: ${error.message}`)
@@ -70,38 +92,18 @@ export default function Home() {
     }
     
     loadProducts()
-  }, [])
+  }, [t])
 
   const handleOrderSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!selectedProduct) return
-
-    const area = Number.parseFloat(orderForm.area)
-    if (area <= 0) {
-      alert(t('order.areaError'))
-      return
-    }
-
-    const turfPrice = selectedProduct.pricePerSquareMeter * area
-    const installationPrice = orderForm.installation ? 500 * area : 0
-    const totalPrice = turfPrice + installationPrice
-
-    const orderData = {
-      product: selectedProduct.title,
-      area: area,
-      turfPrice: turfPrice,
-      installationPrice: installationPrice,
-      totalPrice: totalPrice,
-      customer: {
-        name: orderForm.name,
-        email: orderForm.email,
-        phone: orderForm.phone,
-        address: orderForm.address,
-      },
-      notes: orderForm.notes,
-    }
-
-    EmailService.sendOrderEmail(orderData)
+    
+    EmailService.sendOrderEmail({
+      ...orderForm,
+      product: selectedProduct?.title || 'Не указан',
+      total: selectedProduct ? 
+        (parseFloat(orderForm.area) * selectedProduct.pricePerSquareMeter + 
+         (orderForm.installation ? parseFloat(orderForm.area) * 500 : 0)) : 0
+    })
       .then(() => {
         alert(t('order.success'))
         setOrderForm({
@@ -116,359 +118,362 @@ export default function Home() {
         setSelectedProduct(null)
       })
       .catch((error) => {
-        console.error("Ошибка отправки заказа:", error)
+      console.error(t('error.orderFailed'), error)
         alert(t('order.error'))
       })
   }
 
   const handleAddToCart = (product: Product) => {
-    addToCart(product, 1, false)
-    alert(`${product.title} ${t("products.addToCart")}!`)
+    if (!isAuthenticated) {
+      router.push('/login')
+      return
+    }
+    
+    addToCart(product, 1)
+  }
+
+  const handleConsultationSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (!consultationPhone.trim()) {
+      alert(t('form.required'))
+      return
+    }
+    
+    // Здесь можно добавить логику отправки заявки на консультацию
+    alert(t('order.success'))
+    setConsultationPhone("")
+  }
+
+  const scrollToSection = (sectionId: string) => {
+    const element = document.getElementById(sectionId)
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' })
+    }
+    setIsMobileMenuOpen(false)
   }
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center">
-              <Button 
-                variant="ghost" 
-                className="text-2xl font-black text-primary"
-                onClick={() => router.push("/")}
-              >
-                {t("common.brandName")}
-              </Button>
-            </div>
-            <nav className="hidden md:flex space-x-8">
-              <Button variant="ghost" onClick={() => router.push("/")}>{t("nav.home")}</Button>
-              <Button variant="ghost" onClick={() => router.push("/catalog")}>
-                {t("nav.catalog")}
-              </Button>
-            </nav>
-            <div className="flex items-center gap-2">
-              <LanguageSwitcher />
-              <CartIcon />
-              {isAuthenticated && user ? (
-                <Button variant="outline" onClick={() => router.push("/profile")}>
-                  {user.name}
-                </Button>
-              ) : (
-                <>
-                  <Button variant="outline" onClick={() => router.push("/login")}>
-                    {t("nav.login")}
-                  </Button>
-                  <Button className="bg-primary hover:bg-primary/90" onClick={() => router.push("/register")}>
-                    {t("nav.register")}
-                  </Button>
-                </>
-              )}
-            </div>
-          </div>
-        </div>
-      </header>
-
+    <div className="min-h-screen bg-[#FAF8F5]">
       {/* Hero Section */}
-      <section className="hero-section py-20">
+      <section className="py-24 lg:py-32 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center animate-fade-in">
-            <h1 className="text-4xl lg:text-6xl font-black text-foreground mb-6 animate-slide-up">
-              {t("home.title")}
-            </h1>
-            <p className="text-xl lg:text-2xl text-muted-foreground mb-8 max-w-3xl mx-auto animate-slide-up">
-              {t("home.subtitle")}
-            </p>
-            <div className="flex gap-4 justify-center animate-bounce-in">
-              <Button size="lg" className="btn-primary" onClick={() => router.push("/catalog")}>
-                {t("products.viewAll")}
-              </Button>
-              <Button size="lg" variant="outline" className="btn-secondary" onClick={() => router.push("/catalog")}>
-                {t("products.order")}
-              </Button>
+          <div className="grid lg:grid-cols-2 gap-16 items-center">
+            <div className="animate-fade-in-up">
+              <span className="inline-flex items-center justify-center rounded-md border px-2 py-0.5 w-fit whitespace-nowrap shrink-0 gap-1 border-transparent bg-secondary text-secondary-foreground mb-6 text-sm font-medium">
+                {t('home.freeDelivery')}
+              </span>
+              <h1 className="text-5xl lg:text-7xl font-serif font-medium text-[#1F2937] mb-8 leading-tight text-balance">
+                {t('home.premiumTitle')}<br/>
+                <span className="text-[#10B981]">{t('home.artificialGrass')}</span><br/>
+                {t('home.grass')}
+              </h1>
+              <p className="text-xl text-[#6B7280] mb-10 leading-relaxed max-w-lg text-pretty">
+                {t('home.qualityDescription')}
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Button 
+                  className="bg-[#10B981] text-white hover:bg-[#059669] h-12 rounded-md px-8 py-6 text-base"
+                  onClick={() => scrollToSection('products')}
+                >
+                  {t('home.viewCatalog')}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Button>
+                <Button 
+                  variant="outline"
+                  className="border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white h-12 rounded-md px-8 py-6 text-base bg-transparent"
+                  onClick={() => scrollToSection('contact')}
+                >
+                  {t('home.freeConsultation')}
+                </Button>
+              </div>
+            </div>
+            <div className="relative">
+              <div className="aspect-square rounded-2xl overflow-hidden bg-muted">
+                <img 
+                  alt="Красивый искусственный газон в современном дворе" 
+                  className="w-full h-full object-cover" 
+                  src="https://hebbkx1anhila5yf.public.blob.vercel-storage.com/attachments/gen-images/public/beautiful-artificial-grass-lawn-in-modern-backyard-jaBUqxXuItZNcFWabr7ueN0Ycool9S.jpg"
+                />
+              </div>
             </div>
           </div>
         </div>
       </section>
 
       {/* Benefits Section */}
-      <section className="py-16 bg-muted/30">
+      <section id="benefits" className="pt-0 pb-24 bg-[#F3F4F6]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-4">
-              {t("benefits.title")}
+            <h2 className="text-4xl lg:text-5xl font-serif font-medium text-[#1F2937] mb-4">
+              {t('home.whyChooseUs')}
             </h2>
-            <p className="text-xl text-muted-foreground">{t("benefits.subtitle")}</p>
+            <p className="text-xl text-[#6B7280] max-w-3xl mx-auto">
+              {t('home.benefitsSubtitle')}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl">🏆</span>
+                <div className="w-16 h-16 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Shield className="h-8 w-8 text-[#10B981]" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.warranty")}</h3>
-                <p className="text-muted-foreground">{t("benefits.warranty.desc")}</p>
+                <h3 className="text-xl font-semibold mb-4 text-[#1F2937]">{t('home.durability')}</h3>
+                <p className="text-[#6B7280] leading-relaxed">{t('home.durabilityDesc')}</p>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl">🔧</span>
+                <div className="w-16 h-16 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <CheckCircle className="h-8 w-8 text-[#10B981]" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.installation")}</h3>
-                <p className="text-muted-foreground">{t("benefits.installation.desc")}</p>
+                <h3 className="text-xl font-semibold mb-4 text-[#1F2937]">{t('home.installation')}</h3>
+                <p className="text-[#6B7280] leading-relaxed">{t('home.installationDesc')}</p>
               </CardContent>
             </Card>
 
-            <Card className="text-center p-8 hover:shadow-lg transition-shadow">
+            <Card className="text-center p-8 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
               <CardContent className="pt-6">
-                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
-                  <span className="text-2xl">🚚</span>
+                <div className="w-16 h-16 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                  <Truck className="h-8 w-8 text-[#10B981]" />
                 </div>
-                <h3 className="text-xl font-bold mb-4">{t("benefits.delivery")}</h3>
-                <p className="text-muted-foreground">{t("benefits.delivery.desc")}</p>
+                <h3 className="text-xl font-semibold mb-4 text-[#1F2937]">{t('home.delivery')}</h3>
+                <p className="text-[#6B7280] leading-relaxed">{t('home.deliveryDesc')}</p>
               </CardContent>
             </Card>
           </div>
         </div>
       </section>
 
-      {/* Catalog Section */}
-      <section className="py-16">
+      {/* Popular Products Section */}
+      <section id="products" className="pt-0 pb-24">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-16">
-            <h2 className="text-3xl lg:text-4xl font-black text-foreground mb-4">{t("products.title")}</h2>
-            <p className="text-xl text-muted-foreground">{t('catalog.selectPerfect')}</p>
+            <h2 className="text-4xl lg:text-5xl font-serif font-medium text-[#1F2937] mb-4">
+              {t('home.popularProducts')}
+            </h2>
+            <p className="text-xl text-[#6B7280] max-w-3xl mx-auto">
+              {t('home.popularProductsSubtitle')}
+            </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {loading ? (
               <div className="col-span-full text-center py-12">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-                <p className="text-xl text-muted-foreground">{t('catalog.loading')}</p>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-[#10B981] mx-auto mb-4"></div>
+                <p className="text-xl text-[#6B7280]">{t('home.loadingProducts')}</p>
               </div>
             ) : error ? (
               <div className="col-span-full text-center py-12">
                 <div className="text-6xl mb-4">⚠️</div>
-                <h3 className="text-2xl font-bold mb-4">{t('error.loading')}</h3>
-                <p className="text-muted-foreground mb-4">{error}</p>
+                <h3 className="text-2xl font-bold mb-4 text-[#1F2937]">{t('home.loadingError')}</h3>
+                <p className="text-[#6B7280] mb-4">{error}</p>
                 <div className="flex gap-2 justify-center">
-                  <Button onClick={() => window.location.reload()} className="btn-primary">
-                    {t('error.tryAgain')}
+                  <Button onClick={() => window.location.reload()} className="bg-[#10B981] hover:bg-[#059669] text-white">
+                    {t('home.tryAgain')}
                   </Button>
                   {error.includes('авторизация') && (
-                    <Button variant="outline" onClick={() => router.push("/login")} className="btn-secondary">
-                      {t('error.loginToSystem')}
+                    <Button variant="outline" onClick={() => router.push("/login")} className="border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white">
+                      {t('home.loginToSystem')}
                     </Button>
                   )}
                 </div>
               </div>
             ) : products && products.length > 0 ? (
-              products.map((product) => (
-                <Card key={product.id} className="product-card card-hover animate-fade-in">
-                  <img
-                    src={product.imageUrl || "/placeholder.svg"}
-                    alt={product.title || 'Product'}
-                    className="w-full h-48 object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
-                    onClick={() => router.push(`/catalog/${product.id}`)}
-                  />
-                  <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-2">{product.title || 'Unnamed Product'}</h3>
-                    <p className="text-muted-foreground mb-4">{product.description || 'No description available'}</p>
+              products.slice(0, 6).map((product) => (
+                <Card key={product.id} className="group overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+                  <div className="relative">
+                    <img 
+                      src={product.imageUrl || '/placeholder.jpg'} 
+                      alt={product.title || 'Product'}
+                      className="w-full h-64 object-cover transition-transform duration-500 group-hover:scale-105 cursor-pointer"
+                      onClick={() => router.push(`/catalog/${product.id}`)}
+                    />
+                    <Badge className="absolute top-4 left-4 bg-[#10B981] text-white">
+                      {t('home.hitSales')}
+                    </Badge>
+                  </div>
+                  <CardContent className="p-8">
                     <div className="flex justify-between items-center mb-4">
-                      <span className="text-2xl font-bold text-primary">от {product.pricePerSquareMeter || 0}₽/м²</span>
-                      <Badge variant="secondary" className="animate-bounce-in">
-                        {product.category?.name || `Категория: ${product.categoryId}`}
-                      </Badge>
+                      <h3 className="text-xl font-semibold text-[#1F2937]">{product.title || 'Unnamed Product'}</h3>
                     </div>
-                    <ul className="text-sm text-muted-foreground mb-6 space-y-1">
-                      <li>• Толщина: {product.minThickness || 30}-{product.maxThickness || 40} мм</li>
-                      <li>• Цена за м²: {product.pricePerSquareMeter || 0}₽</li>
-                      <li>• Категория: {product.category?.name || product.categoryId || 'Не указана'}</li>
-                    </ul>
+                    <p className="text-[#6B7280] mb-6 line-clamp-2">{product.description || 'No description available'}</p>
+                    
+                    <div className="space-y-2 mb-6">
+                      <div className="flex items-center gap-2 text-sm text-[#6B7280]">
+                        <div className="w-2 h-2 bg-[#10B981] rounded-full"></div>
+                        <span>{t('home.thickness')}: {product.minThickness || 30}-{product.maxThickness || 40} мм</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-[#6B7280]">
+                        <div className="w-2 h-2 bg-[#10B981] rounded-full"></div>
+                        <span>{t('home.category')}: {product.category?.name || t('home.notSpecified')}</span>
+                      </div>
+                      <div className="flex items-center gap-2 text-sm text-[#6B7280]">
+                        <div className="w-2 h-2 bg-[#10B981] rounded-full"></div>
+                        <span>{t('home.warranty')}: 15 {t('home.years')}</span>
+                      </div>
+                    </div>
 
-                    <div className="flex gap-2 mb-4">
+                    <div className="flex justify-between items-center mb-6">
+                      <span className="text-2xl font-bold text-[#10B981]">{t('home.fromPrice')} {product.pricePerSquareMeter || 0}{t('home.perSquareMeter')}</span>
+                    </div>
+
+                    <div className="flex gap-3">
                       <Button
                         variant="outline"
-                        className="flex-1 bg-transparent nav-link"
+                        className="flex-1 border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white"
                         onClick={() => router.push(`/catalog/${product.id}`)}
                       >
-                        {t("products.details")}
+                        {t('home.moreDetails')}
                       </Button>
-                      <Button variant="secondary" className="flex-1 btn-secondary" onClick={() => handleAddToCart(product)}>
-                        {t("products.addToCart")}
+                      <Button 
+                        className="flex-1 bg-[#10B981] hover:bg-[#059669] text-white"
+                        onClick={() => handleAddToCart(product)}
+                      >
+                        {t('home.addToCart')}
                       </Button>
                     </div>
-
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button
-                          className="w-full btn-primary"
-                          onClick={() => {
-                            setSelectedProduct(product)
-                            if (user) {
-                              setOrderForm((prev) => ({
-                                ...prev,
-                                name: user.name,
-                                email: user.email,
-                                phone: user.phone,
-                              }))
-                            }
-                          }}
-                        >
-                          {t("products.order")}
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="max-w-md">
-                        <DialogHeader>
-                          <DialogTitle>
-                            {t("order.title")}: {selectedProduct?.title}
-                          </DialogTitle>
-                        </DialogHeader>
-                        <form onSubmit={handleOrderSubmit} className="space-y-4">
-                          <div>
-                            <Label htmlFor="area">{t("order.area")}</Label>
-                            <Input
-                              id="area"
-                              type="number"
-                              min="1"
-                              step="0.1"
-                              value={orderForm.area}
-                              onChange={(e) => setOrderForm({ ...orderForm, area: e.target.value })}
-                              required
-                            />
-                          </div>
-
-                          <div className="flex items-center space-x-2">
-                            <Checkbox
-                              id="installation"
-                              checked={orderForm.installation}
-                              onCheckedChange={(checked) => setOrderForm({ ...orderForm, installation: !!checked })}
-                            />
-                            <Label htmlFor="installation">
-                              {t("order.installation")} {t("order.installation.yes")}
-                            </Label>
-                          </div>
-
-                          <div>
-                            <Label htmlFor="name">{t("auth.name")}</Label>
-                            <Input
-                              id="name"
-                              value={orderForm.name}
-                              onChange={(e) => setOrderForm({ ...orderForm, name: e.target.value })}
-                              required
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="email">{t("auth.email")}</Label>
-                            <Input
-                              id="email"
-                              type="email"
-                              value={orderForm.email}
-                              onChange={(e) => setOrderForm({ ...orderForm, email: e.target.value })}
-                              required
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="phone">{t("auth.phone")}</Label>
-                            <Input
-                              id="phone"
-                              type="tel"
-                              value={orderForm.phone}
-                              onChange={(e) => setOrderForm({ ...orderForm, phone: e.target.value })}
-                              required
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="address">{t("order.delivery")}</Label>
-                            <Textarea
-                              id="address"
-                              value={orderForm.address}
-                              onChange={(e) => setOrderForm({ ...orderForm, address: e.target.value })}
-                              required
-                            />
-                          </div>
-
-                          <div>
-                            <Label htmlFor="notes">{t('order.additionalNotes')}</Label>
-                            <Textarea
-                              id="notes"
-                              value={orderForm.notes}
-                              onChange={(e) => setOrderForm({ ...orderForm, notes: e.target.value })}
-                            />
-                          </div>
-
-                          {selectedProduct && orderForm.area && (
-                            <div className="bg-muted p-4 rounded-lg">
-                              <p className="font-semibold">{t("order.total")}:</p>
-                              <p>
-                                Газон: {(selectedProduct.pricePerSquareMeter * Number.parseFloat(orderForm.area)).toLocaleString()}₽
-                              </p>
-                              {orderForm.installation && (
-                                <p>Установка: {(500 * Number.parseFloat(orderForm.area)).toLocaleString()}₽</p>
-                              )}
-                              <p className="text-lg font-bold text-primary">
-                                Общая сумма:{" "}
-                                {(
-                                  selectedProduct.pricePerSquareMeter * Number.parseFloat(orderForm.area) +
-                                  (orderForm.installation ? 500 * Number.parseFloat(orderForm.area) : 0)
-                                ).toLocaleString()}
-                                ₽
-                              </p>
-                              <p className="text-sm text-muted-foreground mt-2">🚚 {t("benefits.delivery")}!</p>
-                            </div>
-                          )}
-
-                          <Button type="submit" className="w-full">
-                            {t("order.submit")}
-                          </Button>
-                        </form>
-                      </DialogContent>
-                    </Dialog>
                   </CardContent>
                 </Card>
               ))
             ) : (
               <div className="col-span-full text-center py-12">
                 <div className="text-6xl mb-4">📦</div>
-                <h3 className="text-2xl font-bold mb-4">{t('catalog.noProducts')}</h3>
-                <p className="text-muted-foreground text-lg">{t('catalog.noProductsDesc')}</p>
+                <h3 className="text-2xl font-bold mb-4 text-[#1F2937]">{t('home.productsNotFound')}</h3>
+                <p className="text-[#6B7280] text-lg">{t('home.productsUnavailable')}</p>
               </div>
             )}
           </div>
 
           <div className="text-center mt-12">
-            <Button size="lg" variant="outline" onClick={() => router.push("/catalog")} className="btn-secondary">
-              {t("products.viewAll")}
+            <Button 
+              size="lg" 
+              variant="outline" 
+              onClick={() => router.push("/catalog")} 
+              className="border-[#10B981] text-[#10B981] hover:bg-[#10B981] hover:text-white px-8 py-3"
+            >
+              {t('home.viewAllProducts')}
+              <ArrowRight className="ml-2 h-5 w-5" />
             </Button>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="bg-muted py-12">
+      {/* Services Section */}
+      <section id="services" className="pt-0 pb-24 bg-[#F3F4F6]/30">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center">
-            <h3 className="text-2xl font-bold mb-4">{t("common.brandName")}</h3>
-            <p className="text-muted-foreground mb-4">{t("footer.description")}</p>
-            <div className="flex justify-center gap-4">
-              <Button variant="outline" onClick={() => router.push("/catalog")}>
-                {t("nav.catalog")}
-              </Button>
-              <Button variant="outline" onClick={() => router.push("/login")}>
-                {t("nav.login")}
-              </Button>
-            </div>
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-serif font-medium text-[#1F2937] mb-4">
+              {t('nav.services')}
+            </h2>
+            <p className="text-xl text-[#6B7280] max-w-3xl mx-auto">
+              Полный спектр услуг от консультации до установки и обслуживания
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('services.consultation')}</h3>
+                <p className="text-sm text-[#6B7280]">{t('services.consultation.desc')}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <CheckCircle className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('services.installation')}</h3>
+                <p className="text-sm text-[#6B7280]">{t('services.installation.desc')}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Truck className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('services.delivery')}</h3>
+                <p className="text-sm text-[#6B7280]">{t('services.delivery.desc')}</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Shield className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('services.warranty')}</h3>
+                <p className="text-sm text-[#6B7280]">{t('services.warranty.desc')}</p>
+              </CardContent>
+            </Card>
           </div>
         </div>
-      </footer>
+      </section>
 
-      <NotificationCenter />
+
+
+      {/* Contacts Section */}
+      <section id="contact" className="pt-0 pb-24 bg-[#F3F4F6]/30">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl lg:text-5xl font-serif font-medium text-[#1F2937] mb-4">
+              {t('nav.contact')}
+            </h2>
+            <p className="text-xl text-[#6B7280] max-w-3xl mx-auto">
+              Свяжитесь с нами любым удобным способом
+            </p>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Phone className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('profile.phone')}</h3>
+                <p className="text-sm text-[#6B7280]">+7 (495) 123-45-67</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Mail className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Email</h3>
+                <p className="text-sm text-[#6B7280]">info@gazonpro.ru</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <MapPin className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">{t('profile.address')}</h3>
+                <p className="text-sm text-[#6B7280]">Баку, ул. Примерная, 123</p>
+              </CardContent>
+            </Card>
+
+            <Card className="text-center p-6 hover:shadow-xl transition-all duration-300 hover:-translate-y-2 border-0 shadow-lg bg-white">
+              <CardContent className="pt-6">
+                <div className="w-12 h-12 bg-[#10B981]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Calendar className="h-6 w-6 text-[#10B981]" />
+                </div>
+                <h3 className="text-lg font-semibold mb-2">Режим работы</h3>
+                <p className="text-sm text-[#6B7280]">Пн-Пт: 9:00-18:00</p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
     </div>
   )
 }

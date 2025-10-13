@@ -14,7 +14,7 @@ namespace GreenZone.Application.Validators.Delivery
         {
             RuleFor(d => d.OrderId)
                 .NotEmpty().WithMessage("Order ID is required.");
-            RuleFor(d => d.DeliveryStatusId)
+            RuleFor(d => d.DeliveryStatus)
                 .NotEmpty().WithMessage("Delivery status ID is required.");
         }
     }

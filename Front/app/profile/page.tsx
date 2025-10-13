@@ -116,15 +116,15 @@ export default function ProfilePage() {
   const getStatusText = (status: string) => {
     switch (status) {
       case "pending":
-        return "Ожидает подтверждения"
+        return t('status.pending')
       case "confirmed":
-        return "Подтвержден"
+        return t('status.confirmed')
       case "in-progress":
-        return "В работе"
+        return t('status.inProgress')
       case "completed":
-        return "Выполнен"
+        return t('status.completed')
       case "cancelled":
-        return "Отменен"
+        return t('status.cancelled')
       default:
         return status
     }
@@ -152,25 +152,25 @@ export default function ProfilePage() {
 
       <main className="max-w-6xl mx-auto p-6">
         <div className="mb-8">
-          <div className="text-3xl font-black mb-2">Личный кабинет</div>
-          <p className="text-muted-foreground">Управляйте своим профилем и заказами</p>
+          <div className="text-3xl font-black mb-2">{t('profile.personalCabinet')}</div>
+          <p className="text-muted-foreground">{t('profile.manageProfile')}</p>
         </div>
 
         <Tabs defaultValue="profile" className="space-y-6">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="profile">Профиль</TabsTrigger>
-            <TabsTrigger value="orders">Мои заказы ({orders.length})</TabsTrigger>
+            <TabsTrigger value="profile">{t('profile.profileTab')}</TabsTrigger>
+            <TabsTrigger value="orders">{t('profile.ordersTab')} ({orders.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="profile" className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
               <Card>
                 <CardHeader>
-                  <CardTitle>Информация о профиле</CardTitle>
+                  <CardTitle>{t('profile.profileInfo')}</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Имя</label>
+                    <label className="text-sm font-medium text-muted-foreground">{t('profile.name')}</label>
                     <p className="text-foreground">{user.name}</p>
                   </div>
                   <div>
@@ -178,33 +178,33 @@ export default function ProfilePage() {
                     <p className="text-foreground">{user.email}</p>
                   </div>
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Телефон</label>
+                    <label className="text-sm font-medium text-muted-foreground">{t('profile.phone')}</label>
                     <p className="text-foreground">{user.phone}</p>
                   </div>
                   {user.address && (
                     <div>
-                      <label className="text-sm font-medium text-muted-foreground">Адрес</label>
+                      <label className="text-sm font-medium text-muted-foreground">{t('profile.address')}</label>
                       <p className="text-foreground">{user.address}</p>
                     </div>
                   )}
                   <div>
-                    <label className="text-sm font-medium text-muted-foreground">Дата регистрации</label>
+                    <label className="text-sm font-medium text-muted-foreground">{t('profile.registrationDate')}</label>
                     <p className="text-foreground">{new Date(user.createdAt).toLocaleDateString("ru-RU")}</p>
                   </div>
 
                   <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
                     <DialogTrigger asChild>
                       <Button variant="outline" className="w-full bg-transparent">
-                        Редактировать профиль
+                        {t('profile.editProfile')}
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Редактирование профиля</DialogTitle>
+                        <DialogTitle>{t('profile.editProfileTitle')}</DialogTitle>
                       </DialogHeader>
                       <form onSubmit={handleUpdateProfile} className="space-y-4">
                         <div>
-                          <Label htmlFor="name">Имя</Label>
+                          <Label htmlFor="name">{t('profile.name')}</Label>
                           <Input
                             id="name"
                             value={editForm.name}

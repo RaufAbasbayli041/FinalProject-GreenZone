@@ -24,6 +24,16 @@ namespace GreenZone.Persistance.Repository
                 .FirstOrDefaultAsync(d => d.DeliveryStatus.StatusType == deliveryStatus);
 
             return data;
+        }        
+
+        public async Task<IEnumerable<Delivery>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus)
+        { 
+            var data = await _context.Deliveries
+                .AsNoTracking()
+                .Include(d => d.DeliveryStatus)
+                .Where(d => d.DeliveryStatus.StatusType == deliveryStatus)
+                .ToListAsync();
+            return data ;
         }
     }
 }

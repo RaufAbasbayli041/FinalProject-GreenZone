@@ -1,6 +1,7 @@
 ﻿using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.DeliveryDtos;
 using GreenZone.Domain.Enum;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,22 +9,19 @@ namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize (Roles = "Customer")]
     public class DeliveryController : ControllerBase
     {
         private readonly IDeliveryService _deliveryService;
+        private readonly IWebHostEnvironment _webHostEnvironment;
 
-        public DeliveryController(IDeliveryService deliveryService)
+        public DeliveryController(IDeliveryService deliveryService, IWebHostEnvironment webHostEnvironment)
         {
             _deliveryService = deliveryService;
+            _webHostEnvironment = webHostEnvironment;
         }
 
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<DeliveryReadDto>>> GetAll()
-        {
-            var deliveries = await _deliveryService.GetAllAsync();
-            return Ok(deliveries);
-        }
-
+      
         [HttpGet("{id}")]
         public async Task<ActionResult<DeliveryReadDto>> GetById(Guid id)
         {
@@ -32,13 +30,7 @@ namespace GreenZone.API.Controllers
             return Ok(delivery);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<DeliveryReadDto>> Create([FromBody] DeliveryCreateDto dto)
-        {
-            var createdDelivery = await _deliveryService.AddAsync(dto);
-            return CreatedAtAction(nameof(GetById), new { id = createdDelivery.Id }, createdDelivery);
-        }
-
+       
         [HttpPut("{id}")]
         public async Task<ActionResult<DeliveryReadDto>> Update(Guid id, [FromBody] DeliveryUpdateDto dto)
         {
@@ -55,12 +47,6 @@ namespace GreenZone.API.Controllers
             return NoContent();
         }
 
-        [HttpPatch("{id}/status")]
-        public async Task<ActionResult> ChangeStatus(Guid id, [FromQuery] DeliveryStatusType status)
-        {
-            var delivery = await _deliveryService.ChangeDeliveryStatusAsync(id, status);
-            if (delivery == null) return NotFound();
-            return Ok(delivery);
-        }
+        
     }
 }

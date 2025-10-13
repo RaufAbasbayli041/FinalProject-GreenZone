@@ -20,18 +20,19 @@ namespace GreenZone.API
 	{
 		public static async Task Main(string[] args)
 		{
+            // === Serilog Configuration ===
             var logPath = Path.Combine(Directory.GetCurrentDirectory(), "Logs");
             if (!Directory.Exists(logPath))
                 Directory.CreateDirectory(logPath);
 
             Log.Logger = new LoggerConfiguration()
                 .WriteTo.File(Path.Combine(logPath, "log-.txt"), rollingInterval: RollingInterval.Day)
+                .WriteTo.Console()
                 .CreateLogger();
 
             var builder = WebApplication.CreateBuilder(args);
             builder.Host.UseSerilog();
-
-            // Add services to the container.
+             
 
             builder.Services.AddControllers();
 			// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -42,8 +43,8 @@ namespace GreenZone.API
 				options.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 			});
 
-
-			builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+            // === Identity Configuration ===
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 			{
 				options.SignIn.RequireConfirmedAccount = true;
 				options.User.RequireUniqueEmail = false; // Allow non-unique emails
@@ -57,6 +58,7 @@ namespace GreenZone.API
 			.AddUserValidator<CustomUserValidator>()
             .AddDefaultTokenProviders();
 
+            // === CORS Configuration ===
             builder.Services.AddCors(options =>
             {
                 options.AddPolicy("AllowFrontend", policy =>
@@ -77,6 +79,7 @@ namespace GreenZone.API
 			builder.Services.AddValidatorsRegistration();
 			builder.Services.AddDistributedMemoryCache();
 
+            // === Session Configuration ===
             builder.Services.AddSession(opt =>
             {
                 opt.IdleTimeout = TimeSpan.FromMinutes(30);
@@ -87,6 +90,7 @@ namespace GreenZone.API
                 opt.Cookie.SecurePolicy = CookieSecurePolicy.Always;
             });
 
+            // === Cookie Authentication ===
             builder.Services.ConfigureApplicationCookie(options =>
 			{
 				options.LoginPath = "/Account/Login";
@@ -102,16 +106,21 @@ namespace GreenZone.API
 				options.Cookie.SameSite = SameSiteMode.Strict; // Adjust SameSite attribute as needed
 			});
 
-			builder.Services.AddAuthentication(opt =>
+            // === JWT Authentication ===
+            builder.Services.AddAuthentication(opt =>
 			{
 				opt.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
 				opt.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+                
 			})
 				.AddJwtBearer(options =>
 				{
 					var jwtSettings = builder.Configuration.GetSection("Jwt");
-					options.TokenValidationParameters = new TokenValidationParameters
+                    options.SaveToken = true;
+                    options.RequireHttpsMetadata = false; //for https change to true
+                    options.TokenValidationParameters = new TokenValidationParameters
 					{
+
 						ValidateIssuer = true,
 						ValidateAudience = true,
 						ValidateLifetime = true,
@@ -123,7 +132,27 @@ namespace GreenZone.API
 					};
 				});
 
-			builder.Services.AddRepositoryRegistration();
+            // === Authorization Policies ===
+            builder.Services.AddAuthorization(options =>
+            {
+                options.AddPolicy("AdminOnly", policy =>
+                {
+                    policy.RequireRole("Admin");
+                });
+
+                options.AddPolicy("Customer", policy =>
+                {
+                    policy.RequireRole("Customer");
+                });
+
+                options.AddPolicy("Employee", policy =>
+                {
+                    policy.RequireRole("Employee");
+                });
+            });
+
+
+            builder.Services.AddRepositoryRegistration();
 			builder.Services.AddServiceRegistration();
 
             // === Swagger + JWT ===
@@ -155,24 +184,8 @@ namespace GreenZone.API
                     });
             });
 
-            builder.Services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Admin", policy =>
-                {
-                    policy.RequireRole("Admin");
-                });
-
-                options.AddPolicy("Customer", policy =>
-                {
-                    policy.RequireRole("Customer");
-                });
-
-                options.AddPolicy("Employee", policy =>
-                {
-                    policy.RequireRole("Employee");
-                });
-            });
-
+           
+            builder.Services.AddHttpContextAccessor();
 
             var app = builder.Build();
             await DBHelper.SeedDatabaseAsync(app.Services);

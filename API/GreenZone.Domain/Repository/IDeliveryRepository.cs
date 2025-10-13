@@ -11,6 +11,7 @@ namespace GreenZone.Domain.Repository
     public interface IDeliveryRepository : IGenericRepository<Delivery>
     {
         Task<Delivery?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus); 
+        Task<IEnumerable<Delivery>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus);
 
     }
 }

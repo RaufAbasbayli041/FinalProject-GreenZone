@@ -15,47 +15,53 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Application.Service
 {
-    public class DeliveryService : IDeliveryService
+    public class DeliveryService : GenericService<Delivery, DeliveryCreateDto, DeliveryReadDto, DeliveryUpdateDto>, IDeliveryService
     {
         private readonly IDeliveryRepository _deliveryRepository;
-        private readonly IDeliveryStatusService _deliveryStatusService;
+        private readonly IDeliveryStatusRepository _deliveryStatusRepository;
         private readonly IUnitOfWork _unitOfWork;
         private readonly IMapper _mapper;
         private readonly ILogger<DeliveryService> _logger;
 
-        public DeliveryService(IDeliveryRepository deliveryRepository, IDeliveryStatusService deliveryStatusService, IUnitOfWork unitOfWork, IMapper mapper, ILogger<DeliveryService> logger)
+        public DeliveryService(IDeliveryRepository deliveryRepository, IDeliveryStatusRepository deliveryStatusRepository, IMapper mapper, IValidator<DeliveryCreateDto> createValidator, IValidator<DeliveryUpdateDto> updateValidator, IUnitOfWork unitOfWork) : base(deliveryRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _deliveryRepository = deliveryRepository;
-            _deliveryStatusService = deliveryStatusService;
-            _unitOfWork = unitOfWork;
+            _deliveryStatusRepository = deliveryStatusRepository;
             _mapper = mapper;
-            _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
-
-        public async Task<Delivery?> ChangeDeliveryStatusAsync(DeliveryStatusType oldStatus, DeliveryStatusType newStatus)
+        public async Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus)
         {
-            var delivery = await _deliveryRepository.GetDeliveryByStatusAsync(oldStatus);
+
+            var delivery = await _deliveryRepository.GetByIdAsync(deliveryId);
             if (delivery == null)
                 return null;
+             
 
-            var statusDto = await _deliveryStatusService.GetDeliveryStatusByTypeAsync(newStatus);
-            if (statusDto == null)
+            var newStatusEntity = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(newStatus);
+            if (newStatusEntity == null)
                 throw new InvalidOperationException("Invalid delivery status type.");
 
-
-            delivery.DeliveryStatusId = statusDto.Id;
+            delivery.DeliveryStatusId = newStatusEntity.Id;
             if (newStatus == DeliveryStatusType.Delivered)
             {
                 delivery.DeliveredAt = DateTime.UtcNow;
             }
 
 
-            _logger.LogInformation("Changing delivery {DeliveryId} status from {OldStatus} to {NewStatus}", delivery.Id, oldStatus, newStatus);
+            _logger.LogInformation("Changing delivery {DeliveryId} status to {NewStatus}", delivery.Id, newStatus);
             await _deliveryRepository.UpdateAsync(delivery);
 
             await _unitOfWork.SaveChangesAsync();
             return delivery;
+        }
+
+        public async Task<IEnumerable<DeliveryReadDto>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus)
+        {
+            var deliveries = await _deliveryRepository.GetAllDeliveriesByStatusAsync(deliveryStatus);
+            var deliveryReadDtos = _mapper.Map<IEnumerable<DeliveryReadDto>>(deliveries);
+            return deliveryReadDtos;
         }
 
         public async Task<DeliveryReadDto?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus)
@@ -64,7 +70,7 @@ namespace GreenZone.Application.Service
             return _mapper.Map<DeliveryReadDto>(delivery);
         }
 
-       
+
     }
 
 

@@ -8,10 +8,11 @@ using GreenZone.Domain.Enum;
 
 namespace GreenZone.Domain.Repository
 {
-    public interface IOrderStatusRepository : IGenericRepository<OrderStatus>
+    public interface IOrderStatusRepository
     {
-        Task<ICollection<OrderStatus>> GetAllOrderStatusesAsync();
-        Task<OrderStatus?> GetByNameAsync(OrderStatusName name);
+        Task<IEnumerable<OrderStatus>> GetAllAsync();
+        Task<OrderStatus?> GetOrderStatusByType(OrderStatusName name);
+
 
     }
 }

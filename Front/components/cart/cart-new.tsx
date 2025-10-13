@@ -7,15 +7,13 @@ import { Input } from '@/components/ui/input'
 import { ShoppingCart } from 'lucide-react'
 import { useNotification } from '@/components/ui/notification-center'
 import { 
-  getMockBasket, 
-  addMockItemToBasket, 
-  removeMockItemFromBasket, 
-  updateMockItemQuantity, 
-  clearMockBasket,
-  type MockBasket,
-  type MockBasketItem 
-} from '@/lib/mock-data'
-import { getBasketByCustomerId } from '@/services/api'
+  getBasketByCustomerId,
+  fetchProducts,
+  getProductById,
+  removeItemsFromBasket,
+  updateItemsInBasket,
+  clearBasket
+} from '@/services/api'
 import type { Basket } from '@/lib/types'
 import Link from 'next/link'
 
@@ -37,6 +35,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     comment: ''
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
+  const [inputValues, setInputValues] = useState<Record<string, string>>({})
   
   const { addNotification } = useNotification()
 
@@ -44,114 +43,134 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     loadBasket()
   }, [customerId])
 
+  // Функция для принудительного обновления корзины
+  const refreshBasket = async () => {
+    try {
+      console.log('Принудительно обновляем корзину...')
+      await loadBasket()
+    } catch (error) {
+      console.error('Ошибка обновления корзины:', error)
+    }
+  }
+
   const loadBasket = async () => {
     try {
       setLoading(true)
       console.log('Загружаем корзину для customerId:', customerId)
       
-      // Сначала пытаемся загрузить с реального API
-      try {
-        const basketData = await getBasketByCustomerId(customerId)
-        console.log('Получена корзина с API:', basketData)
-        
-        // Загружаем данные о товарах для каждого элемента корзины
-        if (basketData && basketData.basketItems) {
-          const { fetchProducts, getProductById } = await import('@/services/api')
-          const { mockProducts } = await import('@/lib/mock-data')
-          
-          let products
-          try {
-            products = await fetchProducts()
-            console.log('Загружены продукты с API:', products.length, 'шт.')
-            // Всегда добавляем mock продукты к API продуктам для fallback
-            const allProducts = [...products, ...mockProducts]
-            // Удаляем дубликаты по ID
-            products = allProducts.filter((product, index, self) => 
-              index === self.findIndex(p => p.id === product.id)
-            )
-            console.log('Объединенные продукты (API + mock):', products.length, 'шт.')
-          } catch (error) {
-            console.warn('API продуктов недоступен, используем mock данные:', error)
-            products = mockProducts
-          }
-          
-          console.log('ID продуктов:', products.map(p => p.id))
-          console.log('Элементы корзины:', basketData.basketItems.map(item => item.productId))
-          console.log('Mock продукты:', mockProducts.map(p => p.id))
-          
-          // Обновляем элементы корзины с данными о товарах
-          const updatedBasketItems = await Promise.all(
-            basketData.basketItems.map(async (item) => {
-              console.log(`Обрабатываем элемент корзины: ${item.productId}`)
-              let product = products.find(p => p.id === item.productId)
-              console.log(`Поиск в products (${products.length} шт.):`, product ? 'найден' : 'не найден')
-              
-              // Если товар не найден в общем списке, пытаемся загрузить по ID
-              if (!product) {
-                console.warn(`Товар с ID ${item.productId} не найден в списке продуктов. Пытаемся загрузить по ID...`)
-                try {
-                  product = await getProductById(item.productId)
-                  console.log(`Товар ${item.productId} успешно загружен по ID:`, product)
-                } catch (error) {
-                  console.warn(`Не удалось загрузить товар ${item.productId} по ID:`, error)
-                  // Fallback: ищем в mock данных
-                  console.log(`Ищем в mock данных (${mockProducts.length} шт.):`)
-                  product = mockProducts.find(p => p.id === item.productId)
-                  if (product) {
-                    console.log(`Товар ${item.productId} найден в mock данных:`, product.title)
-                  } else {
-                    console.warn(`Товар ${item.productId} не найден ни в API, ни в mock данных`)
-                    console.log('Доступные mock продукты:', mockProducts.map(p => ({ id: p.id, title: p.title })))
-                    // Показываем уведомление пользователю о недоступном товаре
-                    addNotification({
-                      type: 'warning',
-                      title: 'Товар недоступен',
-                      message: `Товар с ID ${item.productId} больше не доступен и будет удален из корзины`
-                    })
-                  }
-                }
-              } else {
-                console.log(`Товар ${item.productId} найден в общем списке:`, product.title)
-              }
-              
-              const totalPrice = product ? product.pricePerSquareMeter * item.quantity : (item.totalPrice || 0)
-              return {
-                ...item,
-                product: product || undefined,
-                totalPrice: totalPrice
-              }
-            })
-          )
-          
-          // Вычисляем общую сумму корзины
-          const totalAmount = updatedBasketItems.reduce((sum, item) => sum + (item.totalPrice || 0), 0)
-          
-          const updatedBasket = {
-            ...basketData,
-            basketItems: updatedBasketItems,
-            totalAmount: totalAmount
-          }
-          
-          console.log('Корзина с загруженными товарами:', updatedBasket)
-          setBasket(updatedBasket)
-        } else {
-          setBasket(basketData)
-        }
-        return
-      } catch (apiError) {
-        console.log('API недоступен, используем mock данные:', apiError)
-      }
+      // Загружаем корзину с бэкенда
+      const basketData = await getBasketByCustomerId(customerId)
+      console.log('Получена корзина с API:', basketData)
       
-      // Fallback к mock данным
-      const mockBasketData = getMockBasket(customerId)
-      setBasket(mockBasketData)
+      // Загружаем данные о товарах для каждого элемента корзины
+      if (basketData && basketData.basketItems) {
+        // Загружаем все продукты с бэкенда
+        const products = await fetchProducts()
+        console.log('Загружены продукты с API:', products.length, 'шт.')
+        
+        console.log('ID продуктов:', products.map(p => p.id))
+        console.log('Элементы корзины:', basketData.basketItems.map(item => item.productId))
+        
+        // Обновляем элементы корзины с данными о товарах
+        const updatedBasketItems = await Promise.all(
+          basketData.basketItems.map(async (item) => {
+            console.log(`Обрабатываем элемент корзины: ${item.productId}`)
+            let product = products.find(p => p.id === item.productId)
+            console.log(`Поиск в products (${products.length} шт.):`, product ? 'найден' : 'не найден')
+            
+            // Если товар не найден в общем списке, пытаемся загрузить по ID
+            if (!product) {
+              console.warn(`Товар с ID ${item.productId} не найден в списке продуктов. Пытаемся загрузить по ID...`)
+              try {
+                product = await getProductById(item.productId)
+                console.log(`Товар ${item.productId} успешно загружен по ID:`, product)
+              } catch (error) {
+                console.warn(`Не удалось загрузить товар ${item.productId} по ID:`, error)
+                // Показываем уведомление пользователю о недоступном товаре
+                addNotification({
+                  type: 'warning',
+                  title: 'Товар недоступен',
+                  message: `Товар с ID ${item.productId} больше не доступен и будет удален из корзины`
+                })
+              }
+            } else {
+              console.log(`Товар ${item.productId} найден в общем списке:`, product.title)
+            }
+            
+            const totalPrice = product ? product.pricePerSquareMeter * item.quantity : (item.totalPrice || 0)
+            return {
+              ...item,
+              product: product || undefined,
+              totalPrice: totalPrice
+            }
+          })
+        )
+        
+        // Фильтруем недоступные товары
+        const availableItems = updatedBasketItems.filter(item => item.product)
+        const unavailableItems = updatedBasketItems.filter(item => !item.product)
+        
+        if (unavailableItems.length > 0) {
+          console.log(`Удаляем ${unavailableItems.length} недоступных товаров из корзины`)
+          // Автоматически удаляем недоступные товары из корзины
+          for (const item of unavailableItems) {
+            try {
+              await removeItemsFromBasket(customerId, item.productId, item.quantity)
+              console.log(`Удален недоступный товар ${item.productId} из корзины`)
+            } catch (error) {
+              console.error(`Ошибка удаления товара ${item.productId}:`, error)
+            }
+          }
+        }
+        
+        // Вычисляем общую сумму корзины
+        const totalAmount = availableItems.reduce((sum, item) => sum + (item.totalPrice || 0), 0)
+        
+        const updatedBasket = {
+          ...basketData,
+          basketItems: availableItems,
+          totalAmount: totalAmount
+        }
+        
+        console.log('Корзина с загруженными товарами:', updatedBasket)
+        setBasket(updatedBasket)
+        
+        // Инициализируем значения полей ввода
+        const initialInputValues: Record<string, string> = {}
+        availableItems.forEach(item => {
+          initialInputValues[item.productId] = item.quantity.toString()
+        })
+        setInputValues(initialInputValues)
+      } else {
+        setBasket(basketData)
+      }
     } catch (error) {
       console.error('Ошибка загрузки корзины:', error)
-      addNotification({
-        type: 'error',
-        title: 'Ошибка загрузки',
-        message: 'Не удалось загрузить корзину'
-      })
+      
+      // Если бэкенд недоступен, показываем пустую корзину
+      if (error instanceof Error && (error.message.includes('fetch') || error.message.includes('network'))) {
+        console.log('Бэкенд недоступен, показываем пустую корзину')
+        setBasket({
+          id: '',
+          customerId: customerId,
+          basketItems: [],
+          totalAmount: 0,
+          createdAt: new Date().toISOString(),
+          updatedAt: new Date().toISOString(),
+          isDeleted: false
+        })
+        addNotification({
+          type: 'warning',
+          title: 'Бэкенд недоступен',
+          message: 'Сервер временно недоступен. Корзина пуста.'
+        })
+      } else {
+        addNotification({
+          type: 'error',
+          title: 'Ошибка загрузки',
+          message: 'Не удалось загрузить корзину'
+        })
+      }
     } finally {
       setLoading(false)
     }
@@ -164,31 +183,20 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       setUpdating(productId)
       console.log('Обновляем количество через API:', { customerId, productId, newQuantity })
       
-      // Сначала пытаемся обновить через реальный API
-      try {
-        const { updateItemsInBasket, getBasketByCustomerId } = await import('@/services/api')
-        await updateItemsInBasket(customerId, {
-          productId: productId,
-          quantity: newQuantity
-        })
-        
-        // Получаем обновленную корзину
-        const updatedBasket = await getBasketByCustomerId(customerId)
-        setBasket(updatedBasket)
-        
-        addNotification({
-          type: 'success',
-          title: 'Количество обновлено',
-          message: 'Количество м² изменено'
-        })
-        return
-      } catch (apiError) {
-        console.log('API недоступен, используем mock данные:', apiError)
-      }
+      // Обновляем через бэкенд API
+      await updateItemsInBasket(customerId, {
+        productId: productId,
+        quantity: newQuantity
+      })
       
-      // Fallback к mock данным
-      const updatedBasket = updateMockItemQuantity(customerId, productId, newQuantity)
-      setBasket(updatedBasket)
+      // Обновляем значение в поле ввода
+      setInputValues(prev => ({
+        ...prev,
+        [productId]: newQuantity.toString()
+      }))
+      
+      // Обновляем корзину с полной загрузкой данных
+      await refreshBasket()
       
       addNotification({
         type: 'success',
@@ -207,43 +215,54 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     }
   }
 
+  const handleInputChange = (productId: string, value: string) => {
+    setInputValues(prev => ({
+      ...prev,
+      [productId]: value
+    }))
+  }
+
+  const handleInputBlur = async (productId: string) => {
+    const value = parseFloat(inputValues[productId] || '0')
+    if (value >= 0.1 && value <= 999) {
+      await handleQuantityChange(productId, value)
+    } else {
+      // Восстанавливаем предыдущее значение
+      const item = basket?.basketItems.find(item => item.productId === productId)
+      if (item) {
+        setInputValues(prev => ({
+          ...prev,
+          [productId]: item.quantity.toString()
+        }))
+      }
+    }
+  }
+
+  const handleInputKeyPress = async (productId: string, e: React.KeyboardEvent) => {
+    if (e.key === 'Enter') {
+      const value = parseFloat(inputValues[productId] || '0')
+      if (value >= 0.1 && value <= 999) {
+        await handleQuantityChange(productId, value)
+      }
+    }
+  }
+
   const handleRemoveItem = async (productId: string, productName: string) => {
     try {
       setUpdating(productId)
       console.log('Удаляем товар через API:', { customerId, productId })
       
-      // Сначала пытаемся удалить через реальный API
-      try {
-        const { removeItemsFromBasket, getBasketByCustomerId } = await import('@/services/api')
-        await removeItemsFromBasket(customerId, productId, 999) // Большое число для полного удаления
-        
-        // Получаем обновленную корзину
-        const updatedBasket = await getBasketByCustomerId(customerId)
-        setBasket(updatedBasket)
-        
-        addNotification({
-          type: 'success',
-          title: 'Товар удален',
-          message: `${productName} удален из корзины`
-        })
-        return
-      } catch (apiError) {
-        console.log('API недоступен, используем mock данные:', apiError)
-      }
+      // Удаляем через бэкенд API
+      await removeItemsFromBasket(customerId, productId, 999) // Большое число для полного удаления
       
-      // Fallback к mock данным
-      const updatedBasket = removeMockItemFromBasket(customerId, productId, 1)
+      // Получаем обновленную корзину
+      const updatedBasket = await getBasketByCustomerId(customerId)
       setBasket(updatedBasket)
       
       addNotification({
         type: 'success',
         title: 'Товар удален',
-        message: `${productName} удален из корзины`,
-        onUndo: () => {
-          // Восстанавливаем товар
-          const restoredBasket = addMockItemToBasket(customerId, productId, 1)
-          setBasket(restoredBasket)
-        }
+        message: `${productName} удален из корзины`
       })
     } catch (error) {
       console.error('Ошибка удаления товара:', error)
@@ -266,27 +285,11 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     try {
       console.log('Очищаем корзину через API:', { customerId })
       
-      // Сначала пытаемся очистить через реальный API
-      try {
-        const { clearBasket, getBasketByCustomerId } = await import('@/services/api')
-        await clearBasket(customerId)
-        
-        // Получаем обновленную корзину
-        const clearedBasket = await getBasketByCustomerId(customerId)
-        setBasket(clearedBasket)
-        
-        addNotification({
-          type: 'success',
-          title: 'Корзина очищена',
-          message: 'Все товары удалены из корзины'
-        })
-        return
-      } catch (apiError) {
-        console.log('API недоступен, используем mock данные:', apiError)
-      }
+      // Очищаем через бэкенд API
+      await clearBasket(customerId)
       
-      // Fallback к mock данным
-      const clearedBasket = clearMockBasket(customerId)
+      // Получаем обновленную корзину
+      const clearedBasket = await getBasketByCustomerId(customerId)
       setBasket(clearedBasket)
       
       addNotification({
@@ -528,9 +531,11 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
                         
                         <Input
                           type="number"
-                          value={item.quantity}
-                          onChange={(e) => handleQuantityChange(item.productId, parseFloat(e.target.value) || 0.1)}
-                          className="w-20 text-center border-[#E5E7EB] focus:border-[#10B981]"
+                          value={inputValues[item.productId] || item.quantity.toString()}
+                          onChange={(e) => handleInputChange(item.productId, e.target.value)}
+                          onBlur={() => handleInputBlur(item.productId)}
+                          onKeyPress={(e) => handleInputKeyPress(item.productId, e)}
+                          className="w-28 text-center border-[#E5E7EB] focus:border-[#10B981]"
                           disabled={updating === item.productId}
                           min="0.1"
                           max="999"

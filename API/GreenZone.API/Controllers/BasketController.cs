@@ -10,7 +10,7 @@ namespace GreenZone.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    //[Authorize("Customer")]
+    [Authorize("Customer")]
 
     public class BasketController : ControllerBase
     {

@@ -1,4 +1,5 @@
 ﻿using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 using GreenZone.Domain.Repository;
 using GreenZone.Persistance.Database;
 using Microsoft.EntityFrameworkCore;
@@ -10,26 +11,27 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Persistance.Repository
 {
-	public class OrderRepository : GenericRepository<Order>, IOrderRepository
+    public class OrderRepository : GenericRepository<Order>, IOrderRepository
 	{
 		public OrderRepository(GreenZoneDBContext context) : base(context)
 		{
 		}
 
+        public override async Task<IEnumerable<Order>> GetAllAsync()
+        {
+            var datas = await _context.Orders
+				.AsNoTracking()
+                .Include(o => o.Customer)
+                .Include(o => o.OrderStatus)
+                .Include(o => o.OrderItems)
+                     .ThenInclude(oi => oi.Product)
+                .Include(o => o.Deliveries)
+                .Where(x => !x.IsDeleted)
+                .ToListAsync();
+            return datas;
+        }
 
-		public async Task<ICollection<Order>> GetAllOrdersFullData()
-		{
-			var datas = await _context.Orders
-				.Include(o => o.Customer)
-				.Include(o => o.OrderStatus)
-				.Include(o => o.OrderItems)
-					 .ThenInclude(oi => oi.Product)
-				.Include(o => o.Deliveries)
-				.Where(x => !x.IsDeleted)
-				.ToListAsync();
-			return datas;
-		}
-
+        
 		public async Task<int> GetOrderCountByStatusAsync(Guid orderStatusId)
 		{
 			var data = await _context.Orders
@@ -42,7 +44,8 @@ namespace GreenZone.Persistance.Repository
 		public async Task<ICollection<Order>> GetOrdersByCustomerIdAsync(Guid customerId)
 		{
 			var datas = await _context.Orders
-			   .Include(o => o.Customer)
+				.AsNoTracking()
+               .Include(o => o.Customer)
 			   .Include(o => o.OrderStatus)
 			   .Include(o => o.OrderItems)
 					.ThenInclude(oi => oi.Product)
@@ -56,7 +59,8 @@ namespace GreenZone.Persistance.Repository
 		public async Task<ICollection<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
 		{
 			var datas = await _context.Orders
-			   .Include(o => o.Customer)
+				.AsNoTracking()
+               .Include(o => o.Customer)
 			   .Include(o => o.OrderStatus)
 			   .Include(o => o.OrderItems)
 					.ThenInclude(oi => oi.Product)
@@ -66,10 +70,11 @@ namespace GreenZone.Persistance.Repository
 			return datas;
 		}
 
-		public async Task<ICollection<Order>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int page = 1, int pageSize = 10)
+		public async Task<ICollection<Order>> GetOrdersByOrderStatusAsync(Guid? orderStatusId, string? keyword, int page = 1, int pageSize = 10)
 		{
 			var datas = _context.Orders
-			   .Include(o => o.Customer)
+				.AsNoTracking() 
+               .Include(o => o.Customer)
 			   .Include(o => o.OrderStatus)
 			   .Include(o => o.OrderItems)
 					.ThenInclude(oi => oi.Product)
@@ -91,10 +96,13 @@ namespace GreenZone.Persistance.Repository
 			return sentDatas;
 		}
 
-		public async Task<Order> GetOrderWithDetailsAsync(Guid orderId)
+         
+
+        public async Task<Order> GetOrderWithDetailsAsync(Guid orderId)
 		{
 			var data = await _context.Orders
-				 .Where(o => o.Id == orderId)
+					.AsNoTracking()
+                 .Where(o => o.Id == orderId)
 				 .Include(o => o.Customer)
 				 .Include(o => o.OrderStatus)
 				 .Include(o => o.OrderItems)
@@ -107,7 +115,8 @@ namespace GreenZone.Persistance.Repository
 		public async Task<decimal> GetTotalSalesAsync(DateTime startDate, DateTime endDate)
 		{ 
 			var datas = await _context.Orders
-				.Where(o => !o.IsDeleted && o.OrderDate >= startDate && o.OrderDate <= endDate)
+				.AsNoTracking()	
+                .Where(o => !o.IsDeleted && o.OrderDate >= startDate && o.OrderDate <= endDate)
 				.SumAsync(o => o.TotalAmount); 
 			return datas;
 		}

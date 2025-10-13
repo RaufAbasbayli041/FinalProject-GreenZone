@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using GreenZone.Application.Exceptions;
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.DeliveryStatusDtos;
 using GreenZone.Domain.Entity;
@@ -28,6 +29,10 @@ namespace GreenZone.Application.Service
         public async Task<IEnumerable<DeliveryStatusReadDto>?> GetAllAsync()
         {
             var deliveryStatuses = await _deliveryStatusRepository.GetAllAsync();
+            if (deliveryStatuses == null || !deliveryStatuses.Any())
+            {
+                throw new NotFoundException("No delivery statuses found.");
+            }
             var dtos =  _mapper.Map<IEnumerable<DeliveryStatusReadDto>>(deliveryStatuses);
             return dtos;
         }
@@ -35,6 +40,10 @@ namespace GreenZone.Application.Service
         public async Task<DeliveryStatusReadDto?> GetDeliveryStatusByTypeAsync(DeliveryStatusType statusType)
         {
             var deliveryStatus = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(statusType);
+            if (deliveryStatus == null)
+            {
+                throw new NotFoundException($"Delivery status with type {statusType} not found.");
+            }
             var dto =  _mapper.Map<DeliveryStatusReadDto>(deliveryStatus);
             return dto; 
         }

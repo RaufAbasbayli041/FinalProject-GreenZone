@@ -11,36 +11,31 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreenZone.Persistance.Repository
 {
-    public class OrderStatusRepository : GenericRepository<OrderStatus>, IOrderStatusRepository
+    public class OrderStatusRepository : IOrderStatusRepository
     {
-        public OrderStatusRepository(GreenZoneDBContext context) : base(context)
+        private readonly GreenZoneDBContext _context;
+
+        public OrderStatusRepository(GreenZoneDBContext context)
         {
+            _context = context;
         }
-        public async Task<ICollection<OrderStatus>> GetAllOrderStatusesAsync()
-        {
-            var datas = await _context.OrderStatuses
-                .Where(x => !x.IsDeleted)
-                .Include(x=>x.Orders)
+
+        public async Task<IEnumerable<OrderStatus>> GetAllAsync()
+        { 
+            var datas =  await _context.OrderStatuses
+                .AsNoTracking()
+                .Include(os => os.Orders)
                 .ToListAsync();
             return datas;
         }
 
-        public async Task<OrderStatus?> GetByNameAsync(OrderStatusName name)
-        {
+        public async Task<OrderStatus?> GetOrderStatusByType(OrderStatusName name)
+        { 
             var data = await _context.OrderStatuses
-                .Where(x => !x.IsDeleted && x.StatusName == name)
-                .Include(x => x.Orders)
-                .FirstOrDefaultAsync();
+                .AsNoTracking()
+                .Include(os => os.Orders)
+                .FirstOrDefaultAsync(os => os.StatusName == name);
             return data;
         }
-        public override Task<OrderStatus> GetByIdAsync(Guid id)
-        {
-            var data = _context.OrderStatuses
-                .Where(x => !x.IsDeleted && x.Id == id)
-                .Include(x => x.Orders)
-                .FirstOrDefaultAsync(); return data;
-        }
-
-       
     }
 }

@@ -11,10 +11,9 @@ using System.Threading.Tasks;
 
 namespace GreenZone.Application.Service
 {
-    public interface IOrderStatusService : IOrderStatusRepository
+    public interface IOrderStatusService  
     {
-        Task<ICollection<OrderStatusReadDto>> GetAllOrderStatusesAsync();
-        Task<OrderStatusReadDto?> GetByNameAsync(OrderStatusName name);
-        Task<OrderStatusReadDto?> ChangeOrderStatusAsync(Guid id);
+        Task<IEnumerable<OrderStatusReadDto>> GetAllAsync();
+        Task<OrderStatusReadDto?> GetOrderStatusByType(OrderStatusName name);
     }
 }

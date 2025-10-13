@@ -1,4 +1,5 @@
 ﻿using GreenZone.Domain.Entity;
+using GreenZone.Domain.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,7 @@ namespace GreenZone.Domain.Repository
 {
     public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<Order> GetOrderWithDetailsAsync(Guid orderId);
-        Task<ICollection<Order>> GetAllOrdersFullData();
-        Task<ICollection<Order>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+        Task<ICollection<Order>> GetOrdersByOrderStatusAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
 
 		Task<ICollection<Order>> GetOrdersByCustomerIdAsync(Guid customerId);
         

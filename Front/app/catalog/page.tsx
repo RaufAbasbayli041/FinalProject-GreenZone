@@ -45,9 +45,13 @@ export default function CatalogPage() {
         setProducts(productsData)
         setFilteredProducts(productsData)
         setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
-      } catch (error) {
-        console.error('Ошибка загрузки данных:', error)
-        setError(t('error.apiNotFound'))
+      } catch (error: any) {
+        console.error(t('error.loading'), error)
+        if (error.message.includes('fetch') || error.message.includes('network')) {
+          setError(t('error.serverError'))
+        } else {
+          setError(t('error.apiNotFound'))
+        }
         setProducts([])
         setFilteredProducts([])
       } finally {
@@ -191,7 +195,7 @@ export default function CatalogPage() {
           </div>
 
           {/* Products Grid */}
-          <div className="lg:col-span-3">
+          <div className="lg:col-span-3 self-start">
 
             {loading ? (
               <div className="text-center py-12">
@@ -247,16 +251,16 @@ export default function CatalogPage() {
                           {t("catalog.from")} {product.pricePerSquareMeter}₽/м²
                         </span>
                         <Badge variant="secondary" className="text-xs">
-                          {product.category?.name || `Категория: ${product.categoryId}`}
+                          {product.category?.name || `${t('home.category')}: ${product.categoryId}`}
                         </Badge>
                       </div>
 
                       {/* Specifications - Fixed height */}
                       <div className="text-sm text-muted-foreground mb-6 h-20">
                         <div className="space-y-1">
-                          <div>• Толщина: {product.minThickness}-{product.maxThickness} мм</div>
-                          <div>• Цена за м²: {product.pricePerSquareMeter}₽</div>
-                          <div>• Категория: {product.category?.name || product.categoryId}</div>
+                          <div>• {t('home.thickness')}: {product.minThickness}-{product.maxThickness} мм</div>
+                          <div>• {t('product.pricePerSquareMeter')}: {product.pricePerSquareMeter}₽</div>
+                          <div>• {t('home.category')}: {product.category?.name || product.categoryId}</div>
                         </div>
                       </div>
 
@@ -264,12 +268,12 @@ export default function CatalogPage() {
                       <div className="flex gap-2 mt-auto">
                         <Button
                           variant="outline"
-                          className="flex-1 bg-transparent h-10"
+                          className="flex-1 bg-transparent h-10 text-xs"
                           onClick={() => router.push(`/catalog/${product.id}`)}
                         >
                           {t("catalog.moreDetails")}
                         </Button>
-                        <Button variant="secondary" className="flex-1 h-10" onClick={() => router.push(`/catalog/${product.id}`)}>
+                        <Button variant="secondary" className="flex-[1.5] h-10 text-xs" onClick={() => handleAddToCart(product)}>
                           {t("products.addToCart")}
                         </Button>
                       </div>
