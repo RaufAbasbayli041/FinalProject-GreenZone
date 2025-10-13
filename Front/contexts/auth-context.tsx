@@ -9,8 +9,6 @@ import { storage, generateId } from "@/lib/storage"
 interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
-  isAdmin: boolean
-  isCustomer: boolean
   login: (userName: string, password: string) => Promise<{ success: boolean; message: string }>
   register: (
     userName: string,
@@ -121,8 +119,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       value={{
         user: authState.user,
         isAuthenticated: authState.isAuthenticated,
-        isAdmin: authState.user?.isAdmin || authState.user?.role === UserRole.ADMIN || false,
-        isCustomer: authState.user?.role === UserRole.CUSTOMER || (!authState.user?.isAdmin && !authState.user?.role),
         login,
         register,
         logout,

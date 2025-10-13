@@ -56,22 +56,4 @@ export const initializeData = (): void => {
 
   console.log("[v0] Initialized data in localStorage with new structure")
 
-  const existingUsers = JSON.parse(localStorage.getItem("gazonpro_users") || "[]")
-  const adminExists = existingUsers.some((user: any) => user.isAdmin)
-
-  if (!adminExists) {
-    const adminUser = {
-      id: "admin-user",
-      name: "Администратор",
-      email: "admin@gazonpro.ru",
-      phone: "+7 (800) 123-45-67",
-      createdAt: new Date(),
-      isAdmin: true,
-    }
-
-    const updatedUsers = [...existingUsers, adminUser]
-    localStorage.setItem("gazonpro_users", JSON.stringify(updatedUsers))
-
-    console.log("[v0] Created admin user: admin@gazonpro.ru")
-  }
 }

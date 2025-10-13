@@ -1,0 +1,260 @@
+2025-10-13 19:16:21.485 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-10-13 19:16:22.140 +04:00 [INF] Executed DbCommand (33ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-13 19:16:22.187 +04:00 [INF] Executed DbCommand (25ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-13 19:16:22.196 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-13 19:16:22.200 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-13 19:16:22.235 +04:00 [INF] Executed DbCommand (20ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-13 19:16:22.260 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-13 19:16:22.264 +04:00 [INF] Migrations applied
+2025-10-13 19:16:22.529 +04:00 [INF] Executed DbCommand (32ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-13 19:16:22.576 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-13 19:16:22.585 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-13 19:16:22.610 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-13 19:16:22.632 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-13 19:16:22.681 +04:00 [INF] Admin user already exists: admin@greenzone.com
+2025-10-13 19:16:22.907 +04:00 [INF] Now listening on: https://localhost:7100
+2025-10-13 19:16:22.953 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-13 19:16:22.964 +04:00 [INF] Hosting environment: Development
+2025-10-13 19:16:22.973 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API
+2025-10-13 19:16:25.158 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-10-13 19:16:25.645 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 491.5938ms
+2025-10-13 19:16:25.647 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 19:16:25.647 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_vs/browserLink - null null
+2025-10-13 19:16:25.683 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 36.1885ms
+2025-10-13 19:16:25.799 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_vs/browserLink - 200 null text/javascript; charset=UTF-8 151.4403ms
+2025-10-13 19:16:25.932 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-10-13 19:16:26.090 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 157.5712ms
+2025-10-13 19:17:07.879 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:7100/favicon.ico - null null
+2025-10-13 19:17:08.018 +04:00 [INF] Request finished HTTP/1.1 GET https://localhost:7100/favicon.ico - 404 0 null 138.6712ms
+2025-10-13 19:17:08.049 +04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7100/favicon.ico, Response status code: 404
+2025-10-13 19:21:49.157 +04:00 [INF] Request starting HTTP/1.1 GET https://localhost:7100/favicon.ico - null null
+2025-10-13 19:21:49.165 +04:00 [INF] Request finished HTTP/1.1 GET https://localhost:7100/favicon.ico - 404 0 null 7.8751ms
+2025-10-13 19:21:49.170 +04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7100/favicon.ico, Response status code: 404
+2025-10-13 19:42:15.090 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-10-13 19:42:15.102 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 11.8948ms
+2025-10-13 19:42:15.121 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_vs/browserLink - null null
+2025-10-13 19:42:15.121 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-13 19:42:15.129 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 7.8754ms
+2025-10-13 19:42:15.129 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_vs/browserLink - 200 null text/javascript; charset=UTF-8 8.4291ms
+2025-10-13 19:42:15.214 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-10-13 19:42:15.265 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 51.2353ms
+2025-10-13 19:53:20.496 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/Product - null null
+2025-10-13 19:53:20.496 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/Category - null null
+2025-10-13 19:53:20.496 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/category - null null
+2025-10-13 19:53:20.503 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.503 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.508 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.510 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/Category - 204 null null 14.1174ms
+2025-10-13 19:53:20.510 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/Product - 204 null null 14.123ms
+2025-10-13 19:53:20.511 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/category - 204 null null 15.0851ms
+2025-10-13 19:53:20.516 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/customer - null null
+2025-10-13 19:53:20.517 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Category - application/json null
+2025-10-13 19:53:20.517 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Product - application/json null
+2025-10-13 19:53:20.518 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/category - application/json null
+2025-10-13 19:53:20.527 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.529 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.531 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.535 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.536 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/customer - 204 null null 20.3385ms
+2025-10-13 19:53:20.538 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/customer - application/json null
+2025-10-13 19:53:20.542 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.546 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.548 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/customer - 404 0 null 10.2261ms
+2025-10-13 19:53:20.552 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - null null
+2025-10-13 19:53:20.552 +04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7100/api/customer, Response status code: 404
+2025-10-13 19:53:20.555 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.558 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - 204 null null 6.1797ms
+2025-10-13 19:53:20.560 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - application/json null
+2025-10-13 19:53:20.565 +04:00 [INF] Route matched with {action = "GetAllCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCategories() on controller GreenZone.API.Controllers.CategoryController (GreenZone.API).
+2025-10-13 19:53:20.566 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.586 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:20.586 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:20.586 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:20.613 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+2025-10-13 19:53:20.614 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+2025-10-13 19:53:20.617 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+2025-10-13 19:53:20.619 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.620 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:20.622 +04:00 [INF] Route matched with {action = "GetAllCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCategories() on controller GreenZone.API.Controllers.CategoryController (GreenZone.API).
+2025-10-13 19:53:20.622 +04:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Customer)
+2025-10-13 19:53:20.627 +04:00 [INF] Route matched with {action = "GetAllProducts", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProducts() on controller GreenZone.API.Controllers.ProductController (GreenZone.API).
+2025-10-13 19:53:20.630 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-13 19:53:20.632 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - 401 0 null 71.9221ms
+2025-10-13 19:53:20.879 +04:00 [INF] Executed DbCommand (22ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+WHERE [p].[IsDeleted] = CAST(0 AS bit)
+2025-10-13 19:53:20.880 +04:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt], [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt]
+FROM [Categories] AS [c]
+LEFT JOIN [Products] AS [p] ON [c].[Id] = [p].[CategoryId]
+WHERE [c].[IsDeleted] = CAST(0 AS bit)
+ORDER BY [c].[Id]
+2025-10-13 19:53:20.880 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt], [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt]
+FROM [Categories] AS [c]
+LEFT JOIN [Products] AS [p] ON [c].[Id] = [p].[CategoryId]
+WHERE [c].[IsDeleted] = CAST(0 AS bit)
+ORDER BY [c].[Id]
+2025-10-13 19:53:20.901 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.ProductDtos.ProductReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:20.928 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.CategoryDtos.CategoryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:20.928 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.CategoryDtos.CategoryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:20.933 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Category - application/json null
+2025-10-13 19:53:20.934 +04:00 [INF] Executed action GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API) in 304.1419ms
+2025-10-13 19:53:20.934 +04:00 [INF] Executed action GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API) in 363.7892ms
+2025-10-13 19:53:20.934 +04:00 [INF] Executed action GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API) in 306.4736ms
+2025-10-13 19:53:20.934 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Product - application/json null
+2025-10-13 19:53:20.936 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.938 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:20.938 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.940 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.942 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:20.944 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:20.947 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/category - 200 null application/json; charset=utf-8 429.7276ms
+2025-10-13 19:53:20.947 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Product - 200 null application/json; charset=utf-8 430.181ms
+2025-10-13 19:53:20.947 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Category - 200 null application/json; charset=utf-8 430.2181ms
+2025-10-13 19:53:20.947 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:20.949 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+2025-10-13 19:53:20.960 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:20'.
+2025-10-13 19:53:20.961 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.962 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:20.963 +04:00 [INF] Route matched with {action = "GetAllCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCategories() on controller GreenZone.API.Controllers.CategoryController (GreenZone.API).
+2025-10-13 19:53:20.964 +04:00 [INF] Route matched with {action = "GetAllProducts", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProducts() on controller GreenZone.API.Controllers.ProductController (GreenZone.API).
+2025-10-13 19:53:20.972 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt], [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt]
+FROM [Categories] AS [c]
+LEFT JOIN [Products] AS [p] ON [c].[Id] = [p].[CategoryId]
+WHERE [c].[IsDeleted] = CAST(0 AS bit)
+ORDER BY [c].[Id]
+2025-10-13 19:53:20.972 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+WHERE [p].[IsDeleted] = CAST(0 AS bit)
+2025-10-13 19:53:20.974 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.CategoryDtos.CategoryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:20.976 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.ProductDtos.ProductReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:20.978 +04:00 [INF] Executed action GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API) in 11.2014ms
+2025-10-13 19:53:20.979 +04:00 [INF] Executed action GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API) in 10.4786ms
+2025-10-13 19:53:20.980 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:20.982 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:20.983 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Category - 200 null application/json; charset=utf-8 50.6186ms
+2025-10-13 19:53:20.985 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Product - 200 null application/json; charset=utf-8 50.6321ms
+2025-10-13 19:53:23.561 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Category - application/json null
+2025-10-13 19:53:23.561 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Product - application/json null
+2025-10-13 19:53:23.565 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:23.569 +04:00 [INF] CORS policy execution successful.
+2025-10-13 19:53:23.570 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:23'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:23.571 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:23'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 19:53:23.574 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:23'.
+2025-10-13 19:53:23.576 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 15:53:23'.
+2025-10-13 19:53:23.577 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:23.579 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:23.580 +04:00 [INF] Route matched with {action = "GetAllCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCategories() on controller GreenZone.API.Controllers.CategoryController (GreenZone.API).
+2025-10-13 19:53:23.581 +04:00 [INF] Route matched with {action = "GetAllProducts", controller = "Product"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllProducts() on controller GreenZone.API.Controllers.ProductController (GreenZone.API).
+2025-10-13 19:53:23.586 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt], [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt]
+FROM [Categories] AS [c]
+LEFT JOIN [Products] AS [p] ON [c].[Id] = [p].[CategoryId]
+WHERE [c].[IsDeleted] = CAST(0 AS bit)
+ORDER BY [c].[Id]
+2025-10-13 19:53:23.590 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.CategoryDtos.CategoryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:23.590 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt]
+FROM [Products] AS [p]
+INNER JOIN [Categories] AS [c] ON [p].[CategoryId] = [c].[Id]
+WHERE [p].[IsDeleted] = CAST(0 AS bit)
+2025-10-13 19:53:23.591 +04:00 [INF] Executed action GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API) in 7.9656ms
+2025-10-13 19:53:23.594 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.ProductDtos.ProductReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 19:53:23.596 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 19:53:23.598 +04:00 [INF] Executed action GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API) in 12.6419ms
+2025-10-13 19:53:23.599 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Category - 200 null application/json; charset=utf-8 38.13ms
+2025-10-13 19:53:23.601 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.ProductController.GetAllProducts (GreenZone.API)'
+2025-10-13 19:53:23.607 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Product - 200 null application/json; charset=utf-8 45.4177ms
+2025-10-13 21:41:31.560 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/category - null null
+2025-10-13 21:41:31.564 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.565 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/category - 204 null null 5.762ms
+2025-10-13 21:41:31.572 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/customer - null null
+2025-10-13 21:41:31.574 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/category - application/json null
+2025-10-13 21:41:31.577 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.581 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.582 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/customer - 204 null null 9.3236ms
+2025-10-13 21:41:31.583 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 21:41:31.590 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/customer - application/json null
+2025-10-13 21:41:31.590 +04:00 [INF] Route matched with {action = "GetAllCategories", controller = "Category"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetAllCategories() on controller GreenZone.API.Controllers.CategoryController (GreenZone.API).
+2025-10-13 21:41:31.592 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.595 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/customer - 404 0 null 4.7662ms
+2025-10-13 21:41:31.598 +04:00 [INF] Request reached the end of the middleware pipeline without being handled by application code. Request path: GET https://localhost:7100/api/customer, Response status code: 404
+2025-10-13 21:41:31.598 +04:00 [INF] Request starting HTTP/2 OPTIONS https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - null null
+2025-10-13 21:41:31.603 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.604 +04:00 [INF] Request finished HTTP/2 OPTIONS https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - 204 null null 5.921ms
+2025-10-13 21:41:31.606 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - application/json null
+2025-10-13 21:41:31.609 +04:00 [INF] CORS policy execution successful.
+2025-10-13 21:41:31.611 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 17:41:31'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-13 21:41:31.613 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '30.09.2025 13:50:26', Current time (UTC): '13.10.2025 17:41:31'.
+2025-10-13 21:41:31.614 +04:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Customer)
+2025-10-13 21:41:31.617 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-13 21:41:31.618 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Basket/1decd369-2728-4c65-8a5b-61444d784f9c - 401 0 null 12.5207ms
+2025-10-13 21:41:31.666 +04:00 [INF] Executed DbCommand (12ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [c].[Id], [c].[CreatedAt], [c].[Description], [c].[IsDeleted], [c].[Name], [c].[UpdatedAt], [p].[Id], [p].[CategoryId], [p].[CreatedAt], [p].[Description], [p].[ImageUrl], [p].[IsDeleted], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt]
+FROM [Categories] AS [c]
+LEFT JOIN [Products] AS [p] ON [c].[Id] = [p].[CategoryId]
+WHERE [c].[IsDeleted] = CAST(0 AS bit)
+ORDER BY [c].[Id]
+2025-10-13 21:41:31.667 +04:00 [INF] Executing OkObjectResult, writing value of type 'System.Collections.Generic.List`1[[GreenZone.Contracts.Dtos.CategoryDtos.CategoryReadDto, GreenZone.Contracts, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]'.
+2025-10-13 21:41:31.669 +04:00 [INF] Executed action GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API) in 75.1387ms
+2025-10-13 21:41:31.670 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CategoryController.GetAllCategories (GreenZone.API)'
+2025-10-13 21:41:31.671 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/category - 200 null application/json; charset=utf-8 97.4901ms

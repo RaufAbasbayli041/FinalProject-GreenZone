@@ -184,7 +184,6 @@ export interface OrderUpdateDto {
 
 // User Roles
 export enum UserRole {
-  ADMIN = 'Admin',
   CUSTOMER = 'Customer'
 }
 
@@ -207,7 +206,6 @@ export interface User {
   phone: string
   address?: string
   createdAt: Date
-  isAdmin?: boolean
   role?: UserRole
   firstName?: string
   lastName?: string

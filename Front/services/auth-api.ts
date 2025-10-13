@@ -52,7 +52,6 @@ export async function login(loginData: LoginDto): Promise<AuthResult> {
         phone: '',
         address: '',
         createdAt: new Date(),
-        isAdmin: false
       },
       expiresAt: new Date(Date.now() + 24 * 60 * 60 * 1000) // 24 часа
     }
