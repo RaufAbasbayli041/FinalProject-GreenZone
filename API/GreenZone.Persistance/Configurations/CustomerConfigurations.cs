@@ -25,8 +25,12 @@ namespace GreenZone.Persistance.Configurations
                         .OnDelete(DeleteBehavior.Restrict);
             builder.HasOne(c => c.User)
                         .WithOne()
-                        .HasForeignKey<Customer>(c => c.UserId)
-                        .OnDelete(DeleteBehavior.Restrict); 
+                        .HasForeignKey<Customer>(c => c.UserId);
+            //            .OnDelete(DeleteBehavior.Restrict); 
+            //builder.HasOne(c => c.Basket)
+            //            .WithOne(b => b.Customer)
+            //            .HasForeignKey<Basket>(b => b.CustomerId)
+            //            .OnDelete(DeleteBehavior.Cascade);
 
         }
     }

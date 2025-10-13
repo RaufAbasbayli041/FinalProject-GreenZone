@@ -69,80 +69,86 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle>{t("auth.register")}</CardTitle>
-        <CardDescription>{t("auth.createAccount")}</CardDescription>
+    <Card className="w-full max-w-md mx-auto bg-white shadow-lg border-0">
+      <CardHeader className="text-center">
+        <CardTitle className="text-2xl font-semibold text-gray-900">{t("auth.register")}</CardTitle>
+        <CardDescription className="text-gray-600">{t("auth.createAccount")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="userName">{t("auth.userName")}</Label>
+            <Label htmlFor="userName" className="text-sm font-medium text-gray-700">{t("auth.userName")}</Label>
             <Input
               id="userName"
               value={formData.userName}
               onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="email">{t("auth.email")}</Label>
+            <Label htmlFor="email" className="text-sm font-medium text-gray-700">{t("auth.email")}</Label>
             <Input
               id="email"
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="phoneNumber">{t("auth.phoneNumber")}</Label>
+            <Label htmlFor="phoneNumber" className="text-sm font-medium text-gray-700">{t("auth.phoneNumber")}</Label>
             <Input
               id="phoneNumber"
               type="tel"
               value={formData.phoneNumber}
               onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="firstName">{t("auth.firstName")}</Label>
+            <Label htmlFor="firstName" className="text-sm font-medium text-gray-700">{t("auth.firstName")}</Label>
             <Input
               id="firstName"
               type="text"
               value={formData.firstName}
               onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="lastName">{t("auth.lastName")}</Label>
+            <Label htmlFor="lastName" className="text-sm font-medium text-gray-700">{t("auth.lastName")}</Label>
             <Input
               id="lastName"
               type="text"
               value={formData.lastName}
               onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="identityCard">{t("auth.identityCard")}</Label>
+            <Label htmlFor="identityCard" className="text-sm font-medium text-gray-700">{t("auth.identityCard")}</Label>
             <Input
               id="identityCard"
               type="text"
               value={formData.identityCard}
               onChange={(e) => setFormData({ ...formData, identityCard: e.target.value })}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="password">{t("auth.password")}</Label>
+            <Label htmlFor="password" className="text-sm font-medium text-gray-700">{t("auth.password")}</Label>
             <Input
               id="password"
               type="password"
@@ -150,11 +156,12 @@ export function RegisterForm() {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               required
               minLength={6}
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword">{t("auth.confirmPassword")}</Label>
+            <Label htmlFor="confirmPassword" className="text-sm font-medium text-gray-700">{t("auth.confirmPassword")}</Label>
             <Input
               id="confirmPassword"
               type="password"
@@ -162,18 +169,19 @@ export function RegisterForm() {
               onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
               required
               minLength={6}
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
-          {error && <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md">{error}</div>}
+          {error && <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md border border-red-200">{error}</div>}
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={loading}>
             {loading ? `${t("auth.register")}...` : t("auth.register")}
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground">
+          <div className="text-center text-sm text-gray-600">
             {t("auth.haveAccount")}{" "}
-            <Button variant="link" className="p-0 h-auto" onClick={() => router.push("/login")}>
+            <Button variant="link" className="p-0 h-auto text-green-600 hover:text-green-700" onClick={() => router.push("/login")}>
               {t("auth.login")}
             </Button>
           </div>

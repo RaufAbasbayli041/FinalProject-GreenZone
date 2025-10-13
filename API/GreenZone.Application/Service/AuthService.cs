@@ -157,6 +157,9 @@ namespace GreenZone.Application.Service
                 Customer = customer,
 
             };
+            await _basketRepository.AddAsync(Basket);
+            await _unitOfWork.SaveChangesAsync();
+
 
             customer.Basket = Basket;
 
@@ -166,14 +169,10 @@ namespace GreenZone.Application.Service
         }
 
         private string GenerateJwtToken(ApplicationUser user, IList<string> roles)
-        {
-            var jwtSettings = new ConfigurationBuilder()
-                .AddJsonFile("appsettings.json")
-                .Build();
-
+        {          
             var jwtSection = _configuration.GetSection("Jwt");
 
-            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]));
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSection["Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var claims = new List<Claim>
@@ -191,10 +190,10 @@ namespace GreenZone.Application.Service
             }
 
             var token = new JwtSecurityToken(
-                issuer: jwtSettings["Issuer"],
-                audience: jwtSettings["Audience"],
+                issuer: jwtSection["Issuer"],
+                audience: jwtSection["Audience"],
                 claims: claims,
-                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSettings["ExpiresInMinutes"])),
+                expires: DateTime.UtcNow.AddMinutes(Convert.ToDouble(jwtSection["ExpiresInMinutes"])),
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);

@@ -28,11 +28,13 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const [updating, setUpdating] = useState<string | null>(null)
   const [showOrderForm, setShowOrderForm] = useState(false)
   const [orderForm, setOrderForm] = useState({
-    name: '',
     phone: '',
-    email: '',
     address: '',
-    comment: ''
+    comment: '',
+    paymentMethod: 'cash',
+    cardNumber: '',
+    cardExpiry: '',
+    cardCvv: ''
   })
   const [formErrors, setFormErrors] = useState<Record<string, string>>({})
   const [inputValues, setInputValues] = useState<Record<string, string>>({})
@@ -310,9 +312,6 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const validateForm = () => {
     const errors: Record<string, string> = {}
     
-    if (!orderForm.name.trim()) {
-      errors.name = 'Имя обязательно'
-    }
     
     if (!orderForm.phone.trim()) {
       errors.phone = 'Телефон обязателен'
@@ -320,14 +319,30 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       errors.phone = 'Неверный формат телефона'
     }
     
-    if (!orderForm.email.trim()) {
-      errors.email = 'Email обязателен'
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(orderForm.email)) {
-      errors.email = 'Неверный формат email'
-    }
     
     if (!orderForm.address.trim()) {
       errors.address = 'Адрес обязателен'
+    }
+    
+    // Валидация полей карты, если выбран способ оплаты картой
+    if (orderForm.paymentMethod === 'card') {
+      if (!orderForm.cardNumber.trim()) {
+        errors.cardNumber = 'Номер карты обязателен'
+      } else if (!/^\d{16}$/.test(orderForm.cardNumber.replace(/\s/g, ''))) {
+        errors.cardNumber = 'Номер карты должен содержать 16 цифр'
+      }
+      
+      if (!orderForm.cardExpiry.trim()) {
+        errors.cardExpiry = 'Срок действия обязателен'
+      } else if (!/^\d{2}\/\d{2}$/.test(orderForm.cardExpiry)) {
+        errors.cardExpiry = 'Формат: ММ/ГГ'
+      }
+      
+      if (!orderForm.cardCvv.trim()) {
+        errors.cardCvv = 'CVV обязателен'
+      } else if (!/^\d{3}$/.test(orderForm.cardCvv)) {
+        errors.cardCvv = 'CVV должен содержать 3 цифры'
+      }
     }
     
     setFormErrors(errors)
@@ -350,15 +365,46 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       // Имитируем отправку заказа
       await new Promise(resolve => setTimeout(resolve, 2000))
       
+      // Логируем данные заказа
+      const orderData = {
+        customer: {
+          phone: orderForm.phone,
+          address: orderForm.address
+        },
+        paymentMethod: orderForm.paymentMethod,
+        status: orderForm.paymentMethod === 'cash' ? 'Processing' : 'Pending',
+        items: basket?.basketItems || [],
+        totalAmount: basket?.totalAmount || 0,
+        comment: orderForm.comment,
+        ...(orderForm.paymentMethod === 'card' && {
+          cardInfo: {
+            cardNumber: orderForm.cardNumber.replace(/\s/g, ''),
+            cardExpiry: orderForm.cardExpiry,
+            cardCvv: orderForm.cardCvv
+          }
+        })
+      }
+      
+      console.log('Заказ отправлен:', orderData)
+      
       addNotification({
         type: 'success',
-        title: 'Заказ оформлен!',
-        message: 'Ваш заказ успешно отправлен'
+        title: 'Заказ принят!',
+        message: orderForm.paymentMethod === 'cash' 
+          ? 'Заказ создан со статусом "В обработке". Оплата при получении.'
+          : 'Заказ создан. Ожидается подтверждение оплаты.'
       })
       
-      // Очищаем корзину
-      const clearedBasket = clearMockBasket(customerId)
-      setBasket(clearedBasket)
+      // Очищаем корзину и форму
+      try {
+        await clearBasket(customerId)
+        setBasket(null)
+      } catch (error) {
+        console.error('Ошибка очистки корзины:', error)
+        // В случае ошибки очистки корзины, просто обновляем состояние
+        setBasket(null)
+      }
+      resetOrderForm()
       setShowOrderForm(false)
       
       if (onOrderPlaced) {
@@ -372,6 +418,19 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         message: 'Не удалось оформить заказ'
       })
     }
+  }
+
+  const resetOrderForm = () => {
+    setOrderForm({
+      phone: '',
+      address: '',
+      comment: '',
+      paymentMethod: 'cash',
+      cardNumber: '',
+      cardExpiry: '',
+      cardCvv: ''
+    })
+    setFormErrors({})
   }
 
   const formatPhone = (value: string) => {
@@ -629,20 +688,6 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
               </CardHeader>
               <CardContent>
                 <form onSubmit={handleOrderSubmit} className="space-y-4">
-                  <div>
-                    <label className="block text-sm font-medium text-[#1F2937] mb-1">
-                      Имя *
-                    </label>
-                    <Input
-                      value={orderForm.name}
-                      onChange={(e) => setOrderForm(prev => ({ ...prev, name: e.target.value }))}
-                      className={formErrors.name ? 'border-red-500' : 'border-[#E5E7EB] focus:border-[#10B981]'}
-                      placeholder="Введите ваше имя"
-                    />
-                    {formErrors.name && (
-                      <p className="text-red-500 text-xs mt-1">{formErrors.name}</p>
-                    )}
-                  </div>
 
                   <div>
                     <label className="block text-sm font-medium text-[#1F2937] mb-1">
@@ -659,21 +704,6 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
                     )}
                   </div>
 
-                  <div>
-                    <label className="block text-sm font-medium text-[#1F2937] mb-1">
-                      Email *
-                    </label>
-                    <Input
-                      type="email"
-                      value={orderForm.email}
-                      onChange={(e) => setOrderForm(prev => ({ ...prev, email: e.target.value }))}
-                      className={formErrors.email ? 'border-red-500' : 'border-[#E5E7EB] focus:border-[#10B981]'}
-                      placeholder="example@email.com"
-                    />
-                    {formErrors.email && (
-                      <p className="text-red-500 text-xs mt-1">{formErrors.email}</p>
-                    )}
-                  </div>
 
                   <div>
                     <label className="block text-sm font-medium text-[#1F2937] mb-1">
@@ -703,11 +733,109 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
                     />
                   </div>
 
+                  <div>
+                    <label className="block text-sm font-medium text-[#1F2937] mb-1">
+                      Способ оплаты *
+                    </label>
+                    <div className="flex gap-4">
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="cash"
+                          checked={orderForm.paymentMethod === 'cash'}
+                          onChange={(e) => setOrderForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                          className="mr-2"
+                        />
+                        Наличными
+                      </label>
+                      <label className="flex items-center">
+                        <input
+                          type="radio"
+                          name="paymentMethod"
+                          value="card"
+                          checked={orderForm.paymentMethod === 'card'}
+                          onChange={(e) => setOrderForm(prev => ({ ...prev, paymentMethod: e.target.value }))}
+                          className="mr-2"
+                        />
+                        Банковской картой
+                      </label>
+                    </div>
+                  </div>
+
+                  {orderForm.paymentMethod === 'card' && (
+                    <>
+                      <div>
+                        <label className="block text-sm font-medium text-[#1F2937] mb-1">
+                          Номер карты *
+                        </label>
+                        <Input
+                          type="text"
+                          value={orderForm.cardNumber}
+                          onChange={(e) => {
+                            const value = e.target.value.replace(/\D/g, '').slice(0, 16);
+                            const formatted = value.replace(/(\d{4})(?=\d)/g, '$1 ');
+                            setOrderForm(prev => ({ ...prev, cardNumber: formatted }));
+                          }}
+                          className={formErrors.cardNumber ? 'border-red-500' : 'border-[#E5E7EB] focus:border-[#10B981]'}
+                          placeholder="1234 5678 9012 3456"
+                        />
+                        {formErrors.cardNumber && (
+                          <p className="text-red-500 text-xs mt-1">{formErrors.cardNumber}</p>
+                        )}
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-4">
+                        <div>
+                          <label className="block text-sm font-medium text-[#1F2937] mb-1">
+                            Срок действия *
+                          </label>
+                          <Input
+                            type="text"
+                            value={orderForm.cardExpiry}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '').slice(0, 4);
+                              const formatted = value.replace(/(\d{2})(?=\d)/g, '$1/');
+                              setOrderForm(prev => ({ ...prev, cardExpiry: formatted }));
+                            }}
+                            className={formErrors.cardExpiry ? 'border-red-500' : 'border-[#E5E7EB] focus:border-[#10B981]'}
+                            placeholder="ММ/ГГ"
+                          />
+                          {formErrors.cardExpiry && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.cardExpiry}</p>
+                          )}
+                        </div>
+
+                        <div>
+                          <label className="block text-sm font-medium text-[#1F2937] mb-1">
+                            CVV *
+                          </label>
+                          <Input
+                            type="text"
+                            value={orderForm.cardCvv}
+                            onChange={(e) => {
+                              const value = e.target.value.replace(/\D/g, '').slice(0, 3);
+                              setOrderForm(prev => ({ ...prev, cardCvv: value }));
+                            }}
+                            className={formErrors.cardCvv ? 'border-red-500' : 'border-[#E5E7EB] focus:border-[#10B981]'}
+                            placeholder="123"
+                          />
+                          {formErrors.cardCvv && (
+                            <p className="text-red-500 text-xs mt-1">{formErrors.cardCvv}</p>
+                          )}
+                        </div>
+                      </div>
+                    </>
+                  )}
+
                   <div className="flex gap-3 pt-4">
                     <Button
                       type="button"
                       variant="outline"
-                      onClick={() => setShowOrderForm(false)}
+                      onClick={() => {
+                        resetOrderForm()
+                        setShowOrderForm(false)
+                      }}
                       className="flex-1 border-[#E5E7EB] hover:bg-[#FAF8F5]"
                     >
                       Отмена

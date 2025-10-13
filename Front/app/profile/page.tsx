@@ -19,6 +19,7 @@ import { useLanguage } from "@/contexts/language-context-new"
 import type { Order, Product } from "@/lib/types"
 import { storage } from "@/lib/storage"
 import { initialProducts } from "@/lib/data"
+import { LogOut } from "lucide-react"
 
 export default function ProfilePage() {
   const { user, isAuthenticated, logout, loading } = useAuth()
@@ -77,7 +78,7 @@ export default function ProfilePage() {
 
   const handleLogout = () => {
     logout()
-    router.push("/")
+    router.push("/register")
   }
 
   const handleUpdateProfile = (e: React.FormEvent) => {
@@ -256,6 +257,17 @@ export default function ProfilePage() {
                       </form>
                     </DialogContent>
                   </Dialog>
+
+                  <Separator className="my-4" />
+
+                  <Button 
+                    variant="outline" 
+                    className="w-full bg-transparent text-red-600 hover:text-red-700 hover:bg-red-50 border-red-200"
+                    onClick={handleLogout}
+                  >
+                    <LogOut className="w-4 h-4 mr-2" />
+                    {t('profile.logout')}
+                  </Button>
                 </CardContent>
               </Card>
 

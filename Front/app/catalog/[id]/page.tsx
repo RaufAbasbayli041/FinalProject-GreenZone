@@ -28,7 +28,6 @@ export default function ProductDetailPage() {
     area: "",
     installation: false,
     name: "",
-    email: "",
     phone: "",
     address: "",
     notes: "",
@@ -81,7 +80,6 @@ export default function ProductDetailPage() {
       setOrderForm((prev) => ({
         ...prev,
         name: user.name,
-        email: user.email,
         phone: user.phone,
       }))
     }
@@ -109,7 +107,6 @@ export default function ProductDetailPage() {
       totalPrice: totalPrice,
       customer: {
         name: orderForm.name,
-        email: orderForm.email,
         phone: orderForm.phone,
         address: orderForm.address,
       },
@@ -123,7 +120,6 @@ export default function ProductDetailPage() {
           area: "",
           installation: false,
           name: "",
-          email: "",
           phone: "",
           address: "",
           notes: "",
@@ -343,16 +339,6 @@ export default function ProductDetailPage() {
                           id="name"
                           value={orderForm.name}
                           onChange={(e) => setOrderForm({ ...orderForm, name: e.target.value })}
-                          required
-                        />
-                      </div>
-                      <div>
-                        <Label htmlFor="email">Email</Label>
-                        <Input
-                          id="email"
-                          type="email"
-                          value={orderForm.email}
-                          onChange={(e) => setOrderForm({ ...orderForm, email: e.target.value })}
                           required
                         />
                       </div>

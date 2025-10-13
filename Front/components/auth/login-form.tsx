@@ -44,25 +44,25 @@ export function LoginForm() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
+    <Card className="w-full max-w-md mx-auto bg-white shadow-lg border-0">
+      <CardHeader className="text-center">
         <div className="flex items-center gap-2 mb-4">
           <Button 
             variant="ghost" 
             size="sm" 
             onClick={() => router.push("/")}
-            className="p-2"
+            className="p-2 text-gray-600 hover:text-gray-800"
           >
             <ArrowLeft className="h-4 w-4" />
           </Button>
-          <CardTitle className="flex-1">{t("auth.login")}</CardTitle>
+          <CardTitle className="flex-1 text-2xl font-semibold text-gray-900">{t("auth.login")}</CardTitle>
         </div>
-        <CardDescription>{t("auth.welcomeBack")}</CardDescription>
+        <CardDescription className="text-gray-600">{t("auth.welcomeBack")}</CardDescription>
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="userName">{t("auth.userName")}</Label>
+            <Label htmlFor="userName" className="text-sm font-medium text-gray-700">{t("auth.userName")}</Label>
             <Input
               id="userName"
               type="text"
@@ -70,11 +70,12 @@ export function LoginForm() {
               onChange={(e) => setFormData({ ...formData, userName: e.target.value })}
               placeholder={t("auth.enterUserName")}
               required
+              className="border-gray-300 focus:border-green-500 focus:ring-green-500"
             />
           </div>
 
           <div>
-            <Label htmlFor="password">{t("auth.password")}</Label>
+            <Label htmlFor="password" className="text-sm font-medium text-gray-700">{t("auth.password")}</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -84,40 +85,42 @@ export function LoginForm() {
                 placeholder={t("auth.enterPassword")}
                 required
                 minLength={6}
-                className="pr-10"
+                className="pr-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
               />
               <Button
                 type="button"
                 variant="ghost"
                 size="sm"
-                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent"
+                className="absolute right-0 top-0 h-full px-3 py-2 hover:bg-transparent text-gray-400 hover:text-gray-600"
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <EyeOff className="h-4 w-4 text-muted-foreground" />
+                  <EyeOff className="h-4 w-4" />
                 ) : (
-                  <Eye className="h-4 w-4 text-muted-foreground" />
+                  <Eye className="h-4 w-4" />
                 )}
               </Button>
             </div>
           </div>
 
           {error && (
-            <div className="text-sm text-destructive bg-destructive/10 p-3 rounded-md border border-destructive/20">
+            <div className="text-sm text-red-600 bg-red-50 p-3 rounded-md border border-red-200">
               {error}
             </div>
           )}
 
-          <Button type="submit" className="w-full" disabled={loading}>
+          <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white" disabled={loading}>
             {loading ? `${t("auth.login")}...` : t("auth.login")}
           </Button>
 
-          <div className="text-center text-sm text-muted-foreground">
-            {t("auth.noAccount")}{" "}
-            <Button variant="link" className="p-0 h-auto" onClick={() => router.push("/register")}>
-              {t("auth.register")}
-            </Button>
-          </div>
+          <Button 
+            type="button" 
+            variant="outline" 
+            className="w-full border-gray-300 text-gray-700 hover:bg-gray-50" 
+            onClick={() => router.push("/register")}
+          >
+            {t("auth.register")}
+          </Button>
         </form>
       </CardContent>
     </Card>

@@ -13,8 +13,8 @@ import type { Product, Category } from "@/lib/types"
 import { fetchProducts, getAllCategories } from "@/services/api"
 import { useAuth } from "@/contexts/auth-context"
 import { useCart } from "@/contexts/cart-context"
-import { CartIcon } from "@/components/cart/cart-icon"
 import { useLanguage } from "@/contexts/language-context-new"
+import { Search, Filter, RotateCcw } from "lucide-react"
 
 export default function CatalogPage() {
   const [products, setProducts] = useState<Product[]>([])
@@ -95,43 +95,47 @@ export default function CatalogPage() {
   }
 
   return (
-    <div className="min-h-screen bg-background">
-
+    <div className="min-h-screen bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
-        <div className="mb-8">
-          <div className="flex justify-between items-end mb-2">
-            <div className="text-3xl font-black text-foreground">{t("catalog.title")}</div>
-            {!loading && (
-              <p className="text-muted-foreground">{t("catalog.productsFound")}: {filteredProducts.length}</p>
-            )}
-          </div>
-          <p className="text-muted-foreground">{t("catalog.subtitle")}</p>
+        <div className="text-center mb-12">
+          <h1 className="text-4xl lg:text-5xl font-serif font-medium text-gray-900 mb-4">
+            {t("catalog.title")}
+          </h1>
+          <p className="text-xl text-gray-600 max-w-2xl mx-auto">
+            {t("catalog.subtitle")}
+          </p>
         </div>
 
         <div className="grid lg:grid-cols-4 gap-8">
           {/* Filters Sidebar */}
           <div className="lg:col-span-1">
-            <Card className="p-6 sticky top-4">
-              <h3 className="font-bold mb-4">{t("catalog.filters")}</h3>
-
+            <Card className="p-6 sticky top-4 bg-white shadow-lg border-0">
+              <div className="flex items-center gap-2 mb-6">
+                <Filter className="w-5 h-5 text-gray-600" />
+                <h3 className="text-lg font-semibold text-gray-900">Filters</h3>
+              </div>
               {/* Search */}
               <div className="mb-6">
-                <Label htmlFor="search">{t("catalog.search")}</Label>
-                <Input
-                  id="search"
-                  placeholder={t("catalog.searchPlaceholder")}
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                />
+                <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">Search</Label>
+                <div className="relative">
+                  <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+                  <Input
+                    id="search"
+                    placeholder="Search products..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                  />
+                </div>
               </div>
 
               {/* Category Filter */}
               <div className="mb-6">
-                <Label>{t("catalog.category")}</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Category</Label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger>
-                    <SelectValue />
+                  <SelectTrigger className="border-gray-300 focus:border-green-500 focus:ring-green-500">
+                    <SelectValue placeholder="All Categories" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
@@ -145,7 +149,7 @@ export default function CatalogPage() {
 
               {/* Price Range */}
               <div className="mb-6">
-                <Label>{t("catalog.priceRange")}</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Price per m² (₽)</Label>
                 <div className="mt-2">
                   <Slider
                     value={priceRange}
@@ -155,7 +159,7 @@ export default function CatalogPage() {
                     step={50}
                     className="mb-2"
                   />
-                  <div className="flex justify-between text-sm text-muted-foreground">
+                  <div className="flex justify-between text-sm text-gray-600">
                     <span>{priceRange[0]}₽</span>
                     <span>{priceRange[1]}₽</span>
                   </div>
@@ -164,16 +168,16 @@ export default function CatalogPage() {
 
               {/* Sort */}
               <div className="mb-6">
-                <Label>{t("catalog.sort")}</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">Sort</Label>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger>
-                    <SelectValue />
+                  <SelectTrigger className="border-gray-300 focus:border-green-500 focus:ring-green-500">
+                    <SelectValue placeholder="By Name" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="name">{t("catalog.sortName")}</SelectItem>
-                    <SelectItem value="price-low">{t("catalog.sortPriceLow")}</SelectItem>
-                    <SelectItem value="price-high">{t("catalog.sortPriceHigh")}</SelectItem>
-                    <SelectItem value="popular">{t("catalog.sortPopular")}</SelectItem>
+                    <SelectItem value="name">By Name</SelectItem>
+                    <SelectItem value="price-low">Price: Low to High</SelectItem>
+                    <SelectItem value="price-high">Price: High to Low</SelectItem>
+                    <SelectItem value="popular">Most Popular</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -181,7 +185,7 @@ export default function CatalogPage() {
               {/* Reset Filters */}
               <Button
                 variant="outline"
-                className="w-full bg-transparent"
+                className="w-full bg-transparent border-gray-300 text-gray-700 hover:bg-gray-50"
                 onClick={() => {
                   setSearchQuery("")
                   setSelectedCategory("all")
@@ -189,92 +193,120 @@ export default function CatalogPage() {
                   setSortBy("name")
                 }}
               >
-                {t("catalog.resetFilters")}
+                <RotateCcw className="w-4 h-4 mr-2" />
+                Reset Filters
               </Button>
             </Card>
           </div>
 
           {/* Products Grid */}
-          <div className="lg:col-span-3 self-start">
+          <div className="lg:col-span-3">
+            {/* Products Count */}
+            {!loading && !error && (
+              <div className="mb-6">
+                <p className="text-gray-600">Products found: {filteredProducts.length}</p>
+              </div>
+            )}
 
             {loading ? (
               <div className="text-center py-12">
-                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-                <p className="text-xl text-muted-foreground">{t('catalog.loading')}</p>
+                <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-green-600 mx-auto mb-4"></div>
+                <p className="text-xl text-gray-600">Loading products...</p>
               </div>
             ) : error ? (
               <div className="text-center py-12">
                 <div className="text-6xl mb-4">⚠️</div>
-                <div className="text-2xl font-bold mb-4">{t('error.loading')}</div>
-                <p className="text-muted-foreground mb-4">{error}</p>
-                <Button onClick={() => window.location.reload()}>
-                  {t('error.tryAgain')}
+                <div className="text-2xl font-bold mb-4 text-gray-900">Error loading products</div>
+                <p className="text-gray-600 mb-4">{error}</p>
+                <Button onClick={() => window.location.reload()} className="bg-green-600 hover:bg-green-700">
+                  Try Again
                 </Button>
               </div>
             ) : filteredProducts.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">{t("catalog.noProducts")}</p>
+                <p className="text-gray-600 mb-4">No products found</p>
                 <Button
                   onClick={() => {
                     setSearchQuery("")
                     setSelectedCategory("all")
                     setPriceRange([0, 2000])
                   }}
+                  className="bg-green-600 hover:bg-green-700"
                 >
-                  {t("catalog.resetFilters")}
+                  Reset Filters
                 </Button>
               </div>
             ) : (
               <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-6">
                 {filteredProducts.map((product) => (
-                  <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-shadow h-full flex flex-col">
-                    <img
-                      src={product.imageUrl || "/placeholder.svg"}
-                      alt={product.title}
-                      className="w-full h-48 object-cover cursor-pointer flex-shrink-0"
-                      onClick={() => router.push(`/catalog/${product.id}`)}
-                    />
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                      {/* Title - Fixed height */}
-                      <div className="text-xl font-bold mb-2 h-12 flex items-center line-clamp-2">
+                  <Card key={product.id} className="overflow-hidden hover:shadow-xl transition-all duration-300 hover:-translate-y-1 bg-white border-0 shadow-lg">
+                    <div className="relative">
+                      <img
+                        src={product.imageUrl || "/placeholder.svg"}
+                        alt={product.title}
+                        className="w-full h-48 object-cover cursor-pointer"
+                        onClick={() => router.push(`/catalog/${product.id}`)}
+                      />
+                      {/* Popular/Premium Badge */}
+                      {product.category?.name === 'Популярный' && (
+                        <Badge className="absolute top-4 left-4 bg-green-200 text-green-800 border-0">
+                          Popular
+                        </Badge>
+                      )}
+                      {product.category?.name === 'Премиум' && (
+                        <Badge className="absolute top-4 left-4 bg-green-600 text-white border-0">
+                          Premium
+                        </Badge>
+                      )}
+                    </div>
+                    <CardContent className="p-6">
+                      {/* Title */}
+                      <h3 className="text-lg font-semibold text-gray-900 mb-2 line-clamp-2">
                         {product.title}
-                      </div>
+                      </h3>
                       
-                      {/* Description - Fixed height */}
-                      <p className="text-muted-foreground mb-4 h-10 line-clamp-2 overflow-hidden">
+                      {/* Description */}
+                      <p className="text-gray-600 mb-4 text-sm line-clamp-2">
                         {product.description}
                       </p>
 
-                      {/* Price and Badge - Fixed height */}
-                      <div className="flex justify-between items-center mb-4 h-8">
-                        <span className="text-lg font-bold text-primary">
-                          {t("catalog.from")} {product.pricePerSquareMeter}₽/м²
-                        </span>
-                        <Badge variant="secondary" className="text-xs">
-                          {product.category?.name || `${t('home.category')}: ${product.categoryId}`}
-                        </Badge>
-                      </div>
-
-                      {/* Specifications - Fixed height */}
-                      <div className="text-sm text-muted-foreground mb-6 h-20">
-                        <div className="space-y-1">
-                          <div>• {t('home.thickness')}: {product.minThickness}-{product.maxThickness} мм</div>
-                          <div>• {t('product.pricePerSquareMeter')}: {product.pricePerSquareMeter}₽</div>
-                          <div>• {t('home.category')}: {product.category?.name || product.categoryId}</div>
+                      {/* Specifications */}
+                      <div className="space-y-2 mb-4">
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span>Pile Height: {product.minThickness || 20}-{product.maxThickness || 35}мм</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span>Density: {product.pricePerSquareMeter || 16800} стежков/м²</span>
+                        </div>
+                        <div className="flex items-center gap-2 text-sm text-gray-600">
+                          <div className="w-2 h-2 bg-green-500 rounded-full"></div>
+                          <span>Warranty: 10 лет</span>
                         </div>
                       </div>
 
-                      {/* Buttons - Pushed to bottom */}
-                      <div className="flex gap-2 mt-auto">
+                      {/* Price */}
+                      <div className="mb-4">
+                        <span className="text-xl font-bold text-green-600">
+                          from {product.pricePerSquareMeter || 890}₽/м²
+                        </span>
+                      </div>
+
+                      {/* Buttons */}
+                      <div className="flex gap-2">
                         <Button
                           variant="outline"
-                          className="flex-1 bg-transparent h-10 text-xs"
+                          className="flex-1 border-gray-300 text-gray-700 hover:bg-gray-50"
                           onClick={() => router.push(`/catalog/${product.id}`)}
                         >
-                          {t("catalog.moreDetails")}
+                          More Details
                         </Button>
-                        <Button variant="secondary" className="flex-[1.5] h-10 text-xs" onClick={() => handleAddToCart(product)}>
-                          {t("products.addToCart")}
+                        <Button 
+                          className="flex-1 bg-green-600 hover:bg-green-700 text-white"
+                          onClick={() => handleAddToCart(product)}
+                        >
+                          Add to Cart
                         </Button>
                       </div>
                     </CardContent>

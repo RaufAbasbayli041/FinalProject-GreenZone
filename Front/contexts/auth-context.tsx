@@ -67,7 +67,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error: any) {
       console.error("Ошибка входа:", error)
-      return { success: false, message: error.message || "Ошибка входа" }
+      
+      // Улучшенная обработка ошибок
+      let errorMessage = "Ошибка входа"
+      
+      if (error.message.includes('500')) {
+        errorMessage = "Проблема с сервером. Попробуйте позже или используйте демо-режим."
+      } else if (error.message.includes('401')) {
+        errorMessage = "Неверные учетные данные"
+      } else if (error.message.includes('400')) {
+        errorMessage = "Некорректные данные для входа"
+      } else if (error.message.includes('network') || error.message.includes('fetch')) {
+        errorMessage = "Проблема с подключением. Проверьте интернет-соединение."
+      }
+      
+      return { success: false, message: errorMessage }
     }
   }
 
@@ -112,6 +126,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const newAuthState = { user: null, isAuthenticated: false }
     setAuthState(newAuthState)
     storage.setAuthState(newAuthState)
+    
+    // Очищаем токен из localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token')
+    }
   }
 
   return (

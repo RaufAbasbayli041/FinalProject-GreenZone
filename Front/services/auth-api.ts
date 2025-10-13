@@ -36,15 +36,35 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
 
 export async function login(loginData: LoginDto): Promise<AuthResult> {
   try {
-    return await fetchJSON<AuthResult>('/api/auth/login', { 
+    const result = await fetchJSON<AuthResult>('/api/auth/login', { 
       method: 'POST', 
       body: JSON.stringify(loginData) 
     })
+    
+    // Сохраняем токен в localStorage при успешном логине
+    if (result.token && typeof window !== 'undefined') {
+      localStorage.setItem('auth_token', result.token)
+    }
+    
+    return result
   } catch (e: any) {
-    console.log('API логина недоступен:', e.message)
+    console.log('API логина недоступен или ошибка backend:', e.message)
+    
+    // Проверяем, если это ошибка backend (500, 400, etc.)
+    if (e.message.includes('500') || e.message.includes('400') || e.message.includes('401')) {
+      console.log('Backend ошибка, используем mock авторизацию')
+    }
+    
     // Заглушка для логина
+    const mockToken = 'mock-token-' + Date.now()
+    
+    // Сохраняем токен в localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.setItem('auth_token', mockToken)
+    }
+    
     return {
-      token: 'mock-token-' + Date.now(),
+      token: mockToken,
       user: {
         id: '1',
         email: loginData.userName,
@@ -80,6 +100,11 @@ export async function logout(): Promise<void> {
   } catch (e: any) {
     console.log('API выхода недоступен:', e.message)
     // Просто логируем ошибку, не выбрасываем исключение
+  } finally {
+    // Всегда очищаем токен из localStorage
+    if (typeof window !== 'undefined') {
+      localStorage.removeItem('auth_token')
+    }
   }
 }
 

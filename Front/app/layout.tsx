@@ -5,6 +5,8 @@ import { ReactNode } from "react"
 import Providers from './providers'
 import { Navbar } from '@/components/layout/navbar'
 import { Footer } from '@/components/layout/footer'
+import { ConditionalFooter } from '@/components/layout/conditional-footer'
+import { ConditionalNavbar } from '@/components/layout/conditional-navbar'
 
 export const metadata: Metadata = {
   title: "Green Zone - Продажа и установка искусственного газона",
@@ -19,15 +21,15 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="ru" suppressHydrationWarning={true}>
+    <html lang="ru" suppressHydrationWarning={true} data-scroll-behavior="smooth">
       <body suppressHydrationWarning={true}>
         <Providers>
           <div className="flex flex-col">
-            <Navbar />
+            <ConditionalNavbar />
             <main className="flex-1 pt-16">
               {children}
             </main>
-            <Footer />
+            <ConditionalFooter />
           </div>
         </Providers>
       </body>

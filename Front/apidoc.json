@@ -1648,6 +1648,28 @@
         }
       }
     },
+    "/api/Customer/by-user/{userId}": {
+      "get": {
+        "tags": [
+          "Customer"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Delivery/{id}": {
       "get": {
         "tags": [
@@ -2434,7 +2456,12 @@
         "additionalProperties": false
       },
       "DeliveryStatusType": {
-        "enum": [1, 2, 3, 4],
+        "enum": [
+          1,
+          2,
+          3,
+          4
+        ],
         "type": "integer",
         "format": "int32"
       },
@@ -2650,7 +2677,14 @@
         "additionalProperties": false
       },
       "OrderStatusName": {
-        "enum": [1, 2, 3, 4, 5, 6],
+        "enum": [
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
         "type": "integer",
         "format": "int32"
       },
@@ -2748,7 +2782,13 @@
         "additionalProperties": false
       },
       "PaymentStatus": {
-        "enum": [0, 1, 2, 3, 4],
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4
+        ],
         "type": "integer",
         "format": "int32"
       },
@@ -2993,7 +3033,7 @@
   },
   "security": [
     {
-      "Bearer": []
+      "Bearer": [ ]
     }
   ]
 }

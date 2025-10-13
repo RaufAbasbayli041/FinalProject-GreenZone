@@ -67,7 +67,6 @@ namespace GreenZone.Persistance.Repository
             var customer = await _context.Customers
                 .Where(c => !c.IsDeleted)
                     .Include(c => c.User)
-
                     .Include(c => c.Basket)
                     .ThenInclude(b => b.BasketItems)
                     .ThenInclude(bi => bi.Product)

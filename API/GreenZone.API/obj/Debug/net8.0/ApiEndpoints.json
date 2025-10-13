@@ -1021,6 +1021,22 @@
     "ReturnTypes": []
   },
   {
+    "ContainingType": "GreenZone.API.Controllers.CustomerController",
+    "Method": "GetCustomerByUserId",
+    "RelativePath": "api/Customer/by-user/{userId}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "userId",
+        "Type": "System.String",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
     "ContainingType": "GreenZone.API.Controllers.DeliveryController",
     "Method": "GetById",
     "RelativePath": "api/Delivery/{id}",

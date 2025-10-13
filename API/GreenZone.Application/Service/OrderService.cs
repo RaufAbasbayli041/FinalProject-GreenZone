@@ -84,7 +84,7 @@ namespace GreenZone.Application.Service
             };
 
             await _orderRepository.AddAsync(order);
-
+            await _unitOfWork.SaveChangesAsync();
 
             // map basket items to order items
             order.OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
@@ -93,6 +93,7 @@ namespace GreenZone.Application.Service
                 Quantity = bi.Quantity,
                 OrderId = order.Id,
             }).ToList();
+
 
             // save order items
             foreach (var item in order.OrderItems)

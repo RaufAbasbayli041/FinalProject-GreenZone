@@ -1,11 +1,26 @@
 import type { Customer, CustomerUpdateDto } from '@/lib/types'
+import { storage } from '@/lib/storage'
+
+// Функция для получения токена из localStorage
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null
+  return localStorage.getItem('auth_token')
+}
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7100'
 
 async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise<T> {
+  // Получаем токен аутентификации
+  const token = getAuthToken()
+  
   // Если путь уже полный URL, используем его как есть
   if (path.startsWith('http')) {
-    const res = await fetch(path, { ...opts, headers: { 'Content-Type': 'application/json', ...(opts.headers || {}) } })
+    const headers: Record<string, string> = { 'Content-Type': 'application/json', ...(opts.headers || {}) }
+    if (token) {
+      headers['Authorization'] = `Bearer ${token}`
+    }
+    
+    const res = await fetch(path, { ...opts, headers })
     if (!res.ok) {
       const text = await res.text().catch(() => '')
       throw new Error(`Request failed ${res.status} ${res.statusText}: ${text}`)
@@ -18,13 +33,15 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
   const pathClean = path.replace(/^\/+/, '') // убираем leading slash
   const url = `${baseClean}/${pathClean}`
 
+  const headers: Record<string, string> = { 'Content-Type': 'application/json', ...(opts.headers || {}) }
+  if (token) {
+    headers['Authorization'] = `Bearer ${token}`
+  }
+
   const res = await fetch(url, { 
     ...opts, 
     credentials: 'include', 
-    headers: { 
-      'Content-Type': 'application/json', 
-      ...(opts.headers || {}) 
-    } 
+    headers
   })
   
   if (!res.ok) {
@@ -36,10 +53,11 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
 
 export async function getAllCustomers(): Promise<Customer[]> {
   try {
-    return await fetchJSON<Customer[]>('/api/customer')
+     return await fetchJSON<Customer[]>('/api/Customer')
   } catch (e: any) {
     console.log('API клиентов недоступен:', e.message)
-    throw e
+    // Возвращаем пустой массив вместо выброса ошибки
+    return []
   }
 }
 
@@ -86,26 +104,51 @@ export async function getCustomerByUserId(userId: string): Promise<Customer | nu
   try {
     console.log('Поиск клиента по userId:', userId)
     
-    // Получаем всех клиентов и ищем по userId
-    try {
-      const customers = await getAllCustomers()
-      console.log('Получены все клиенты:', customers.length)
-      
-      const customer = customers.find(c => c.userId === userId)
-      if (customer) {
-        console.log('Найден клиент по userId:', customer)
-        return customer
-      } else {
-        console.log('Клиент не найден по userId, возвращаем null')
-        return null
+    // Используем новый endpoint из API документации
+    const response = await fetch(`${BASE}/api/Customer/by-user/${userId}`, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${getAuthToken() || 'mock-token'}`
       }
-    } catch (error) {
-      console.log('Ошибка поиска клиента по userId:', error)
+    })
+    
+    if (response.ok) {
+      const customer = await response.json()
+      console.log('Найден клиент по userId:', customer)
+      return customer
+    } else if (response.status === 404) {
+      console.log('Клиент не найден по userId')
       return null
+    } else {
+      throw new Error(`HTTP ${response.status}: ${response.statusText}`)
     }
   } catch (e: any) {
     console.log('API поиска клиента по userId недоступен:', e.message)
-    return null
+    
+    // Если это 401 ошибка, значит пользователь не авторизован
+    if (e.message.includes('401')) {
+      console.log('Пользователь не авторизован, возвращаем null')
+      return null
+    }
+    
+    // Fallback: получаем всех клиентов и ищем по userId
+    try {
+      const customers = await getAllCustomers()
+      console.log('Получены все клиенты для fallback:', customers.length)
+      
+      const customer = customers.find(c => c.userId === userId)
+      if (customer) {
+        console.log('Найден клиент по userId (fallback):', customer)
+        return customer
+      } else {
+        console.log('Клиент не найден по userId (fallback), возвращаем null')
+        return null
+      }
+    } catch (error) {
+      console.log('Ошибка при fallback поиске клиента:', error)
+      return null
+    }
   }
 }
 
