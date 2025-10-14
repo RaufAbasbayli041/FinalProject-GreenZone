@@ -94,7 +94,6 @@ namespace GreenZone.Application.Service
                 OrderId = order.Id,
             }).ToList();
 
-
             // save order items
             foreach (var item in order.OrderItems)
             {

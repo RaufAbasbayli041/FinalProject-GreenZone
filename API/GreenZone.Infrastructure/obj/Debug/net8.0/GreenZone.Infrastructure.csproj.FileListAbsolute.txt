@@ -34,3 +34,15 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\refint\GreenZone.Infrastructure.dll
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.pdb
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\ref\GreenZone.Infrastructure.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.deps.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\bin\Debug\net8.0\GreenZone.Infrastructure.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.AssemblyInfoInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.AssemblyInfo.cs
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.csproj.CoreCompileInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.sourcelink.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\refint\GreenZone.Infrastructure.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\GreenZone.Infrastructure.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Infrastructure\obj\Debug\net8.0\ref\GreenZone.Infrastructure.dll

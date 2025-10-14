@@ -62,3 +62,19 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\refint\GreenZone.Contracts.dll
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.pdb
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\ref\GreenZone.Contracts.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\bin\Debug\net8.0\GreenZone.Contracts.deps.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\bin\Debug\net8.0\GreenZone.Contracts.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\bin\Debug\net8.0\GreenZone.Contracts.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\bin\Debug\net8.0\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\bin\Debug\net8.0\GreenZone.Domain.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.csproj.AssemblyReference.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.AssemblyInfoInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.AssemblyInfo.cs
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.csproj.CoreCompileInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.sourcelink.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZon.93D5488D.Up2Date
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\refint\GreenZone.Contracts.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\GreenZone.Contracts.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Contracts\obj\Debug\net8.0\ref\GreenZone.Contracts.dll

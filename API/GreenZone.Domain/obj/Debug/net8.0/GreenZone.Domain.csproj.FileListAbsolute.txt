@@ -50,3 +50,16 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.deps.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\bin\Debug\net8.0\GreenZone.Domain.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.AssemblyReference.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.GeneratedMSBuildEditorConfig.editorconfig
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfoInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.AssemblyInfo.cs
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.csproj.CoreCompileInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.sourcelink.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\refint\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\GreenZone.Domain.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Domain\obj\Debug\net8.0\ref\GreenZone.Domain.dll

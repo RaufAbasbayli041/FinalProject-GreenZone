@@ -1,23 +1,23 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {}
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {}
   },
   "projects": {
-    "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {
+    "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "projectUniqueName": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
         "projectName": "GreenZone.Domain",
-        "projectPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
-        "packagesPath": "C:\\Users\\ASUS\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Domain\\obj\\",
+        "projectPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\API\\GreenZone.Domain\\GreenZone.Domain.csproj",
+        "packagesPath": "C:\\Users\\elnur.a\\.nuget\\packages\\",
+        "outputPath": "D:\\EVRASCON\\Rauf\\Visual Studio\\API\\FinalProject-GreenZone\\API\\GreenZone.Domain\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
         ],
         "configFilePaths": [
-          "C:\\Users\\ASUS\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\elnur.a\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],

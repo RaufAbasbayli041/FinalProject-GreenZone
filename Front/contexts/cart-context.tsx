@@ -27,6 +27,22 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
     // Загружаем корзину при инициализации
     const loadCart = async () => {
       try {
+        // Проверяем роль пользователя - админы не загружают корзину
+        const token = localStorage.getItem('auth_token')
+        if (token) {
+          try {
+            const payload = JSON.parse(atob(token.split('.')[1]))
+            const userRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+            
+            if (userRole === 'Admin' || userRole === 'admin' || (Array.isArray(userRole) && userRole.includes('Admin'))) {
+              console.log('Admin user detected, skipping cart loading')
+              return
+            }
+          } catch (error) {
+            console.error('Error parsing token for role check:', error)
+          }
+        }
+
         // Сначала пытаемся загрузить с сервера
         const { getUserIdFromToken, getCustomerIdByUserId, getBasketByCustomerId } = await import('@/services/api')
         const userId = getUserIdFromToken()

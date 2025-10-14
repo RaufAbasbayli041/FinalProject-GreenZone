@@ -70,3 +70,21 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.pdb
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.genruntimeconfig.cache
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\ref\GreenZone.Persistance.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.deps.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.runtimeconfig.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Persistance.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\bin\Debug\net8.0\GreenZone.Domain.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.AssemblyReference.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.GeneratedMSBuildEditorConfig.editorconfig
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfoInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.AssemblyInfo.cs
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.csproj.CoreCompileInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.sourcelink.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZon.7C21201E.Up2Date
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\refint\GreenZone.Persistance.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\GreenZone.Persistance.genruntimeconfig.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Persistance\obj\Debug\net8.0\ref\GreenZone.Persistance.dll

@@ -70,3 +70,21 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Application\obj\Debug\net8.0\refint\GreenZone.Application.dll
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.pdb
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Application\obj\Debug\net8.0\ref\GreenZone.Application.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Application.deps.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Application.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Application.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Contracts.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Domain.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Contracts.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\bin\Debug\net8.0\GreenZone.Domain.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.csproj.AssemblyReference.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.GeneratedMSBuildEditorConfig.editorconfig
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.AssemblyInfoInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.AssemblyInfo.cs
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.csproj.CoreCompileInputs.cache
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.sourcelink.json
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZon.703CC849.Up2Date
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\refint\GreenZone.Application.dll
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\GreenZone.Application.pdb
+D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.Application\obj\Debug\net8.0\ref\GreenZone.Application.dll

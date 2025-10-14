@@ -184,7 +184,8 @@ export interface OrderUpdateDto {
 
 // User Roles
 export enum UserRole {
-  CUSTOMER = 'Customer'
+  CUSTOMER = 'Customer',
+  ADMIN = 'Admin'
 }
 
 // Language Types
