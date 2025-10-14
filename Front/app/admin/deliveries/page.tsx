@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -22,52 +22,67 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Plus, Eye, Edit, Trash2, MoreHorizontal, Search, X, Truck, MapPin, Calendar } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
-
-// Mock data
-const mockDeliveries = [
-  {
-    id: 1,
-    orderId: 1,
-    orderNumber: 'GZ-001',
-    deliveryAddress: 'Москва, ул. Примерная, 123',
-    deliveryDate: '2024-01-20',
-    status: 1,
-    statusName: 'Подготовка',
-    notes: 'Срочная доставка',
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 2,
-    orderId: 2,
-    orderNumber: 'GZ-002',
-    deliveryAddress: 'Санкт-Петербург, пр. Невский, 456',
-    deliveryDate: '2024-01-18',
-    status: 2,
-    statusName: 'В пути',
-    notes: '',
-    createdAt: '2024-01-14'
-  },
-  {
-    id: 3,
-    orderId: 3,
-    orderNumber: 'GZ-003',
-    deliveryAddress: 'Казань, ул. Баумана, 789',
-    deliveryDate: '2024-01-16',
-    status: 3,
-    statusName: 'Доставлен',
-    notes: 'Звонить перед доставкой',
-    createdAt: '2024-01-13'
-  }
-]
+import { AdminLayout } from '@/components/admin/AdminLayout'
+import { getAdminDeliveries } from '@/services/admin-api'
+import { Loader2 } from 'lucide-react'
 
 export default function DeliveriesList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
   const [searchTerm, setSearchTerm] = useState('')
-  const [deliveries] = useState(mockDeliveries)
+  const [deliveries, setDeliveries] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadDeliveries()
+    }
+  }, [isAdmin])
+
+  const loadDeliveries = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const token = localStorage.getItem('auth_token')
+      if (!token) {
+        console.warn('No token available for deliveries loading')
+        router.push('/login')
+        return
+      }
+      
+      const deliveriesData = await getAdminDeliveries()
+      setDeliveries(deliveriesData)
+    } catch (err: any) {
+      console.error('Ошибка загрузки доставок:', err)
+      
+      if (err.message.includes('No authentication token') || err.message.includes('401')) {
+        console.log('Authentication error, redirecting to login')
+        router.push('/login')
+        return
+      }
+      
+      if (err.message.includes('404')) {
+        console.log('Admin Deliveries API endpoint not implemented yet')
+        setDeliveries([])
+        setError(null)
+        return
+      }
+      
+      setError(err.message || 'Ошибка загрузки доставок')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
 
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 
@@ -88,13 +103,37 @@ export default function DeliveriesList() {
     )
   }
 
-  const filteredDeliveries = deliveries.filter(delivery =>
-    delivery.orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    delivery.deliveryAddress.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredDeliveries = (deliveries || []).filter(delivery =>
+    delivery?.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    delivery?.deliveryAddress?.toLowerCase().includes(searchTerm.toLowerCase())
   )
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+        </div>
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={loadDeliveries}>Попробовать снова</Button>
+          </div>
+        </div>
+      </AdminLayout>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <AdminLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -212,6 +251,7 @@ export default function DeliveriesList() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   )
 }

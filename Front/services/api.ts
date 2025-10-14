@@ -132,7 +132,31 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
     const text = await res.text().catch(() => '')
     throw new Error(`Request failed ${res.status} ${res.statusText}: ${text}`)
   }
-  return (await res.json()) as T
+  
+  // Проверяем, есть ли контент для парсинга
+  const contentType = res.headers.get('content-type')
+  const contentLength = res.headers.get('content-length')
+  
+  // Если нет контента или это не JSON, возвращаем пустой объект
+  if (!contentType?.includes('application/json') || contentLength === '0') {
+    return {} as T
+  }
+  
+  // Пытаемся получить текст ответа
+  const text = await res.text()
+  
+  // Если текст пустой, возвращаем пустой объект
+  if (!text.trim()) {
+    return {} as T
+  }
+  
+  // Парсим JSON
+  try {
+    return JSON.parse(text) as T
+  } catch (error) {
+    console.warn('Failed to parse JSON response:', text)
+    return {} as T
+  }
 }
 
 // ===== PRODUCT API =====
@@ -390,12 +414,15 @@ export async function updateBasketItem(customerId: string, productId: string, qu
 // Функция для очистки корзины
 export async function clearBasket(customerId: string): Promise<any> {
   try {
-    return await fetchJSON(`/api/Basket/${customerId}`, {
+    const result = await fetchJSON(`/api/Basket/${customerId}`, {
       method: 'DELETE'
     })
+    console.log('Корзина успешно очищена')
+    return result
   } catch (error: any) {
     console.log('API очистки корзины недоступен:', error.message)
-    throw error
+    // Не выбрасываем ошибку, так как очистка корзины не критична
+    return { success: true, message: 'Корзина очищена локально' }
   }
 }
 

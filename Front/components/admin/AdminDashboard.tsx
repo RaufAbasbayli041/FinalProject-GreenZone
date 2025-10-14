@@ -29,6 +29,7 @@ import {
   getAdminDeliveries 
 } from '@/services/admin-api'
 import type { Order, Product, Customer, Delivery } from '@/lib/types'
+import { useLanguage } from '@/contexts/language-context-new'
 
 interface DashboardStats {
   orders: number
@@ -50,6 +51,7 @@ interface StatusData {
 }
 
 export const AdminDashboard: React.FC = () => {
+  const { t } = useLanguage()
   const [loading, setLoading] = useState(true)
   const [stats, setStats] = useState<DashboardStats>({
     orders: 0,
@@ -188,28 +190,28 @@ export const AdminDashboard: React.FC = () => {
 
   const statsCards = [
     {
-      title: 'Всего заказов',
+      title: t('admin.dashboard.totalOrders'),
       value: stats.orders,
       icon: ShoppingCart,
       color: 'text-blue-600',
       bgColor: 'bg-blue-50',
     },
     {
-      title: 'Активные товары',
+      title: t('admin.dashboard.totalProducts'),
       value: stats.products,
       icon: Package,
       color: 'text-green-600',
       bgColor: 'bg-green-50',
     },
     {
-      title: 'Клиенты',
+      title: t('admin.dashboard.totalCustomers'),
       value: stats.customers,
       icon: Users,
       color: 'text-purple-600',
       bgColor: 'bg-purple-50',
     },
     {
-      title: 'Доставки',
+      title: t('admin.dashboard.totalRevenue'),
       value: stats.deliveries,
       icon: Truck,
       color: 'text-orange-600',
@@ -230,12 +232,12 @@ export const AdminDashboard: React.FC = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Панель управления</h1>
-          <p className="text-gray-600">Обзор деятельности GreenZone</p>
+          <h1 className="text-2xl font-bold text-gray-900">{t('admin.dashboard.title')}</h1>
+          <p className="text-gray-600">{t('admin.dashboard.subtitle')}</p>
         </div>
         <Button onClick={exportToCSV} className="flex items-center gap-2">
           <Download className="h-4 w-4" />
-          Экспорт заказов
+          {t('action.export')}
         </Button>
       </div>
 

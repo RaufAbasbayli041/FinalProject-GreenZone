@@ -27,7 +27,7 @@ export default function CatalogPage() {
   const [priceRange, setPriceRange] = useState([0, 2000])
   const [sortBy, setSortBy] = useState("name")
 
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, isAdmin } = useAuth()
   const { addToCart } = useCart()
   const { t } = useLanguage()
   const router = useRouter()

@@ -12,5 +12,6 @@ namespace GreenZone.Contracts.Dtos
 		public string Token { get; set; }
 		public Guid CustomerId { get; set; }
         public DateTime Expiration { get; set; }
+		public string Role { get; set; } = string.Empty;
     }
 }

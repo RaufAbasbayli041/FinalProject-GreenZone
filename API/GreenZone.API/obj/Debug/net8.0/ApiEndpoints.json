@@ -614,7 +614,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminOrderStatusController",
     "Method": "GetAll",
-    "RelativePath": "api/AdminOrderStatus",
+    "RelativePath": "api/admin/AdminOrderStatus",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -624,7 +624,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminOrderStatusController",
     "Method": "GetByName",
-    "RelativePath": "api/AdminOrderStatus/{name}",
+    "RelativePath": "api/admin/AdminOrderStatus/{name}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -640,7 +640,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "GetAllProducts",
-    "RelativePath": "api/AdminProduct",
+    "RelativePath": "api/admin/AdminProduct",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -650,7 +650,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "CreateProduct",
-    "RelativePath": "api/AdminProduct",
+    "RelativePath": "api/admin/AdminProduct",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -666,7 +666,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "GetProductById",
-    "RelativePath": "api/AdminProduct/{id}",
+    "RelativePath": "api/admin/AdminProduct/{id}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -682,7 +682,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "UpdateProduct",
-    "RelativePath": "api/AdminProduct/{id}",
+    "RelativePath": "api/admin/AdminProduct/{id}",
     "HttpMethod": "PUT",
     "IsController": true,
     "Order": 0,
@@ -703,7 +703,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "DeleteProduct",
-    "RelativePath": "api/AdminProduct/{id}",
+    "RelativePath": "api/admin/AdminProduct/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,
     "Order": 0,
@@ -719,7 +719,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "GetProductsByCategory",
-    "RelativePath": "api/AdminProduct/by-category/{categoryId}",
+    "RelativePath": "api/admin/AdminProduct/by-category/{categoryId}",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -745,7 +745,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "SearchProducts",
-    "RelativePath": "api/AdminProduct/search",
+    "RelativePath": "api/admin/AdminProduct/search",
     "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
@@ -771,7 +771,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "UploadDocuments",
-    "RelativePath": "api/AdminProduct/upload-documents/{id}",
+    "RelativePath": "api/admin/AdminProduct/upload-documents/{id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,
@@ -792,7 +792,7 @@
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminProductController",
     "Method": "UploadImage",
-    "RelativePath": "api/AdminProduct/upload-image/{id}",
+    "RelativePath": "api/admin/AdminProduct/upload-image/{id}",
     "HttpMethod": "POST",
     "IsController": true,
     "Order": 0,

@@ -149,57 +149,57 @@ export const adminApi = {
   // Orders
   orders: {
     getAll: (params?: { keyword?: string; page?: number; pageSize?: number }) =>
-      apiClient.get<PaginatedResponse<OrderDto>>('/api/admin/order', { params }),
+      apiClient.get<PaginatedResponse<OrderDto>>('/api/admin/AdminOrder', { params }),
     
     getById: (id: number) =>
-      apiClient.get<OrderDto>(`/api/admin/order/${id}`),
+      apiClient.get<OrderDto>(`/api/admin/AdminOrder/${id}`),
     
     create: (data: CreateOrderDto) =>
-      apiClient.post<OrderDto>('/api/admin/order', data),
+      apiClient.post<OrderDto>('/api/admin/AdminOrder', data),
     
     update: (id: number, data: UpdateOrderDto) =>
-      apiClient.put<OrderDto>(`/api/admin/order/${id}`, data),
+      apiClient.put<OrderDto>(`/api/admin/AdminOrder/${id}`, data),
     
     delete: (id: number) =>
-      apiClient.delete(`/api/admin/order/${id}`),
+      apiClient.delete(`/api/admin/AdminOrder/${id}`),
     
     getByStatus: (statusId: number, params?: { keyword?: string; page?: number; pageSize?: number }) =>
-      apiClient.get<PaginatedResponse<OrderDto>>(`/api/admin/order/by-status/${statusId}`, { params }),
+      apiClient.get<PaginatedResponse<OrderDto>>(`/api/admin/AdminOrder/by-status/${statusId}`, { params }),
     
     deliver: (id: number) =>
-      apiClient.post(`/api/admin/order/${id}/deliver`),
+      apiClient.post(`/api/admin/AdminOrder/${id}/deliver`),
     
     processing: (id: number) =>
-      apiClient.post(`/api/admin/order/${id}/processing`),
+      apiClient.post(`/api/admin/AdminOrder/${id}/processing`),
     
     returned: (id: number) =>
-      apiClient.post(`/api/admin/order/${id}/returned`),
+      apiClient.post(`/api/admin/AdminOrder/${id}/returned`),
     
     cancel: (id: number) =>
-      apiClient.post(`/api/admin/order/${id}/cancel`),
+      apiClient.post(`/api/admin/AdminOrder/${id}/cancel`),
   },
 
   // Products
   products: {
     getAll: (params?: { keyword?: string; page?: number; pageSize?: number }) =>
-      apiClient.get<PaginatedResponse<ProductDto>>('/api/admin/product', { params }),
+      apiClient.get<PaginatedResponse<ProductDto>>('/api/admin/AdminProduct', { params }),
     
     getById: (id: number) =>
-      apiClient.get<ProductDto>(`/api/admin/product/${id}`),
+      apiClient.get<ProductDto>(`/api/admin/AdminProduct/${id}`),
     
     create: (data: CreateProductDto) =>
-      apiClient.post<ProductDto>('/api/admin/product', data),
+      apiClient.post<ProductDto>('/api/admin/AdminProduct', data),
     
     update: (id: number, data: UpdateProductDto) =>
-      apiClient.put<ProductDto>(`/api/admin/product/${id}`, data),
+      apiClient.put<ProductDto>(`/api/admin/AdminProduct/${id}`, data),
     
     delete: (id: number) =>
-      apiClient.delete(`/api/admin/product/${id}`),
+      apiClient.delete(`/api/admin/AdminProduct/${id}`),
     
     uploadImage: (id: number, file: File) => {
       const formData = new FormData();
       formData.append('file', file);
-      return apiClient.post(`/api/admin/product/upload-image/${id}`, formData, {
+      return apiClient.post(`/api/admin/AdminProduct/upload-image/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
     },
@@ -207,7 +207,7 @@ export const adminApi = {
     uploadDocuments: (id: number, files: File[]) => {
       const formData = new FormData();
       files.forEach(file => formData.append('files', file));
-      return apiClient.post(`/api/admin/product/upload-documents/${id}`, formData, {
+      return apiClient.post(`/api/admin/AdminProduct/upload-documents/${id}`, formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
     },
@@ -216,52 +216,52 @@ export const adminApi = {
   // Customers
   customers: {
     getAll: (params?: { keyword?: string; page?: number; pageSize?: number }) =>
-      apiClient.get<PaginatedResponse<CustomerDto>>('/api/admin/customer', { params }),
+      apiClient.get<PaginatedResponse<CustomerDto>>('/api/admin/AdminCustomer', { params }),
     
     getById: (id: number) =>
-      apiClient.get<CustomerDto>(`/api/admin/customer/${id}`),
+      apiClient.get<CustomerDto>(`/api/admin/AdminCustomer/${id}`),
     
     delete: (id: number) =>
-      apiClient.delete(`/api/admin/customer/${id}`),
+      apiClient.delete(`/api/admin/AdminCustomer/${id}`),
   },
 
   // Categories
   categories: {
     getAll: () =>
-      apiClient.get<CategoryDto[]>('/api/admin/category'),
+      apiClient.get<CategoryDto[]>('/api/admin/AdminCategory'),
     
     getById: (id: number) =>
-      apiClient.get<CategoryDto>(`/api/admin/category/${id}`),
+      apiClient.get<CategoryDto>(`/api/admin/AdminCategory/${id}`),
     
     create: (data: CreateCategoryDto) =>
-      apiClient.post<CategoryDto>('/api/admin/category', data),
+      apiClient.post<CategoryDto>('/api/admin/AdminCategory', data),
     
     update: (id: number, data: UpdateCategoryDto) =>
-      apiClient.put<CategoryDto>(`/api/admin/category/${id}`, data),
+      apiClient.put<CategoryDto>(`/api/admin/AdminCategory/${id}`, data),
     
     delete: (id: number) =>
-      apiClient.delete(`/api/admin/category/${id}`),
+      apiClient.delete(`/api/admin/AdminCategory/${id}`),
   },
 
   // Deliveries
   deliveries: {
     getAll: (params?: { keyword?: string; page?: number; pageSize?: number }) =>
-      apiClient.get<PaginatedResponse<DeliveryDto>>('/api/admin/delivery', { params }),
+      apiClient.get<PaginatedResponse<DeliveryDto>>('/api/admin/AdminDelivery', { params }),
     
     getById: (id: number) =>
-      apiClient.get<DeliveryDto>(`/api/admin/delivery/${id}`),
+      apiClient.get<DeliveryDto>(`/api/admin/AdminDelivery/${id}`),
     
     create: (data: CreateDeliveryDto) =>
-      apiClient.post<DeliveryDto>('/api/admin/delivery', data),
+      apiClient.post<DeliveryDto>('/api/admin/AdminDelivery', data),
     
     update: (id: number, data: UpdateDeliveryDto) =>
-      apiClient.put<DeliveryDto>(`/api/admin/delivery/${id}`, data),
+      apiClient.put<DeliveryDto>(`/api/admin/AdminDelivery/${id}`, data),
     
     delete: (id: number) =>
-      apiClient.delete(`/api/admin/delivery/${id}`),
+      apiClient.delete(`/api/admin/AdminDelivery/${id}`),
     
     updateStatus: (id: number, status: number) =>
-      apiClient.post(`/api/admin/delivery/${id}/status/${status}`),
+      apiClient.post(`/api/admin/AdminDelivery/${id}/status/${status}`),
   },
 };
 

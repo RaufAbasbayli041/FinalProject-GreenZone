@@ -1,22 +1,12 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
-import { Badge } from '@/components/ui/badge'
 import {
   Sheet,
   SheetContent,
-  SheetTrigger,
 } from '@/components/ui/sheet'
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
 import {
   LayoutDashboard,
   Package,
@@ -26,36 +16,37 @@ import {
   FolderOpen,
   Menu,
   LogOut,
-  User,
-  Settings,
-  Bell,
 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
+import { useLanguage } from '@/contexts/language-context-new'
+import { LanguageSwitcher } from '@/components/language-switcher-new'
 
 interface AdminLayoutProps {
   children: React.ReactNode
 }
 
-const navigation = [
-  { name: 'Панель управления', href: '/admin', icon: LayoutDashboard },
-  { name: 'Заказы', href: '/admin/orders', icon: ShoppingCart },
-  { name: 'Товары', href: '/admin/products', icon: Package },
-  { name: 'Клиенты', href: '/admin/customers', icon: Users },
-  { name: 'Доставки', href: '/admin/deliveries', icon: Truck },
-  { name: 'Категории', href: '/admin/categories', icon: FolderOpen },
-]
-
 export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { user, logout } = useAuth()
+  const { user, logout, isAdmin } = useAuth()
+  const { t } = useLanguage()
+
+  // Убираем автоматические редиректы - теперь это делает AutoRedirect компонент
 
   const handleLogout = () => {
     logout()
     router.push('/login')
   }
+
+  const navigation = [
+    { name: t('admin.nav.dashboard'), href: '/admin', icon: LayoutDashboard },
+    { name: t('admin.nav.orders'), href: '/admin/orders', icon: ShoppingCart },
+    { name: t('admin.nav.products'), href: '/admin/products', icon: Package },
+    { name: t('admin.nav.customers'), href: '/admin/customers', icon: Users },
+    { name: t('admin.nav.deliveries'), href: '/admin/deliveries', icon: Truck },
+    { name: t('admin.nav.categories'), href: '/admin/categories', icon: FolderOpen },
+  ]
 
   const SidebarContent = () => (
     <div className="flex h-full flex-col">
@@ -66,8 +57,21 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           </div>
           <div>
             <h1 className="text-lg font-semibold text-gray-900">GreenZone</h1>
-            <p className="text-xs text-gray-500">Админ-панель</p>
+            <p className="text-xs text-gray-500">
+              {user?.firstName && user?.lastName 
+                ? `${user.firstName} ${user.lastName}` 
+                : user?.email || 'Admin'}
+            </p>
           </div>
+        </div>
+        <div className="ml-auto lg:hidden">
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => setSidebarOpen(false)}
+          >
+            <Menu className="h-6 w-6" />
+          </Button>
         </div>
       </div>
       
@@ -100,6 +104,22 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           })}
         </ul>
       </nav>
+      
+      {/* Bottom section with logout and language switcher */}
+      <div className="px-4 pb-4 border-t border-gray-200 pt-4">
+        <div className="space-y-2">
+          <LanguageSwitcher />
+          <Button 
+            variant="ghost" 
+            size="sm" 
+            onClick={handleLogout}
+            className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+          >
+            <LogOut className="h-4 w-4 mr-2" />
+            {t('admin.nav.logout')}
+          </Button>
+        </div>
+      </div>
     </div>
   )
 
@@ -121,69 +141,16 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
       {/* Main content */}
       <div className="lg:pl-64">
-        {/* Top bar */}
-        <div className="sticky top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+        {/* Mobile menu button */}
+        <div className="lg:hidden fixed top-4 left-4 z-50">
           <Button
             variant="ghost"
             size="sm"
-            className="lg:hidden"
             onClick={() => setSidebarOpen(true)}
+            className="bg-white shadow-md"
           >
             <Menu className="h-6 w-6" />
           </Button>
-
-          <div className="flex flex-1 gap-x-4 self-stretch lg:gap-x-6">
-            <div className="flex flex-1"></div>
-            <div className="flex items-center gap-x-4 lg:gap-x-6">
-              {/* Notifications */}
-              <Button variant="ghost" size="sm" className="relative">
-                <Bell className="h-6 w-6" />
-                <Badge className="absolute -top-1 -right-1 h-5 w-5 rounded-full p-0 flex items-center justify-center text-xs">
-                  3
-                </Badge>
-              </Button>
-
-              {/* User menu */}
-              <DropdownMenu>
-                <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                    <Avatar className="h-8 w-8">
-                      <AvatarImage src={user?.avatar} alt={user?.firstName} />
-                      <AvatarFallback>
-                        {user?.firstName?.[0]}{user?.lastName?.[0]}
-                      </AvatarFallback>
-                    </Avatar>
-                  </Button>
-                </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
-                  <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {user?.firstName} {user?.lastName}
-                      </p>
-                      <p className="text-xs leading-none text-muted-foreground">
-                        {user?.email}
-                      </p>
-                    </div>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => router.push('/admin/profile')}>
-                    <User className="mr-2 h-4 w-4" />
-                    Профиль
-                  </DropdownMenuItem>
-                  <DropdownMenuItem onClick={() => router.push('/admin/settings')}>
-                    <Settings className="mr-2 h-4 w-4" />
-                    Настройки
-                  </DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout} className="text-red-600">
-                    <LogOut className="mr-2 h-4 w-4" />
-                    Выйти
-                  </DropdownMenuItem>
-                </DropdownMenuContent>
-              </DropdownMenu>
-            </div>
-          </div>
         </div>
 
         {/* Page content */}

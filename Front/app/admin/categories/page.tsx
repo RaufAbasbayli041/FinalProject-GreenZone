@@ -1,10 +1,11 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
+import { Input } from '@/components/ui/input'
 import {
   Table,
   TableBody,
@@ -19,46 +20,103 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { Plus, Edit, Trash2, MoreHorizontal, FolderOpen, Calendar } from 'lucide-react'
+import { Plus, Eye, Edit, Trash2, MoreHorizontal, FolderOpen, Calendar, Search, X } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
-
-// Mock data
-const mockCategories = [
-  {
-    id: 1,
-    name: 'Домашний газон',
-    description: 'Газон для частных домов и дач',
-    isActive: true,
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 2,
-    name: 'Спортивный газон',
-    description: 'Профессиональный газон для стадионов и спортивных площадок',
-    isActive: true,
-    createdAt: '2024-01-14'
-  },
-  {
-    id: 3,
-    name: 'Коммерческий газон',
-    description: 'Газон для коммерческих объектов и офисов',
-    isActive: false,
-    createdAt: '2024-01-13'
-  }
-]
+import { AdminLayout } from '@/components/admin/AdminLayout'
+import { getAdminCategories } from '@/services/admin-api'
+import { Loader2 } from 'lucide-react'
 
 export default function CategoriesList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
-  const [categories] = useState(mockCategories)
+  const [categories, setCategories] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+  const [searchTerm, setSearchTerm] = useState('')
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadCategories()
+    }
+  }, [isAdmin])
+
+  const loadCategories = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const token = localStorage.getItem('auth_token')
+      if (!token) {
+        console.warn('No token available for categories loading')
+        router.push('/login')
+        return
+      }
+      
+      const categoriesData = await getAdminCategories()
+      setCategories(categoriesData)
+    } catch (err: any) {
+      console.error('Ошибка загрузки категорий:', err)
+      
+      if (err.message.includes('No authentication token') || err.message.includes('401')) {
+        console.log('Authentication error, redirecting to login')
+        router.push('/login')
+        return
+      }
+      
+      if (err.message.includes('404')) {
+        console.log('Admin Categories API endpoint not implemented yet')
+        setCategories([])
+        setError(null)
+        return
+      }
+      
+      setError(err.message || 'Ошибка загрузки категорий')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const filteredCategories = (categories || []).filter(category =>
+    category?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (category?.description && category.description.toLowerCase().includes(searchTerm.toLowerCase()))
+  )
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
 
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+        </div>
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={loadCategories}>Попробовать снова</Button>
+          </div>
+        </div>
+      </AdminLayout>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <AdminLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -67,16 +125,42 @@ export default function CategoriesList() {
         </div>
         <Button onClick={() => router.push('/admin/categories/create')}>
           <Plus className="h-4 w-4 mr-2" />
-          Добавить категорию
+          Создать категорию
         </Button>
       </div>
+
+      {/* Filters */}
+      <Card>
+        <CardHeader>
+          <CardTitle>Фильтры</CardTitle>
+          <CardDescription>Фильтруйте категории по названию или описанию.</CardDescription>
+        </CardHeader>
+        <CardContent>
+          <div className="flex items-center space-x-2">
+            <div className="relative flex-1">
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Input
+                placeholder="Поиск по названию или описанию..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-9"
+              />
+            </div>
+            {searchTerm && (
+              <Button variant="ghost" size="sm" onClick={() => setSearchTerm('')}>
+                <X className="h-4 w-4" />
+              </Button>
+            )}
+          </div>
+        </CardContent>
+      </Card>
 
       {/* Categories Table */}
       <Card>
         <CardHeader>
           <CardTitle>Список категорий</CardTitle>
           <CardDescription>
-            Всего категорий: {categories.length}
+            Всего категорий: {filteredCategories.length}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -91,29 +175,29 @@ export default function CategoriesList() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {categories.map((category) => (
-                  <TableRow key={category.id}>
+                {filteredCategories.map((category) => (
+                  <TableRow key={category?.id || 'unknown'}>
                     <TableCell>
                       <div className="flex items-center gap-3">
                         <FolderOpen className="h-5 w-5 text-gray-400" />
                         <div>
-                          <p className="font-medium">{category.name}</p>
-                          {category.description && (
+                          <p className="font-medium">{category?.name || 'Без названия'}</p>
+                          {category?.description && (
                             <p className="text-sm text-gray-500">{category.description}</p>
                           )}
                         </div>
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={category.isActive ? 'default' : 'secondary'}>
-                        {category.isActive ? 'Активна' : 'Неактивна'}
+                      <Badge variant="default">
+                        Активна
                       </Badge>
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center gap-2">
                         <Calendar className="h-4 w-4 text-gray-400" />
                         <span className="text-sm">
-                          {new Date(category.createdAt).toLocaleDateString('ru-RU')}
+                          {category?.createdAt ? new Date(category.createdAt).toLocaleDateString('ru-RU') : 'Неизвестно'}
                         </span>
                       </div>
                     </TableCell>
@@ -125,7 +209,11 @@ export default function CategoriesList() {
                           </Button>
                         </DropdownMenuTrigger>
                         <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => router.push(`/admin/categories/${category.id}/edit`)}>
+                          <DropdownMenuItem onClick={() => router.push(`/admin/categories/${category?.id}`)}>
+                            <Eye className="mr-2 h-4 w-4" />
+                            Просмотр
+                          </DropdownMenuItem>
+                          <DropdownMenuItem onClick={() => router.push(`/admin/categories/${category?.id}/edit`)}>
                             <Edit className="mr-2 h-4 w-4" />
                             Редактировать
                           </DropdownMenuItem>
@@ -143,6 +231,7 @@ export default function CategoriesList() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   )
 }

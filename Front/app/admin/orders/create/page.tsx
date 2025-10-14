@@ -33,8 +33,13 @@ export default function OrderCreate() {
     notes: '',
   })
 
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
+
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 

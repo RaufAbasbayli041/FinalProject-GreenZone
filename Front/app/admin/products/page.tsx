@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -22,65 +22,101 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Plus, Eye, Edit, Trash2, MoreHorizontal, Search, X, Image, FileText } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
-
-// Mock data
-const mockProducts = [
-  {
-    id: 1,
-    name: 'Премиум искусственный газон',
-    description: 'Высококачественный газон для дома',
-    price: 2500,
-    categoryId: 1,
-    categoryName: 'Домашний газон',
-    imageUrl: '/placeholder.jpg',
-    isActive: true,
-    stockQuantity: 50,
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 2,
-    name: 'Спортивный газон',
-    description: 'Профессиональный газон для стадионов',
-    price: 3500,
-    categoryId: 2,
-    categoryName: 'Спортивный газон',
-    imageUrl: null,
-    isActive: true,
-    stockQuantity: 25,
-    createdAt: '2024-01-14'
-  },
-  {
-    id: 3,
-    name: 'Коммерческий газон',
-    description: 'Газон для коммерческих объектов',
-    price: 1800,
-    categoryId: 3,
-    categoryName: 'Коммерческий газон',
-    imageUrl: '/placeholder.jpg',
-    isActive: false,
-    stockQuantity: 0,
-    createdAt: '2024-01-13'
-  }
-]
+import { AdminLayout } from '@/components/admin/AdminLayout'
+import { getAdminProducts } from '@/services/admin-api'
+import { Loader2 } from 'lucide-react'
 
 export default function ProductsList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
   const [searchTerm, setSearchTerm] = useState('')
-  const [products] = useState(mockProducts)
+  const [products, setProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadProducts()
+    }
+  }, [isAdmin])
+
+  const loadProducts = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const token = localStorage.getItem('auth_token')
+      if (!token) {
+        console.warn('No token available for products loading')
+        router.push('/login')
+        return
+      }
+      
+      const productsData = await getAdminProducts()
+      setProducts(productsData)
+    } catch (err: any) {
+      console.error('Ошибка загрузки товаров:', err)
+      
+      if (err.message.includes('No authentication token') || err.message.includes('401')) {
+        console.log('Authentication error, redirecting to login')
+        router.push('/login')
+        return
+      }
+      
+      if (err.message.includes('404')) {
+        console.log('Admin Products API endpoint not implemented yet')
+        setProducts([])
+        setError(null)
+        return
+      }
+      
+      setError(err.message || 'Ошибка загрузки товаров')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
 
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 
-  const filteredProducts = products.filter(product =>
-    product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    product.categoryName.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredProducts = (products || []).filter(product =>
+    product?.title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (product?.category?.name && product.category.name.toLowerCase().includes(searchTerm.toLowerCase()))
   )
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+        </div>
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={loadProducts}>Попробовать снова</Button>
+          </div>
+        </div>
+      </AdminLayout>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <AdminLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -139,21 +175,21 @@ export default function ProductsList() {
                 <TableRow>
                   <TableHead className="w-[80px]">Изображение</TableHead>
                   <TableHead>Название</TableHead>
-                  <TableHead>Цена</TableHead>
-                  <TableHead>Остаток</TableHead>
+                  <TableHead>Цена за м²</TableHead>
+                  <TableHead>Толщина</TableHead>
                   <TableHead>Статус</TableHead>
                   <TableHead className="w-[100px]">Действия</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {filteredProducts.map((product) => (
-                  <TableRow key={product.id}>
+                  <TableRow key={product?.id || 'unknown'}>
                     <TableCell>
                       <div className="w-12 h-12 rounded-lg overflow-hidden bg-gray-100 flex items-center justify-center">
-                        {product.imageUrl ? (
+                        {product?.imageUrl ? (
                           <img
                             src={product.imageUrl}
-                            alt={product.name}
+                            alt={product?.name || 'Товар'}
                             className="w-full h-full object-cover"
                           />
                         ) : (
@@ -163,19 +199,19 @@ export default function ProductsList() {
                     </TableCell>
                     <TableCell>
                       <div>
-                        <p className="font-medium">{product.name}</p>
-                        <p className="text-sm text-gray-500">{product.categoryName}</p>
+                        <p className="font-medium">{product?.title || 'Без названия'}</p>
+                        <p className="text-sm text-gray-500">{product?.category?.name || 'Без категории'}</p>
                       </div>
                     </TableCell>
-                    <TableCell className="font-medium">{product.price.toLocaleString()} ₽</TableCell>
+                    <TableCell className="font-medium">{(product?.pricePerSquareMeter || 0).toLocaleString()} ₽/м²</TableCell>
                     <TableCell>
-                      <span className={product.stockQuantity && product.stockQuantity < 10 ? 'text-red-600 font-medium' : ''}>
-                        {product.stockQuantity || 0} шт.
-                      </span>
+                      <div className="text-sm">
+                        <p>Толщина: {product?.minThickness || 0}-{product?.maxThickness || 0} мм</p>
+                      </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant={product.isActive ? 'default' : 'secondary'}>
-                        {product.isActive ? 'Активен' : 'Неактивен'}
+                      <Badge variant="default">
+                        Активен
                       </Badge>
                     </TableCell>
                     <TableCell>
@@ -216,6 +252,7 @@ export default function ProductsList() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   )
 }

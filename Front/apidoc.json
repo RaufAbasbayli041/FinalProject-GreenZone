@@ -973,7 +973,7 @@
         }
       }
     },
-    "/api/AdminOrderStatus": {
+    "/api/admin/AdminOrderStatus": {
       "get": {
         "tags": [
           "AdminOrderStatus"
@@ -985,7 +985,7 @@
         }
       }
     },
-    "/api/AdminOrderStatus/{name}": {
+    "/api/admin/AdminOrderStatus/{name}": {
       "get": {
         "tags": [
           "AdminOrderStatus"
@@ -1007,7 +1007,7 @@
         }
       }
     },
-    "/api/AdminProduct": {
+    "/api/admin/AdminProduct": {
       "get": {
         "tags": [
           "AdminProduct"
@@ -1048,7 +1048,7 @@
         }
       }
     },
-    "/api/AdminProduct/{id}": {
+    "/api/admin/AdminProduct/{id}": {
       "get": {
         "tags": [
           "AdminProduct"
@@ -1132,7 +1132,7 @@
         }
       }
     },
-    "/api/AdminProduct/upload-image/{id}": {
+    "/api/admin/AdminProduct/upload-image/{id}": {
       "post": {
         "tags": [
           "AdminProduct"
@@ -1175,7 +1175,7 @@
         }
       }
     },
-    "/api/AdminProduct/search": {
+    "/api/admin/AdminProduct/search": {
       "get": {
         "tags": [
           "AdminProduct"
@@ -1214,7 +1214,7 @@
         }
       }
     },
-    "/api/AdminProduct/by-category/{categoryId}": {
+    "/api/admin/AdminProduct/by-category/{categoryId}": {
       "get": {
         "tags": [
           "AdminProduct"
@@ -1255,7 +1255,7 @@
         }
       }
     },
-    "/api/AdminProduct/upload-documents/{id}": {
+    "/api/admin/AdminProduct/upload-documents/{id}": {
       "post": {
         "tags": [
           "AdminProduct"

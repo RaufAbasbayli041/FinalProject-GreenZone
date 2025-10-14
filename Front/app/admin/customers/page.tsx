@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
@@ -22,58 +22,103 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Eye, Trash2, MoreHorizontal, Search, X, Mail, Phone, MapPin, Calendar } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
-
-// Mock data
-const mockCustomers = [
-  {
-    id: 1,
-    firstName: 'Иван',
-    lastName: 'Петров',
-    email: 'ivan@example.com',
-    phone: '+7 (495) 123-45-67',
-    address: 'Москва, ул. Примерная, 123',
-    createdAt: '2024-01-15'
-  },
-  {
-    id: 2,
-    firstName: 'Мария',
-    lastName: 'Сидорова',
-    email: 'maria@example.com',
-    phone: '+7 (812) 234-56-78',
-    address: 'Санкт-Петербург, пр. Невский, 456',
-    createdAt: '2024-01-14'
-  },
-  {
-    id: 3,
-    firstName: 'Алексей',
-    lastName: 'Козлов',
-    email: 'alex@example.com',
-    phone: '+7 (843) 345-67-89',
-    address: 'Казань, ул. Баумана, 789',
-    createdAt: '2024-01-13'
-  }
-]
+import { AdminLayout } from '@/components/admin/AdminLayout'
+import { getAdminCustomers } from '@/services/admin-api'
+import { Loader2 } from 'lucide-react'
 
 export default function CustomersList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
   const [searchTerm, setSearchTerm] = useState('')
-  const [customers] = useState(mockCustomers)
+  const [customers, setCustomers] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (isAdmin) {
+      loadCustomers()
+    }
+  }, [isAdmin])
+
+  const loadCustomers = async () => {
+    try {
+      setLoading(true)
+      setError(null)
+      
+      const token = localStorage.getItem('auth_token')
+      if (!token) {
+        console.warn('No token available for customers loading')
+        router.push('/login')
+        return
+      }
+      
+      const customersData = await getAdminCustomers()
+      setCustomers(customersData)
+    } catch (err: any) {
+      console.error('Ошибка загрузки клиентов:', err)
+      
+      if (err.message.includes('No authentication token') || err.message.includes('401')) {
+        console.log('Authentication error, redirecting to login')
+        router.push('/login')
+        return
+      }
+      
+      if (err.message.includes('404')) {
+        console.log('Admin Customers API endpoint not implemented yet')
+        setCustomers([])
+        setError(null)
+        return
+      }
+      
+      setError(err.message || 'Ошибка загрузки клиентов')
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
 
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 
-  const filteredCustomers = customers.filter(customer =>
-    customer.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    customer.phone.includes(searchTerm)
+  const filteredCustomers = (customers || []).filter(customer =>
+    customer?.firstName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.lastName?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    customer?.phone?.includes(searchTerm)
   )
 
+  if (loading) {
+    return (
+      <AdminLayout>
+        <div className="flex items-center justify-center h-64">
+          <Loader2 className="h-8 w-8 animate-spin text-gray-500" />
+        </div>
+      </AdminLayout>
+    )
+  }
+
+  if (error) {
+    return (
+      <AdminLayout>
+        <div className="space-y-6">
+          <div className="text-center py-8">
+            <p className="text-red-600 mb-4">{error}</p>
+            <Button onClick={loadCustomers}>Попробовать снова</Button>
+          </div>
+        </div>
+      </AdminLayout>
+    )
+  }
+
   return (
-    <div className="space-y-6">
+    <AdminLayout>
+      <div className="space-y-6">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
@@ -195,6 +240,7 @@ export default function CustomersList() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   )
 }

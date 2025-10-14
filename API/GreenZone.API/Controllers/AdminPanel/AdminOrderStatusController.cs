@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GreenZone.API.Controllers.AdminPanel
 {
-    [Route("api/[controller]")]
+    [Route("api/admin/[controller]")]
     [ApiController]
     [Authorize(Roles = "Admin")]
     public class AdminOrderStatusController : ControllerBase

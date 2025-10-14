@@ -151,13 +151,13 @@ async function fetchAdminJSON<T = any>(path: string, opts: RequestInit = {}): Pr
     await new Promise(resolve => setTimeout(resolve, 500))
     
     // Возвращаем соответствующие мок-данные
-    if (path.includes('/order')) {
+    if (path.includes('/AdminOrder')) {
       return mockOrders as T
-    } else if (path.includes('/product')) {
+    } else if (path.includes('/AdminProduct')) {
       return mockProducts as T
-    } else if (path.includes('/customer')) {
+    } else if (path.includes('/AdminCustomer')) {
       return mockCustomers as T
-    } else if (path.includes('/delivery')) {
+    } else if (path.includes('/AdminDelivery')) {
       return mockDeliveries as T
     }
     
@@ -199,7 +199,7 @@ async function fetchAdminJSON<T = any>(path: string, opts: RequestInit = {}): Pr
 // ===== ADMIN ORDER API =====
 export async function getAdminOrders(): Promise<Order[]> {
   try {
-    return await fetchAdminJSON<Order[]>('/api/admin/order')
+    return await fetchAdminJSON<Order[]>('/api/admin/AdminOrder')
   } catch (e: any) {
     console.error('Admin Orders API error:', e.message)
     throw e
@@ -208,7 +208,7 @@ export async function getAdminOrders(): Promise<Order[]> {
 
 export async function getAdminOrderById(id: string): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}`)
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}`)
   } catch (e: any) {
     console.error('Admin Order API error:', e.message)
     throw e
@@ -217,7 +217,7 @@ export async function getAdminOrderById(id: string): Promise<Order> {
 
 export async function createAdminOrder(orderData: OrderCreateDto): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>('/api/admin/order', {
+    return await fetchAdminJSON<Order>('/api/admin/AdminOrder', {
       method: 'POST',
       body: JSON.stringify(orderData)
     })
@@ -229,7 +229,7 @@ export async function createAdminOrder(orderData: OrderCreateDto): Promise<Order
 
 export async function updateAdminOrder(id: string, orderData: OrderUpdateDto): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}`, {
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}`, {
       method: 'PUT',
       body: JSON.stringify(orderData)
     })
@@ -241,7 +241,7 @@ export async function updateAdminOrder(id: string, orderData: OrderUpdateDto): P
 
 export async function deleteAdminOrder(id: string): Promise<boolean> {
   try {
-    await fetchAdminJSON(`/api/admin/order/${id}`, { method: 'DELETE' })
+    await fetchAdminJSON(`/api/admin/AdminOrder/${id}`, { method: 'DELETE' })
     return true
   } catch (e: any) {
     console.error('Admin Delete Order API error:', e.message)
@@ -256,7 +256,7 @@ export async function getOrdersByStatus(orderStatusId?: string, keyword?: string
     params.append('page', page.toString())
     params.append('pageSize', pageSize.toString())
     
-    return await fetchAdminJSON<Order[]>(`/api/admin/order/by-status/${orderStatusId || 'null'}?${params.toString()}`)
+    return await fetchAdminJSON<Order[]>(`/api/admin/AdminOrder/by-status/${orderStatusId || 'null'}?${params.toString()}`)
   } catch (e: any) {
     console.error('Admin Orders by Status API error:', e.message)
     throw e
@@ -265,7 +265,7 @@ export async function getOrdersByStatus(orderStatusId?: string, keyword?: string
 
 export async function deliverOrder(id: string): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}/deliver`, { method: 'PUT' })
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}/deliver`, { method: 'PUT' })
   } catch (e: any) {
     console.error('Admin Deliver Order API error:', e.message)
     throw e
@@ -274,7 +274,7 @@ export async function deliverOrder(id: string): Promise<Order> {
 
 export async function processOrder(id: string): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}/processing`, { method: 'PUT' })
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}/processing`, { method: 'PUT' })
   } catch (e: any) {
     console.error('Admin Process Order API error:', e.message)
     throw e
@@ -283,7 +283,7 @@ export async function processOrder(id: string): Promise<Order> {
 
 export async function returnOrder(id: string): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}/returned`, { method: 'PUT' })
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}/returned`, { method: 'PUT' })
   } catch (e: any) {
     console.error('Admin Return Order API error:', e.message)
     throw e
@@ -292,7 +292,7 @@ export async function returnOrder(id: string): Promise<Order> {
 
 export async function cancelOrder(id: string): Promise<Order> {
   try {
-    return await fetchAdminJSON<Order>(`/api/admin/order/${id}/cancel`, { method: 'PUT' })
+    return await fetchAdminJSON<Order>(`/api/admin/AdminOrder/${id}/cancel`, { method: 'PUT' })
   } catch (e: any) {
     console.error('Admin Cancel Order API error:', e.message)
     throw e
@@ -302,7 +302,7 @@ export async function cancelOrder(id: string): Promise<Order> {
 // ===== ADMIN PRODUCT API =====
 export async function getAdminProducts(): Promise<Product[]> {
   try {
-    return await fetchAdminJSON<Product[]>('/api/admin/product')
+    return await fetchAdminJSON<Product[]>('/api/admin/AdminProduct')
   } catch (e: any) {
     console.error('Admin Products API error:', e.message)
     throw e
@@ -311,7 +311,7 @@ export async function getAdminProducts(): Promise<Product[]> {
 
 export async function getAdminProductById(id: string): Promise<Product> {
   try {
-    return await fetchAdminJSON<Product>(`/api/admin/product/${id}`)
+    return await fetchAdminJSON<Product>(`/api/admin/AdminProduct/${id}`)
   } catch (e: any) {
     console.error('Admin Product API error:', e.message)
     throw e
@@ -320,7 +320,7 @@ export async function getAdminProductById(id: string): Promise<Product> {
 
 export async function createAdminProduct(productData: ProductCreateDto): Promise<Product> {
   try {
-    return await fetchAdminJSON<Product>('/api/admin/product', {
+    return await fetchAdminJSON<Product>('/api/admin/AdminProduct', {
       method: 'POST',
       body: JSON.stringify(productData)
     })
@@ -332,7 +332,7 @@ export async function createAdminProduct(productData: ProductCreateDto): Promise
 
 export async function updateAdminProduct(id: string, productData: ProductUpdateDto): Promise<Product> {
   try {
-    return await fetchAdminJSON<Product>(`/api/admin/product/${id}`, {
+    return await fetchAdminJSON<Product>(`/api/admin/AdminProduct/${id}`, {
       method: 'PUT',
       body: JSON.stringify(productData)
     })
@@ -344,7 +344,7 @@ export async function updateAdminProduct(id: string, productData: ProductUpdateD
 
 export async function deleteAdminProduct(id: string): Promise<boolean> {
   try {
-    await fetchAdminJSON(`/api/admin/product/${id}`, { method: 'DELETE' })
+    await fetchAdminJSON(`/api/admin/AdminProduct/${id}`, { method: 'DELETE' })
     return true
   } catch (e: any) {
     console.error('Admin Delete Product API error:', e.message)
@@ -363,7 +363,7 @@ export async function uploadProductImage(id: string, imageFile: File): Promise<b
     }
 
     const baseClean = BASE.replace(/\/+$/, '')
-    const url = `${baseClean}/api/admin/product/upload-image/${id}`
+    const url = `${baseClean}/api/admin/AdminProduct/upload-image/${id}`
 
     const res = await fetch(url, {
       method: 'POST',
@@ -398,7 +398,7 @@ export async function uploadProductDocuments(id: string, documents: File[]): Pro
     }
 
     const baseClean = BASE.replace(/\/+$/, '')
-    const url = `${baseClean}/api/admin/product/upload-documents/${id}`
+    const url = `${baseClean}/api/admin/AdminProduct/upload-documents/${id}`
 
     const res = await fetch(url, {
       method: 'POST',
@@ -423,7 +423,7 @@ export async function uploadProductDocuments(id: string, documents: File[]): Pro
 // ===== ADMIN CUSTOMER API =====
 export async function getAdminCustomers(): Promise<Customer[]> {
   try {
-    return await fetchAdminJSON<Customer[]>('/api/admin/customer')
+    return await fetchAdminJSON<Customer[]>('/api/admin/AdminCustomer')
   } catch (e: any) {
     console.error('Admin Customers API error:', e.message)
     throw e
@@ -432,7 +432,7 @@ export async function getAdminCustomers(): Promise<Customer[]> {
 
 export async function getAdminCustomerById(id: string): Promise<Customer> {
   try {
-    return await fetchAdminJSON<Customer>(`/api/admin/customer/${id}`)
+    return await fetchAdminJSON<Customer>(`/api/admin/AdminCustomer/${id}`)
   } catch (e: any) {
     console.error('Admin Customer API error:', e.message)
     throw e
@@ -441,7 +441,7 @@ export async function getAdminCustomerById(id: string): Promise<Customer> {
 
 export async function deleteAdminCustomer(id: string): Promise<boolean> {
   try {
-    await fetchAdminJSON(`/api/admin/customer/${id}`, { method: 'DELETE' })
+    await fetchAdminJSON(`/api/admin/AdminCustomer/${id}`, { method: 'DELETE' })
     return true
   } catch (e: any) {
     console.error('Admin Delete Customer API error:', e.message)
@@ -452,7 +452,7 @@ export async function deleteAdminCustomer(id: string): Promise<boolean> {
 // ===== ADMIN CATEGORY API =====
 export async function getAdminCategories(): Promise<Category[]> {
   try {
-    return await fetchAdminJSON<Category[]>('/api/admin/category')
+    return await fetchAdminJSON<Category[]>('/api/admin/AdminCategory')
   } catch (e: any) {
     console.error('Admin Categories API error:', e.message)
     throw e
@@ -461,7 +461,7 @@ export async function getAdminCategories(): Promise<Category[]> {
 
 export async function getAdminCategoryById(id: string): Promise<Category> {
   try {
-    return await fetchAdminJSON<Category>(`/api/admin/category/${id}`)
+    return await fetchAdminJSON<Category>(`/api/admin/AdminCategory/${id}`)
   } catch (e: any) {
     console.error('Admin Category API error:', e.message)
     throw e
@@ -470,7 +470,7 @@ export async function getAdminCategoryById(id: string): Promise<Category> {
 
 export async function createAdminCategory(categoryData: CategoryCreateDto): Promise<Category> {
   try {
-    return await fetchAdminJSON<Category>('/api/admin/category', {
+    return await fetchAdminJSON<Category>('/api/admin/AdminCategory', {
       method: 'POST',
       body: JSON.stringify(categoryData)
     })
@@ -482,7 +482,7 @@ export async function createAdminCategory(categoryData: CategoryCreateDto): Prom
 
 export async function updateAdminCategory(id: string, categoryData: CategoryUpdateDto): Promise<Category> {
   try {
-    return await fetchAdminJSON<Category>(`/api/admin/category/${id}`, {
+    return await fetchAdminJSON<Category>(`/api/admin/AdminCategory/${id}`, {
       method: 'PUT',
       body: JSON.stringify(categoryData)
     })
@@ -494,7 +494,7 @@ export async function updateAdminCategory(id: string, categoryData: CategoryUpda
 
 export async function deleteAdminCategory(id: string): Promise<boolean> {
   try {
-    await fetchAdminJSON(`/api/admin/category/${id}`, { method: 'DELETE' })
+    await fetchAdminJSON(`/api/admin/AdminCategory/${id}`, { method: 'DELETE' })
     return true
   } catch (e: any) {
     console.error('Admin Delete Category API error:', e.message)
@@ -505,7 +505,7 @@ export async function deleteAdminCategory(id: string): Promise<boolean> {
 // ===== ADMIN DELIVERY API =====
 export async function getAdminDeliveries(): Promise<Delivery[]> {
   try {
-    return await fetchAdminJSON<Delivery[]>('/api/admin/delivery')
+    return await fetchAdminJSON<Delivery[]>('/api/admin/AdminDelivery')
   } catch (e: any) {
     console.error('Admin Deliveries API error:', e.message)
     throw e
@@ -514,7 +514,7 @@ export async function getAdminDeliveries(): Promise<Delivery[]> {
 
 export async function getAdminDeliveryById(id: string): Promise<Delivery> {
   try {
-    return await fetchAdminJSON<Delivery>(`/api/admin/delivery/${id}`)
+    return await fetchAdminJSON<Delivery>(`/api/admin/AdminDelivery/${id}`)
   } catch (e: any) {
     console.error('Admin Delivery API error:', e.message)
     throw e
@@ -523,7 +523,7 @@ export async function getAdminDeliveryById(id: string): Promise<Delivery> {
 
 export async function createAdminDelivery(deliveryData: DeliveryCreateDto): Promise<Delivery> {
   try {
-    return await fetchAdminJSON<Delivery>('/api/admin/delivery', {
+    return await fetchAdminJSON<Delivery>('/api/admin/AdminDelivery', {
       method: 'POST',
       body: JSON.stringify(deliveryData)
     })
@@ -535,7 +535,7 @@ export async function createAdminDelivery(deliveryData: DeliveryCreateDto): Prom
 
 export async function updateAdminDelivery(id: string, deliveryData: DeliveryUpdateDto): Promise<Delivery> {
   try {
-    return await fetchAdminJSON<Delivery>(`/api/admin/delivery/${id}`, {
+    return await fetchAdminJSON<Delivery>(`/api/admin/AdminDelivery/${id}`, {
       method: 'PUT',
       body: JSON.stringify(deliveryData)
     })
@@ -547,7 +547,7 @@ export async function updateAdminDelivery(id: string, deliveryData: DeliveryUpda
 
 export async function deleteAdminDelivery(id: string): Promise<boolean> {
   try {
-    await fetchAdminJSON(`/api/admin/delivery/${id}`, { method: 'DELETE' })
+    await fetchAdminJSON(`/api/admin/AdminDelivery/${id}`, { method: 'DELETE' })
     return true
   } catch (e: any) {
     console.error('Admin Delete Delivery API error:', e.message)
@@ -557,7 +557,7 @@ export async function deleteAdminDelivery(id: string): Promise<boolean> {
 
 export async function updateDeliveryStatus(id: string, status: string): Promise<Delivery> {
   try {
-    return await fetchAdminJSON<Delivery>(`/api/admin/delivery/${id}/status/${status}`, { method: 'PUT' })
+    return await fetchAdminJSON<Delivery>(`/api/admin/AdminDelivery/${id}/status/${status}`, { method: 'PUT' })
   } catch (e: any) {
     console.error('Admin Update Delivery Status API error:', e.message)
     throw e

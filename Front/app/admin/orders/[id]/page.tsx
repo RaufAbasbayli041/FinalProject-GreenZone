@@ -31,8 +31,13 @@ export default function OrderView() {
   const { isAdmin } = useAuth()
   const orderId = params?.id
 
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
+
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 

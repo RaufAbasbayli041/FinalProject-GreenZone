@@ -33,9 +33,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Загружаем состояние аутентификации при инициализации
-    const savedAuthState = storage.getAuthState()
-    setAuthState(savedAuthState)
-    setLoading(false)
+    const initializeAuth = () => {
+      const savedAuthState = storage.getAuthState()
+      const token = localStorage.getItem('auth_token')
+      
+      // Если есть токен, но нет сохраненного состояния, пытаемся восстановить
+      if (token && (!savedAuthState.user || !savedAuthState.isAuthenticated)) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]))
+          const userRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+          
+          // Проверяем, является ли пользователь админом
+          const isTokenAdmin = userRole === 'Admin' || userRole === 'admin' || 
+                              (Array.isArray(userRole) && userRole.includes('Admin'))
+          
+          if (isTokenAdmin) {
+            const user: User = {
+              id: payload.sub || payload.userId || '',
+              name: payload.name || payload.userName || '',
+              email: payload.email || '',
+              role: UserRole.ADMIN,
+              firstName: payload.firstName || '',
+              lastName: payload.lastName || '',
+              phoneNumber: payload.phoneNumber || '',
+              identityCard: payload.identityCard || ''
+            }
+            
+            const newAuthState: AuthState = { user, isAuthenticated: true }
+            setAuthState(newAuthState)
+            storage.setAuthState(newAuthState)
+            console.log('Auth state restored from token for admin user')
+          }
+        } catch (error) {
+          console.error('Error restoring auth state from token:', error)
+          // Очищаем невалидный токен
+          localStorage.removeItem('auth_token')
+          storage.clearAuthState()
+        }
+      } else if (savedAuthState.user && savedAuthState.isAuthenticated) {
+        setAuthState(savedAuthState)
+      }
+      
+      setLoading(false)
+    }
+    
+    initializeAuth()
   }, [])
 
   const login = async (userName: string, password: string): Promise<{ success: boolean; message: string }> => {

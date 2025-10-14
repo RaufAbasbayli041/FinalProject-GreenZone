@@ -87,9 +87,11 @@ namespace GreenZone.Application.Service
 				{
 					Token = token,
 					Expiration = DateTime.UtcNow.AddMinutes(expiresInMinutes),// Token expiration time
-					CustomerId = customer.Id
+					CustomerId = customer.Id,
+					Role = "Customer"
 
-				};
+
+                };
 
 			}
 
@@ -99,7 +101,8 @@ namespace GreenZone.Application.Service
 				{
 					Token = token,
 					Expiration = DateTime.UtcNow.AddMinutes(expiresInMinutes),// Token expiration time
-					CustomerId = Guid.Empty // Admins do not have a CustomerId
+					CustomerId = Guid.Empty, // Admins do not have a CustomerId
+					Role = "Admin"
 				};
 			}
 

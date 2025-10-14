@@ -44,8 +44,13 @@ export default function CustomerView() {
   const { isAdmin } = useAuth()
   const customerId = params?.id
 
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
+
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 

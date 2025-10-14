@@ -23,6 +23,7 @@ import {
 import { Plus, Eye, Edit, Trash2, MoreHorizontal, Search, X, Loader2 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { getAdminOrders } from '@/services/admin-api'
+import { AdminLayout } from '@/components/admin/AdminLayout'
 import type { Order } from '@/lib/types'
 
 export default function OrdersList() {
@@ -78,8 +79,13 @@ export default function OrdersList() {
     }
   }
 
+  useEffect(() => {
+    if (!isAdmin) {
+      router.push('/')
+    }
+  }, [isAdmin, router])
+
   if (!isAdmin) {
-    router.push('/')
     return null
   }
 
@@ -134,18 +140,19 @@ export default function OrdersList() {
   }
 
   return (
-    <div className="space-y-6">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-2xl font-bold text-gray-900">Заказы</h1>
-          <p className="text-gray-600">Управление заказами клиентов</p>
+    <AdminLayout>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-bold text-gray-900">Заказы</h1>
+            <p className="text-gray-600">Управление заказами клиентов</p>
+          </div>
+          <Button onClick={() => router.push('/admin/orders/create')}>
+            <Plus className="h-4 w-4 mr-2" />
+            Создать заказ
+          </Button>
         </div>
-        <Button onClick={() => router.push('/admin/orders/create')}>
-          <Plus className="h-4 w-4 mr-2" />
-          Создать заказ
-        </Button>
-      </div>
 
       {/* Filters */}
       <Card>
@@ -255,6 +262,7 @@ export default function OrdersList() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </AdminLayout>
   )
 }

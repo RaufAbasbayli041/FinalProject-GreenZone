@@ -82,6 +82,10 @@ export const storage = {
     this.set(STORAGE_KEYS.AUTH, authState)
   },
 
+  clearAuthState(): void {
+    this.remove(STORAGE_KEYS.AUTH)
+  },
+
   // Очистка всех данных
   clearAll(): void {
     Object.values(STORAGE_KEYS).forEach((key) => this.remove(key))
