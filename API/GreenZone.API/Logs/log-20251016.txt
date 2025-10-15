@@ -1,0 +1,299 @@
+2025-10-16 00:02:17.509 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-10-16 00:02:17.922 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-16 00:02:17.953 +04:00 [INF] Executed DbCommand (18ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-16 00:02:17.959 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-16 00:02:17.962 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-16 00:02:17.982 +04:00 [INF] Executed DbCommand (9ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-16 00:02:17.996 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-16 00:02:17.999 +04:00 [INF] Migrations applied
+2025-10-16 00:02:18.175 +04:00 [INF] Executed DbCommand (19ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:02:18.203 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:02:18.206 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:02:18.228 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-16 00:02:18.241 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-16 00:02:18.269 +04:00 [INF] Admin user already exists: admin@greenzone.com
+2025-10-16 00:02:18.550 +04:00 [INF] Now listening on: https://localhost:7100
+2025-10-16 00:02:18.588 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-16 00:02:18.590 +04:00 [INF] Hosting environment: Development
+2025-10-16 00:02:18.595 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API
+2025-10-16 00:02:20.476 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-10-16 00:02:20.596 +04:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2025-10-16 00:02:20.663 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 191.4752ms
+2025-10-16 00:02:20.672 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-16 00:02:20.682 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 10.3417ms
+2025-10-16 00:02:20.767 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-10-16 00:02:20.795 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 28.6679ms
+2025-10-16 00:03:05.430 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Auth/login - application/json 53
+2025-10-16 00:03:05.546 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:03:05.547 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:03:05.605 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.AuthController.Login (GreenZone.API)'
+2025-10-16 00:03:05.621 +04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(GreenZone.Contracts.Dtos.LogInDto) on controller GreenZone.API.Controllers.AuthController (GreenZone.API).
+2025-10-16 00:03:11.942 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-10-16 00:03:12.007 +04:00 [INF] User rauf553 logged in successfully.
+2025-10-16 00:03:12.038 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-10-16 00:03:12.110 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-16 00:03:12.137 +04:00 [INF] Executed DbCommand (17ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[CreatedAt], [t].[IdentityCard], [t].[IsDeleted], [t].[UpdatedAt], [t].[UserId], [t].[Id0], [t].[AccessFailedCount], [t].[ConcurrencyStamp], [t].[Email], [t].[EmailConfirmed], [t].[FirstName], [t].[LastName], [t].[LockoutEnabled], [t].[LockoutEnd], [t].[NormalizedEmail], [t].[NormalizedUserName], [t].[PasswordHash], [t].[PhoneNumber], [t].[PhoneNumberConfirmed], [t].[SecurityStamp], [t].[TwoFactorEnabled], [t].[UserName], [t].[Id1], [t].[CreatedAt0], [t].[CustomerId], [t].[IsDeleted0], [t].[UpdatedAt0], [t0].[Id], [t0].[BasketId], [t0].[CreatedAt], [t0].[IsDeleted], [t0].[ProductId], [t0].[Quantity], [t0].[UpdatedAt], [t0].[Id0], [t0].[CategoryId], [t0].[CreatedAt0], [t0].[Description], [t0].[ImageUrl], [t0].[IsDeleted0], [t0].[MaxThickness], [t0].[MinThickness], [t0].[PricePerSquareMeter], [t0].[Title], [t0].[UpdatedAt0], [o].[Id], [o].[CreatedAt], [o].[CustomerId], [o].[IsDeleted], [o].[OrderDate], [o].[OrderStatusId], [o].[ShippingAddress], [o].[TotalAmount], [o].[UpdatedAt], [p0].[Id], [p0].[Amount], [p0].[CreatedAt], [p0].[CustomerId], [p0].[IsDeleted], [p0].[PaymentDate], [p0].[PaymentMethodId], [p0].[RefundDate], [p0].[Status], [p0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [c].[Id], [c].[CreatedAt], [c].[IdentityCard], [c].[IsDeleted], [c].[UpdatedAt], [c].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id] AS [Id1], [b].[CreatedAt] AS [CreatedAt0], [b].[CustomerId], [b].[IsDeleted] AS [IsDeleted0], [b].[UpdatedAt] AS [UpdatedAt0]
+    FROM [Customers] AS [c]
+    INNER JOIN [AspNetUsers] AS [a] ON [c].[UserId] = [a].[Id]
+    LEFT JOIN [Baskets] AS [b] ON [c].[Id] = [b].[CustomerId]
+    WHERE [c].[IsDeleted] = CAST(0 AS bit) AND [c].[UserId] = @__userId_0
+) AS [t]
+LEFT JOIN (
+    SELECT [b0].[Id], [b0].[BasketId], [b0].[CreatedAt], [b0].[IsDeleted], [b0].[ProductId], [b0].[Quantity], [b0].[UpdatedAt], [p].[Id] AS [Id0], [p].[CategoryId], [p].[CreatedAt] AS [CreatedAt0], [p].[Description], [p].[ImageUrl], [p].[IsDeleted] AS [IsDeleted0], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt] AS [UpdatedAt0]
+    FROM [BasketItems] AS [b0]
+    INNER JOIN [Products] AS [p] ON [b0].[ProductId] = [p].[Id]
+) AS [t0] ON [t].[Id1] = [t0].[BasketId]
+LEFT JOIN [Orders] AS [o] ON [t].[Id] = [o].[CustomerId]
+LEFT JOIN [Payments] AS [p0] ON [t].[Id] = [p0].[CustomerId]
+ORDER BY [t].[Id], [t].[Id0], [t].[Id1], [t0].[Id], [t0].[Id0], [o].[Id]
+2025-10-16 00:03:12.193 +04:00 [INF] rauf553 logIn 
+2025-10-16 00:03:12.197 +04:00 [INF] Executing OkObjectResult, writing value of type 'GreenZone.Contracts.Dtos.AuthResultDto'.
+2025-10-16 00:03:12.206 +04:00 [INF] Executed action GreenZone.API.Controllers.AuthController.Login (GreenZone.API) in 6580.0393ms
+2025-10-16 00:03:12.207 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.AuthController.Login (GreenZone.API)'
+2025-10-16 00:03:12.211 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Auth/login - 200 null application/json; charset=utf-8 6780.8836ms
+2025-10-16 00:05:22.099 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Customer/by-user/3ef87204-61c1-4228-a7ac-49ac8d2a3f48 - null null
+2025-10-16 00:05:22.159 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.CustomerController.GetCustomerByUserId (GreenZone.API)'
+2025-10-16 00:05:22.165 +04:00 [INF] Route matched with {action = "GetCustomerByUserId", controller = "Customer"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetCustomerByUserId(System.String) on controller GreenZone.API.Controllers.CustomerController (GreenZone.API).
+2025-10-16 00:05:22.361 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[CreatedAt], [t].[IdentityCard], [t].[IsDeleted], [t].[UpdatedAt], [t].[UserId], [t].[Id0], [t].[AccessFailedCount], [t].[ConcurrencyStamp], [t].[Email], [t].[EmailConfirmed], [t].[FirstName], [t].[LastName], [t].[LockoutEnabled], [t].[LockoutEnd], [t].[NormalizedEmail], [t].[NormalizedUserName], [t].[PasswordHash], [t].[PhoneNumber], [t].[PhoneNumberConfirmed], [t].[SecurityStamp], [t].[TwoFactorEnabled], [t].[UserName], [t].[Id1], [t].[CreatedAt0], [t].[CustomerId], [t].[IsDeleted0], [t].[UpdatedAt0], [t0].[Id], [t0].[BasketId], [t0].[CreatedAt], [t0].[IsDeleted], [t0].[ProductId], [t0].[Quantity], [t0].[UpdatedAt], [t0].[Id0], [t0].[CategoryId], [t0].[CreatedAt0], [t0].[Description], [t0].[ImageUrl], [t0].[IsDeleted0], [t0].[MaxThickness], [t0].[MinThickness], [t0].[PricePerSquareMeter], [t0].[Title], [t0].[UpdatedAt0], [o].[Id], [o].[CreatedAt], [o].[CustomerId], [o].[IsDeleted], [o].[OrderDate], [o].[OrderStatusId], [o].[ShippingAddress], [o].[TotalAmount], [o].[UpdatedAt], [p0].[Id], [p0].[Amount], [p0].[CreatedAt], [p0].[CustomerId], [p0].[IsDeleted], [p0].[PaymentDate], [p0].[PaymentMethodId], [p0].[RefundDate], [p0].[Status], [p0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [c].[Id], [c].[CreatedAt], [c].[IdentityCard], [c].[IsDeleted], [c].[UpdatedAt], [c].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id] AS [Id1], [b].[CreatedAt] AS [CreatedAt0], [b].[CustomerId], [b].[IsDeleted] AS [IsDeleted0], [b].[UpdatedAt] AS [UpdatedAt0]
+    FROM [Customers] AS [c]
+    INNER JOIN [AspNetUsers] AS [a] ON [c].[UserId] = [a].[Id]
+    LEFT JOIN [Baskets] AS [b] ON [c].[Id] = [b].[CustomerId]
+    WHERE [c].[IsDeleted] = CAST(0 AS bit) AND [c].[UserId] = @__userId_0
+) AS [t]
+LEFT JOIN (
+    SELECT [b0].[Id], [b0].[BasketId], [b0].[CreatedAt], [b0].[IsDeleted], [b0].[ProductId], [b0].[Quantity], [b0].[UpdatedAt], [p].[Id] AS [Id0], [p].[CategoryId], [p].[CreatedAt] AS [CreatedAt0], [p].[Description], [p].[ImageUrl], [p].[IsDeleted] AS [IsDeleted0], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt] AS [UpdatedAt0]
+    FROM [BasketItems] AS [b0]
+    INNER JOIN [Products] AS [p] ON [b0].[ProductId] = [p].[Id]
+) AS [t0] ON [t].[Id1] = [t0].[BasketId]
+LEFT JOIN [Orders] AS [o] ON [t].[Id] = [o].[CustomerId]
+LEFT JOIN [Payments] AS [p0] ON [t].[Id] = [p0].[CustomerId]
+ORDER BY [t].[Id], [t].[Id0], [t].[Id1], [t0].[Id], [t0].[Id0], [o].[Id]
+2025-10-16 00:05:22.373 +04:00 [INF] Executing OkObjectResult, writing value of type 'GreenZone.Contracts.Dtos.CustomerDtos.CustomerReadDto'.
+2025-10-16 00:05:22.376 +04:00 [INF] Executed action GreenZone.API.Controllers.CustomerController.GetCustomerByUserId (GreenZone.API) in 208.9382ms
+2025-10-16 00:05:22.383 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.CustomerController.GetCustomerByUserId (GreenZone.API)'
+2025-10-16 00:05:22.384 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Customer/by-user/3ef87204-61c1-4228-a7ac-49ac8d2a3f48 - 200 null application/json; charset=utf-8 285.4979ms
+2025-10-16 00:05:50.729 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Basket/89e0314f-c639-4a53-ac64-b555a702a317 - null null
+2025-10-16 00:05:50.738 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.BasketController.GetBasketByCustomerId (GreenZone.API)'
+2025-10-16 00:05:50.747 +04:00 [INF] Route matched with {action = "GetBasketByCustomerId", controller = "Basket"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetBasketByCustomerId(System.Guid) on controller GreenZone.API.Controllers.BasketController (GreenZone.API).
+2025-10-16 00:05:50.787 +04:00 [INF] Executed DbCommand (11ms) [Parameters=[@__customerId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[CreatedAt], [t].[CustomerId], [t].[IsDeleted], [t].[UpdatedAt], [t0].[Id], [t0].[BasketId], [t0].[CreatedAt], [t0].[IsDeleted], [t0].[ProductId], [t0].[Quantity], [t0].[UpdatedAt], [t0].[Id0], [t0].[CategoryId], [t0].[CreatedAt0], [t0].[Description], [t0].[ImageUrl], [t0].[IsDeleted0], [t0].[MaxThickness], [t0].[MinThickness], [t0].[PricePerSquareMeter], [t0].[Title], [t0].[UpdatedAt0]
+FROM (
+    SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[CustomerId], [b].[IsDeleted], [b].[UpdatedAt]
+    FROM [Baskets] AS [b]
+    WHERE [b].[IsDeleted] = CAST(0 AS bit) AND [b].[CustomerId] = @__customerId_0
+) AS [t]
+LEFT JOIN (
+    SELECT [b0].[Id], [b0].[BasketId], [b0].[CreatedAt], [b0].[IsDeleted], [b0].[ProductId], [b0].[Quantity], [b0].[UpdatedAt], [p].[Id] AS [Id0], [p].[CategoryId], [p].[CreatedAt] AS [CreatedAt0], [p].[Description], [p].[ImageUrl], [p].[IsDeleted] AS [IsDeleted0], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt] AS [UpdatedAt0]
+    FROM [BasketItems] AS [b0]
+    INNER JOIN [Products] AS [p] ON [b0].[ProductId] = [p].[Id]
+) AS [t0] ON [t].[Id] = [t0].[BasketId]
+ORDER BY [t].[Id], [t0].[Id]
+2025-10-16 00:05:50.798 +04:00 [INF] Executing OkObjectResult, writing value of type 'GreenZone.Contracts.Dtos.BasketDtos.BasketReadDto'.
+2025-10-16 00:05:50.804 +04:00 [INF] Executed action GreenZone.API.Controllers.BasketController.GetBasketByCustomerId (GreenZone.API) in 53.9796ms
+2025-10-16 00:05:50.806 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.BasketController.GetBasketByCustomerId (GreenZone.API)'
+2025-10-16 00:05:50.807 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Basket/89e0314f-c639-4a53-ac64-b555a702a317 - 200 null application/json; charset=utf-8 78.1187ms
+2025-10-16 00:06:41.530 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/api/Order/de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - null null
+2025-10-16 00:06:41.540 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.OrderController.GetOrdersByCustomerIdAsync (GreenZone.API)'
+2025-10-16 00:06:41.546 +04:00 [INF] Route matched with {action = "GetOrdersByCustomerId", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] GetOrdersByCustomerIdAsync(System.Guid) on controller GreenZone.API.Controllers.OrderController (GreenZone.API).
+2025-10-16 00:06:41.586 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-16 00:06:41.608 +04:00 [INF] Executed DbCommand (15ms) [Parameters=[@__customerId_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT [o].[Id], [o].[CreatedAt], [o].[CustomerId], [o].[IsDeleted], [o].[OrderDate], [o].[OrderStatusId], [o].[ShippingAddress], [o].[TotalAmount], [o].[UpdatedAt], [c].[Id], [c].[CreatedAt], [c].[IdentityCard], [c].[IsDeleted], [c].[UpdatedAt], [c].[UserId], [o0].[Id], [o0].[CreatedAt], [o0].[IsDeleted], [o0].[Name], [o0].[StatusName], [o0].[UpdatedAt], [t].[Id], [t].[CreatedAt], [t].[IsDeleted], [t].[OrderId], [t].[ProductId], [t].[Quantity], [t].[UnitPrice], [t].[UpdatedAt], [t].[Id0], [t].[CategoryId], [t].[CreatedAt0], [t].[Description], [t].[ImageUrl], [t].[IsDeleted0], [t].[MaxThickness], [t].[MinThickness], [t].[PricePerSquareMeter], [t].[Title], [t].[UpdatedAt0], [d].[Id], [d].[CreatedAt], [d].[DeliveredAt], [d].[DeliveryStatusId], [d].[IsDeleted], [d].[OrderId], [d].[UpdatedAt]
+FROM [Orders] AS [o]
+INNER JOIN [Customers] AS [c] ON [o].[CustomerId] = [c].[Id]
+INNER JOIN [OrderStatuses] AS [o0] ON [o].[OrderStatusId] = [o0].[Id]
+LEFT JOIN (
+    SELECT [o1].[Id], [o1].[CreatedAt], [o1].[IsDeleted], [o1].[OrderId], [o1].[ProductId], [o1].[Quantity], [o1].[UnitPrice], [o1].[UpdatedAt], [p].[Id] AS [Id0], [p].[CategoryId], [p].[CreatedAt] AS [CreatedAt0], [p].[Description], [p].[ImageUrl], [p].[IsDeleted] AS [IsDeleted0], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt] AS [UpdatedAt0]
+    FROM [OrderItems] AS [o1]
+    INNER JOIN [Products] AS [p] ON [o1].[ProductId] = [p].[Id]
+) AS [t] ON [o].[Id] = [t].[OrderId]
+LEFT JOIN [Deliveries] AS [d] ON [o].[Id] = [d].[OrderId]
+WHERE [o].[IsDeleted] = CAST(0 AS bit) AND [o].[CustomerId] = @__customerId_0
+ORDER BY [o].[Id], [c].[Id], [o0].[Id], [t].[Id], [t].[Id0]
+2025-10-16 00:06:41.619 +04:00 [WRN] Orders for Customer "de6efdce-a2c1-4e15-9bf7-2bacd4f109b5" not found
+2025-10-16 00:06:41.621 +04:00 [INF] Executing ObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ProblemDetails'.
+2025-10-16 00:06:41.637 +04:00 [INF] Executed action GreenZone.API.Controllers.OrderController.GetOrdersByCustomerIdAsync (GreenZone.API) in 87.6698ms
+2025-10-16 00:06:41.643 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.OrderController.GetOrdersByCustomerIdAsync (GreenZone.API)'
+2025-10-16 00:06:41.644 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/api/Order/de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - 404 null application/problem+json; charset=utf-8 115.4855ms
+2025-10-16 00:08:00.155 +04:00 [WRN] No store type was specified for the decimal property 'Quantity' on entity type 'OrderItem'. This will cause values to be silently truncated if they do not fit in the default precision and scale. Explicitly specify the SQL server column type that can accommodate all the values in 'OnModelCreating' using 'HasColumnType', specify precision and scale using 'HasPrecision', or configure a value converter using 'HasConversion'.
+2025-10-16 00:08:00.477 +04:00 [INF] Executed DbCommand (17ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-16 00:08:00.504 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-16 00:08:00.508 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT 1
+2025-10-16 00:08:00.511 +04:00 [INF] Executed DbCommand (0ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT OBJECT_ID(N'[__EFMigrationsHistory]');
+2025-10-16 00:08:00.522 +04:00 [INF] Executed DbCommand (2ms) [Parameters=[], CommandType='"Text"', CommandTimeout='30']
+SELECT [MigrationId], [ProductVersion]
+FROM [__EFMigrationsHistory]
+ORDER BY [MigrationId];
+2025-10-16 00:08:00.534 +04:00 [INF] No migrations were applied. The database is already up to date.
+2025-10-16 00:08:00.536 +04:00 [INF] Migrations applied
+2025-10-16 00:08:00.675 +04:00 [INF] Executed DbCommand (16ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:08:00.704 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:08:00.709 +04:00 [INF] Executed DbCommand (1ms) [Parameters=[@__normalizedName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[ConcurrencyStamp], [a].[Name], [a].[NormalizedName]
+FROM [AspNetRoles] AS [a]
+WHERE [a].[NormalizedName] = @__normalizedName_0
+2025-10-16 00:08:00.728 +04:00 [INF] User profile is available. Using 'C:\Users\ASUS\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+2025-10-16 00:08:00.739 +04:00 [INF] Executed DbCommand (3ms) [Parameters=[@__normalizedEmail_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(2) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedEmail] = @__normalizedEmail_0
+2025-10-16 00:08:00.765 +04:00 [INF] Admin user already exists: admin@greenzone.com
+2025-10-16 00:08:00.949 +04:00 [INF] Now listening on: https://localhost:7100
+2025-10-16 00:08:00.978 +04:00 [INF] Application started. Press Ctrl+C to shut down.
+2025-10-16 00:08:00.980 +04:00 [INF] Hosting environment: Development
+2025-10-16 00:08:00.985 +04:00 [INF] Content root path: C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API
+2025-10-16 00:08:01.327 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/index.html - null null
+2025-10-16 00:08:01.415 +04:00 [WRN] Unable to contact VS to retrieve Browser Link script tag.
+2025-10-16 00:08:01.488 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/index.html - 200 null text/html;charset=utf-8 165.0272ms
+2025-10-16 00:08:01.491 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - null null
+2025-10-16 00:08:01.503 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/_framework/aspnetcore-browser-refresh.js - 200 16511 application/javascript; charset=utf-8 11.9721ms
+2025-10-16 00:08:01.587 +04:00 [INF] Request starting HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - null null
+2025-10-16 00:08:01.614 +04:00 [INF] Request finished HTTP/2 GET https://localhost:7100/swagger/v1/swagger.json - 200 null application/json;charset=utf-8 28.1313ms
+2025-10-16 00:09:35.891 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - application/json 96
+2025-10-16 00:09:35.914 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:09:35.918 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:09:36.007 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '20.09.2025 13:53:22', Current time (UTC): '15.10.2025 20:09:36'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-16 00:09:36.010 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '20.09.2025 13:53:22', Current time (UTC): '15.10.2025 20:09:36'.
+2025-10-16 00:09:36.017 +04:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Customer)
+2025-10-16 00:09:36.021 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-16 00:09:36.025 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - 401 0 null 136.1035ms
+2025-10-16 00:10:44.113 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Auth/login - application/json 54
+2025-10-16 00:10:44.123 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:10:44.124 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:10:44.131 +04:00 [INF] Failed to validate the token.
+Microsoft.IdentityModel.Tokens.SecurityTokenExpiredException: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '20.09.2025 13:53:22', Current time (UTC): '15.10.2025 20:10:44'.
+   at Microsoft.IdentityModel.Tokens.Validators.ValidateLifetime(Nullable`1 notBefore, Nullable`1 expires, SecurityToken securityToken, TokenValidationParameters validationParameters)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateTokenPayloadAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+   at Microsoft.IdentityModel.JsonWebTokens.JsonWebTokenHandler.ValidateJWSAsync(JsonWebToken jsonWebToken, TokenValidationParameters validationParameters, BaseConfiguration configuration)
+2025-10-16 00:10:44.135 +04:00 [INF] Bearer was not authenticated. Failure message: IDX10223: Lifetime validation failed. The token is expired. ValidTo (UTC): '20.09.2025 13:53:22', Current time (UTC): '15.10.2025 20:10:44'.
+2025-10-16 00:10:44.140 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.AuthController.Login (GreenZone.API)'
+2025-10-16 00:10:44.161 +04:00 [INF] Route matched with {action = "Login", controller = "Auth"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Login(GreenZone.Contracts.Dtos.LogInDto) on controller GreenZone.API.Controllers.AuthController (GreenZone.API).
+2025-10-16 00:10:46.747 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__normalizedUserName_0='?' (Size = 256)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [a].[Id], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName]
+FROM [AspNetUsers] AS [a]
+WHERE [a].[NormalizedUserName] = @__normalizedUserName_0
+2025-10-16 00:10:46.807 +04:00 [INF] User rauf553 logged in successfully.
+2025-10-16 00:10:46.836 +04:00 [INF] Executed DbCommand (4ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [a0].[Name]
+FROM [AspNetUserRoles] AS [a]
+INNER JOIN [AspNetRoles] AS [a0] ON [a].[RoleId] = [a0].[Id]
+WHERE [a].[UserId] = @__userId_0
+2025-10-16 00:10:46.891 +04:00 [WRN] Compiling a query which loads related collections for more than one collection navigation, either via 'Include' or through projection, but no 'QuerySplittingBehavior' has been configured. By default, Entity Framework will use 'QuerySplittingBehavior.SingleQuery', which can potentially result in slow query performance. See https://go.microsoft.com/fwlink/?linkid=2134277 for more information. To identify the query that's triggering this warning call 'ConfigureWarnings(w => w.Throw(RelationalEventId.MultipleCollectionIncludeWarning))'.
+2025-10-16 00:10:46.914 +04:00 [INF] Executed DbCommand (14ms) [Parameters=[@__userId_0='?' (Size = 450)], CommandType='"Text"', CommandTimeout='30']
+SELECT [t].[Id], [t].[CreatedAt], [t].[IdentityCard], [t].[IsDeleted], [t].[UpdatedAt], [t].[UserId], [t].[Id0], [t].[AccessFailedCount], [t].[ConcurrencyStamp], [t].[Email], [t].[EmailConfirmed], [t].[FirstName], [t].[LastName], [t].[LockoutEnabled], [t].[LockoutEnd], [t].[NormalizedEmail], [t].[NormalizedUserName], [t].[PasswordHash], [t].[PhoneNumber], [t].[PhoneNumberConfirmed], [t].[SecurityStamp], [t].[TwoFactorEnabled], [t].[UserName], [t].[Id1], [t].[CreatedAt0], [t].[CustomerId], [t].[IsDeleted0], [t].[UpdatedAt0], [t0].[Id], [t0].[BasketId], [t0].[CreatedAt], [t0].[IsDeleted], [t0].[ProductId], [t0].[Quantity], [t0].[UpdatedAt], [t0].[Id0], [t0].[CategoryId], [t0].[CreatedAt0], [t0].[Description], [t0].[ImageUrl], [t0].[IsDeleted0], [t0].[MaxThickness], [t0].[MinThickness], [t0].[PricePerSquareMeter], [t0].[Title], [t0].[UpdatedAt0], [o].[Id], [o].[CreatedAt], [o].[CustomerId], [o].[IsDeleted], [o].[OrderDate], [o].[OrderStatusId], [o].[ShippingAddress], [o].[TotalAmount], [o].[UpdatedAt], [p0].[Id], [p0].[Amount], [p0].[CreatedAt], [p0].[CustomerId], [p0].[IsDeleted], [p0].[PaymentDate], [p0].[PaymentMethodId], [p0].[RefundDate], [p0].[Status], [p0].[UpdatedAt]
+FROM (
+    SELECT TOP(1) [c].[Id], [c].[CreatedAt], [c].[IdentityCard], [c].[IsDeleted], [c].[UpdatedAt], [c].[UserId], [a].[Id] AS [Id0], [a].[AccessFailedCount], [a].[ConcurrencyStamp], [a].[Email], [a].[EmailConfirmed], [a].[FirstName], [a].[LastName], [a].[LockoutEnabled], [a].[LockoutEnd], [a].[NormalizedEmail], [a].[NormalizedUserName], [a].[PasswordHash], [a].[PhoneNumber], [a].[PhoneNumberConfirmed], [a].[SecurityStamp], [a].[TwoFactorEnabled], [a].[UserName], [b].[Id] AS [Id1], [b].[CreatedAt] AS [CreatedAt0], [b].[CustomerId], [b].[IsDeleted] AS [IsDeleted0], [b].[UpdatedAt] AS [UpdatedAt0]
+    FROM [Customers] AS [c]
+    INNER JOIN [AspNetUsers] AS [a] ON [c].[UserId] = [a].[Id]
+    LEFT JOIN [Baskets] AS [b] ON [c].[Id] = [b].[CustomerId]
+    WHERE [c].[IsDeleted] = CAST(0 AS bit) AND [c].[UserId] = @__userId_0
+) AS [t]
+LEFT JOIN (
+    SELECT [b0].[Id], [b0].[BasketId], [b0].[CreatedAt], [b0].[IsDeleted], [b0].[ProductId], [b0].[Quantity], [b0].[UpdatedAt], [p].[Id] AS [Id0], [p].[CategoryId], [p].[CreatedAt] AS [CreatedAt0], [p].[Description], [p].[ImageUrl], [p].[IsDeleted] AS [IsDeleted0], [p].[MaxThickness], [p].[MinThickness], [p].[PricePerSquareMeter], [p].[Title], [p].[UpdatedAt] AS [UpdatedAt0]
+    FROM [BasketItems] AS [b0]
+    INNER JOIN [Products] AS [p] ON [b0].[ProductId] = [p].[Id]
+) AS [t0] ON [t].[Id1] = [t0].[BasketId]
+LEFT JOIN [Orders] AS [o] ON [t].[Id] = [o].[CustomerId]
+LEFT JOIN [Payments] AS [p0] ON [t].[Id] = [p0].[CustomerId]
+ORDER BY [t].[Id], [t].[Id0], [t].[Id1], [t0].[Id], [t0].[Id0], [o].[Id]
+2025-10-16 00:10:46.971 +04:00 [INF] rauf553 logIn 
+2025-10-16 00:10:46.976 +04:00 [INF] Executing OkObjectResult, writing value of type 'GreenZone.Contracts.Dtos.AuthResultDto'.
+2025-10-16 00:10:46.987 +04:00 [INF] Executed action GreenZone.API.Controllers.AuthController.Login (GreenZone.API) in 2819.6707ms
+2025-10-16 00:10:46.989 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.AuthController.Login (GreenZone.API)'
+2025-10-16 00:10:46.994 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Auth/login - 200 null application/json; charset=utf-8 2883.085ms
+2025-10-16 00:11:13.597 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - application/json 96
+2025-10-16 00:11:13.606 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:11:13.607 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:11:13.610 +04:00 [INF] Authorization failed. These requirements were not met:
+RolesAuthorizationRequirement:User.IsInRole must be true for one of the following roles: (Customer)
+2025-10-16 00:11:13.614 +04:00 [INF] AuthenticationScheme: Bearer was challenged.
+2025-10-16 00:11:13.617 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - 401 0 null 20.4449ms
+2025-10-16 00:11:58.976 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - application/json 96
+2025-10-16 00:11:58.987 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:11:58.987 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:11:59.001 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API)'
+2025-10-16 00:11:59.011 +04:00 [INF] Route matched with {action = "CreateOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateOrder(System.Guid, GreenZone.Contracts.Dtos.OrderDtos.OrderCreateDto) on controller GreenZone.API.Controllers.OrderController (GreenZone.API).
+2025-10-16 00:11:59.208 +04:00 [INF] Executing BadRequestObjectResult, writing value of type 'Microsoft.AspNetCore.Mvc.ValidationProblemDetails'.
+2025-10-16 00:11:59.220 +04:00 [INF] Executed action GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API) in 205.9888ms
+2025-10-16 00:11:59.223 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API)'
+2025-10-16 00:11:59.224 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - 400 null application/problem+json; charset=utf-8 248.0274ms
+2025-10-16 00:12:47.959 +04:00 [INF] Request starting HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - application/json 227
+2025-10-16 00:12:47.967 +04:00 [INF] CORS policy execution failed.
+2025-10-16 00:12:47.969 +04:00 [INF] Request origin https://localhost:7100 does not have permission to access the resource.
+2025-10-16 00:12:47.972 +04:00 [INF] Executing endpoint 'GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API)'
+2025-10-16 00:12:47.974 +04:00 [INF] Route matched with {action = "CreateOrder", controller = "Order"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] CreateOrder(System.Guid, GreenZone.Contracts.Dtos.OrderDtos.OrderCreateDto) on controller GreenZone.API.Controllers.OrderController (GreenZone.API).
+2025-10-16 00:12:56.207 +04:00 [INF] Executed DbCommand (19ms) [Parameters=[@__get_Item_0='?' (DbType = Guid)], CommandType='"Text"', CommandTimeout='30']
+SELECT TOP(1) [b].[Id], [b].[CreatedAt], [b].[CustomerId], [b].[IsDeleted], [b].[UpdatedAt]
+FROM [Baskets] AS [b]
+WHERE [b].[Id] = @__get_Item_0
+2025-10-16 00:12:56.213 +04:00 [WRN] Attempted to create order from empty basket "de6efdce-a2c1-4e15-9bf7-2bacd4f109b5"
+2025-10-16 00:12:56.270 +04:00 [INF] Executed action GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API) in 8293.4214ms
+2025-10-16 00:12:56.272 +04:00 [INF] Executed endpoint 'GreenZone.API.Controllers.OrderController.CreateOrder (GreenZone.API)'
+2025-10-16 00:12:56.274 +04:00 [ERR] An unhandled exception has occurred while executing the request.
+System.InvalidOperationException: Cannot create an order from an empty basket.
+   at GreenZone.Application.Service.OrderService.CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto) in C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.Application\Service\OrderService.cs:line 65
+   at GreenZone.API.Controllers.OrderController.CreateOrder(Guid basketId, OrderCreateDto orderCreateDto) in C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\Controllers\OrderController.cs:line 77
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Logged|17_1(ResourceInvoker invoker)
+   at Microsoft.AspNetCore.Routing.EndpointMiddleware.<Invoke>g__AwaitRequestTask|7_0(Endpoint endpoint, Task requestTask, ILogger logger)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Session.SessionMiddleware.Invoke(HttpContext context)
+   at Swashbuckle.AspNetCore.SwaggerUI.SwaggerUIMiddleware.Invoke(HttpContext httpContext)
+   at Swashbuckle.AspNetCore.Swagger.SwaggerMiddleware.Invoke(HttpContext httpContext, ISwaggerProvider swaggerProvider)
+   at Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+2025-10-16 00:12:56.315 +04:00 [INF] Request finished HTTP/2 POST https://localhost:7100/api/Order?basketId=de6efdce-a2c1-4e15-9bf7-2bacd4f109b5 - 500 null text/plain; charset=utf-8 8355.2894ms
