@@ -158,12 +158,9 @@ export interface OrderItem {
 }
 
 export interface OrderCreateDto {
-  totalAmount: number
-  shippingAddress: string
-  orderDate: Date
-  customerId: string
-  orderStatusId: string
-  items: OrderItemCreateDto[]
+  customerId: string // Foreign key to the Customer
+  shippingAddress: string // Address where the order will be shipped
+  items: OrderItemCreateDto[] // List of items in the order
 }
 
 export interface OrderItemCreateDto {

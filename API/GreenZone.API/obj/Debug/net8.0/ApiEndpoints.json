@@ -1111,7 +1111,28 @@
   },
   {
     "ContainingType": "GreenZone.API.Controllers.OrderController",
-    "Method": "GetById",
+    "Method": "CreateOrder",
+    "RelativePath": "api/Order",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "basketId",
+        "Type": "System.Guid",
+        "IsRequired": false
+      },
+      {
+        "Name": "orderCreateDto",
+        "Type": "GreenZone.Contracts.Dtos.OrderDtos.OrderCreateDto",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.OrderController",
+    "Method": "GetOrdersByCustomerIdAsync",
     "RelativePath": "api/Order/{id}",
     "HttpMethod": "GET",
     "IsController": true,

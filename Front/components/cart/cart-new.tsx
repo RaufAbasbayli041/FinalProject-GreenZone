@@ -14,8 +14,12 @@ import {
   updateItemsInBasket,
   clearBasket
 } from '@/services/api'
+import { createOrder } from '@/services/order-api'
+import { getUserIdFromToken } from '@/services/api'
+import { useAuth } from '@/contexts/auth-context'
 import type { Basket } from '@/lib/types'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation'
 
 interface CartNewProps {
   customerId: string
@@ -40,10 +44,67 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const [inputValues, setInputValues] = useState<Record<string, string>>({})
   
   const { addNotification } = useNotification()
+  const { user, isAuthenticated, getUserRoleFromToken } = useAuth()
+  const router = useRouter()
 
+  // Проверяем авторизацию
   useEffect(() => {
+    if (!isAuthenticated || !user) {
+      console.log('Пользователь не авторизован, перенаправляем на логин')
+      router.push('/login')
+      return
+    }
+    
+    const userId = getUserIdFromToken()
+    if (!userId) {
+      console.log('Не удалось получить userId из токена')
+      router.push('/login')
+      return
+    }
+    
+    // Проверяем роль пользователя
+    const userRole = getUserRoleFromToken()
+    console.log('Роль пользователя в корзине:', userRole)
+    
+    // Дополнительная диагностика токена
+    const token = typeof window !== 'undefined' ? localStorage.getItem('auth_token') : null
+    if (token) {
+      try {
+        const payload = JSON.parse(atob(token.split('.')[1]))
+        console.log('Детальная диагностика токена в корзине:', {
+          allClaims: Object.keys(payload),
+          roleClaim: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'],
+          roleDirect: payload.role,
+          rolesArray: payload.roles,
+          userId: payload.sub,
+          email: payload.email
+        })
+      } catch (error) {
+        console.error('Ошибка парсинга токена в корзине:', error)
+      }
+    }
+    
+    // Если роль не определена, но есть customerId, разрешаем доступ
+    if (userRole !== 'Customer') {
+      console.log('Пользователь не имеет роль Customer:', userRole)
+      
+      // Если есть customerId, значит пользователь может быть клиентом
+      if (customerId) {
+        console.log('Но есть customerId, разрешаем доступ к корзине:', customerId)
+        // Продолжаем загрузку корзины
+      } else {
+        addNotification({
+          type: 'error',
+          title: 'Недостаточно прав',
+          message: 'Только клиенты могут создавать заказы'
+        })
+        router.push('/')
+        return
+      }
+    }
+    
     loadBasket()
-  }, [customerId])
+  }, [customerId, isAuthenticated, user, router, getUserRoleFromToken, addNotification])
 
   // Функция для принудительного обновления корзины
   const refreshBasket = async () => {
@@ -352,6 +413,51 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const handleOrderSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     
+    // Проверяем авторизацию перед созданием заказа
+    if (!isAuthenticated || !user) {
+      addNotification({
+        type: 'error',
+        title: 'Ошибка авторизации',
+        message: 'Необходимо войти в систему для создания заказа'
+      })
+      router.push('/login')
+      return
+    }
+    
+    const userId = getUserIdFromToken()
+    if (!userId) {
+      addNotification({
+        type: 'error',
+        title: 'Ошибка авторизации',
+        message: 'Не удалось получить данные пользователя'
+      })
+      router.push('/login')
+      return
+    }
+    
+    // Проверяем роль пользователя
+    const userRole = getUserRoleFromToken()
+    console.log('Роль пользователя при создании заказа:', userRole)
+    
+    // Если роль не определена, но есть customerId, разрешаем создание заказа
+    if (userRole !== 'Customer') {
+      console.log('Пользователь не имеет роль Customer:', userRole)
+      
+      // Если есть customerId, значит пользователь может быть клиентом
+      if (customerId) {
+        console.log('Но есть customerId, разрешаем создание заказа:', customerId)
+        // Продолжаем создание заказа
+      } else {
+        addNotification({
+          type: 'error',
+          title: 'Недостаточно прав',
+          message: 'Только клиенты могут создавать заказы'
+        })
+        router.push('/')
+        return
+      }
+    }
+    
     if (!validateForm()) {
       addNotification({
         type: 'error',
@@ -362,30 +468,24 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     }
 
     try {
-      // Имитируем отправку заказа
-      await new Promise(resolve => setTimeout(resolve, 2000))
-      
-      // Логируем данные заказа
+      // Подготавливаем данные заказа
+      const orderItems = basket?.basketItems?.map(item => ({
+        productId: item.productId,
+        quantity: item.quantity,
+        unitPrice: item.product?.pricePerSquareMeter || 0,
+        totalPrice: item.totalPrice
+      })) || []
+
       const orderData = {
-        customer: {
-          phone: orderForm.phone,
-          address: orderForm.address
-        },
-        paymentMethod: orderForm.paymentMethod,
-        status: orderForm.paymentMethod === 'cash' ? 'Processing' : 'Pending',
-        items: basket?.basketItems || [],
-        totalAmount: basket?.totalAmount || 0,
-        comment: orderForm.comment,
-        ...(orderForm.paymentMethod === 'card' && {
-          cardInfo: {
-            cardNumber: orderForm.cardNumber.replace(/\s/g, ''),
-            cardExpiry: orderForm.cardExpiry,
-            cardCvv: orderForm.cardCvv
-          }
-        })
+        customerId: customerId,
+        shippingAddress: orderForm.address,
+        items: orderItems
       }
+
+      // Создаем заказ через API
+      const createdOrder = await createOrder(orderData, basket?.id)
       
-      console.log('Заказ отправлен:', orderData)
+      console.log('Заказ создан:', createdOrder)
       
       addNotification({
         type: 'success',
@@ -407,15 +507,17 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       resetOrderForm()
       setShowOrderForm(false)
       
+      // Вызываем callback если передан
       if (onOrderPlaced) {
         onOrderPlaced()
       }
+      
     } catch (error) {
-      console.error('Ошибка оформления заказа:', error)
+      console.error('Ошибка создания заказа:', error)
       addNotification({
         type: 'error',
-        title: 'Ошибка заказа',
-        message: 'Не удалось оформить заказ'
+        title: 'Ошибка создания заказа',
+        message: 'Произошла ошибка при создании заказа. Попробуйте еще раз.'
       })
     }
   }

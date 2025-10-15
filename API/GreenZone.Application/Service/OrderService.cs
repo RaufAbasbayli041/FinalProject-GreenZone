@@ -81,26 +81,18 @@ namespace GreenZone.Application.Service
                 ShippingAddress = orderCreateDto.ShippingAddress,
                 TotalAmount = excistingBasket.BasketItems.Sum(bi => bi.Quantity * bi.Product.PricePerSquareMeter),
                 OrderStatus = pendingStatus,
+                OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
+                {
+                    ProductId = bi.ProductId,
+                    Quantity = bi.Quantity,
+                   
+                }).ToList()
             };
 
             await _orderRepository.AddAsync(order);
-            await _unitOfWork.SaveChangesAsync();
+           
 
-            // map basket items to order items
-            order.OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
-            {
-                ProductId = bi.ProductId,
-                Quantity = bi.Quantity,
-                OrderId = order.Id,
-            }).ToList();
-
-            // save order items
-            foreach (var item in order.OrderItems)
-            {
-                await _orderItemsRepository.AddAsync(item);
-            }
-
-            await _unitOfWork.SaveChangesAsync();
+            
 
             // creare delivery for order
             var deliveryCreateDto = new DeliveryCreateDto
@@ -110,6 +102,7 @@ namespace GreenZone.Application.Service
                 DeliveryStatus = DeliveryStatusType.Created,
                 CreatedAt = DateTime.UtcNow,
             };
+           
 
 
             await _deliveryService.AddAsync(deliveryCreateDto);
@@ -127,7 +120,7 @@ namespace GreenZone.Application.Service
 
         public async Task<OrderReadDto> CancelOrderAsync(Guid orderId)
         {
-           
+
             var data = await _orderRepository.GetByIdAsync(orderId);
             if (data == null)
             {
@@ -176,7 +169,7 @@ namespace GreenZone.Application.Service
                 throw new NotFoundException("Order not found.");
             }
             EnsureOrderOwnerOrAdmin(order.CustomerId);
-                        
+
             _logger.LogInformation("Retrieved details for order {OrderId}", orderId);
 
             return _mapper.Map<OrderReadDto>(order);
@@ -297,7 +290,13 @@ namespace GreenZone.Application.Service
 
             if (user.IsInRole("Customer") && customerId != currentUserId)
                 throw new UnAuthorizedException("You cannot access another user's order.");
-                       
+
+        }
+
+        public async Task<ICollection<OrderReadDto>> GetOrdersByCustomerIdAsync(Guid customerId)
+        {
+            var orders = await _orderRepository.GetOrdersByCustomerIdAsync(customerId);
+            return _mapper.Map<ICollection<OrderReadDto>>(orders);
         }
     }
 }

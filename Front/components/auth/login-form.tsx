@@ -23,10 +23,22 @@ export function LoginForm() {
   const [error, setError] = useState("")
   const [showPassword, setShowPassword] = useState(false)
 
-  const { login } = useAuth()
+  const { login, isAdmin, isAuthenticated } = useAuth()
   const router = useRouter()
 
-  // Убираем автоматические редиректы - теперь это делает AutoRedirect компонент
+  // Отслеживаем изменения авторизации и перенаправляем
+  useEffect(() => {
+    console.log('Auth state changed:', { isAuthenticated, isAdmin })
+    if (isAuthenticated) {
+      if (isAdmin) {
+        console.log('Redirecting to admin panel')
+        router.push("/admin")
+      } else {
+        console.log('Redirecting to home page')
+        router.push("/")
+      }
+    }
+  }, [isAuthenticated, isAdmin, router])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -36,8 +48,34 @@ export function LoginForm() {
     const result = await login(formData.userName, formData.password)
 
     if (result.success) {
-      // Успешный логин - AutoRedirect компонент автоматически перенаправит пользователя
-      console.log('Login successful, AutoRedirect will handle navigation')
+      // Получаем токен и проверяем роль напрямую
+      const token = localStorage.getItem('auth_token')
+      if (token) {
+        try {
+          // Декодируем JWT токен для получения роли
+          const payload = JSON.parse(atob(token.split('.')[1]))
+          const userRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
+          
+          console.log('Token payload:', payload)
+          console.log('User role from token:', userRole)
+          
+          // Перенаправляем в зависимости от роли
+          if (userRole === 'Admin' || userRole === 'admin' || (Array.isArray(userRole) && userRole.includes('Admin'))) {
+            console.log('Admin role detected, redirecting to admin panel')
+            router.push("/admin")
+          } else {
+            console.log('Customer role detected, redirecting to home page')
+            router.push("/")
+          }
+        } catch (error) {
+          console.error('Error decoding token:', error)
+          // Если не удалось декодировать токен, используем стандартную логику
+          router.push("/")
+        }
+      } else {
+        console.log('No token found, redirecting to home page')
+        router.push("/")
+      }
     } else {
       setError(result.message)
     }

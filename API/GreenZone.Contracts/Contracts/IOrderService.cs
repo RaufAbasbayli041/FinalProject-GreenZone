@@ -21,7 +21,9 @@ namespace GreenZone.Contracts.Contracts
 		Task<OrderReadDto> MarkAsDeliveredAsync(Guid orderId);
 		Task<OrderReadDto> CancelOrderAsync(Guid orderId);
 		Task<OrderReadDto> MarkAsReturnedAsync(Guid orderId);
+        Task<ICollection<OrderReadDto>> GetOrdersByCustomerIdAsync(Guid customerId);
 
 
-	}
+
+    }
 }

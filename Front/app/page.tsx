@@ -56,7 +56,7 @@ export default function Home() {
   const [consultationPhone, setConsultationPhone] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const { user, isAuthenticated, isAdmin } = useAuth()
+  const { user, isAuthenticated } = useAuth()
   const { addToCart } = useCart()
   const { t } = useLanguage()
   const router = useRouter()

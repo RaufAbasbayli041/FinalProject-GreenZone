@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { useRouter, usePathname } from 'next/navigation'
 import { Button } from '@/components/ui/button'
 import {
@@ -29,10 +29,8 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pathname = usePathname()
   const router = useRouter()
-  const { user, logout, isAdmin } = useAuth()
+  const { user, logout } = useAuth()
   const { t } = useLanguage()
-
-  // Убираем автоматические редиректы - теперь это делает AutoRedirect компонент
 
   const handleLogout = () => {
     logout()

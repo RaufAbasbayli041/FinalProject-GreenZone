@@ -35,10 +35,57 @@ import { getCustomerByUserId } from './customer-api'
 
 const BASE = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7100'
 
+// Функция для проверки валидности JWT токена
+function isTokenValid(token: string): boolean {
+  try {
+    const parts = token.split('.')
+    if (parts.length !== 3) return false
+    
+    const payload = JSON.parse(atob(parts[1]))
+    const currentTime = Math.floor(Date.now() / 1000)
+    
+    // Проверяем срок действия токена
+    if (payload.exp && payload.exp < currentTime) {
+      console.log('Токен истек:', {
+        exp: payload.exp,
+        currentTime,
+        expired: true
+      })
+      return false
+    }
+    
+    console.log('Токен валиден:', {
+      exp: payload.exp,
+      currentTime,
+      expired: false,
+      userId: payload.sub || payload.userId
+    })
+    
+    return true
+  } catch (error) {
+    console.error('Ошибка проверки токена:', error)
+    return false
+  }
+}
+
 // Функция для получения токена из localStorage
 function getAuthToken(): string | null {
   if (typeof window === 'undefined') return null
-  return localStorage.getItem('auth_token')
+  
+  const token = localStorage.getItem('auth_token')
+  console.log('Получение токена:', {
+    hasToken: !!token,
+    tokenPreview: token ? token.substring(0, 20) + '...' : 'нет токена',
+    localStorageKeys: Object.keys(localStorage)
+  })
+  
+  if (token && !isTokenValid(token)) {
+    console.log('Токен недействителен, удаляем из localStorage')
+    localStorage.removeItem('auth_token')
+    return null
+  }
+  
+  return token
 }
 
 // Функция для получения userId из JWT токена
@@ -120,6 +167,17 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
   const headers: Record<string, string> = { 'Content-Type': 'application/json' }
   if (token) {
     headers['Authorization'] = `Bearer ${token}`
+    console.log('Заголовки запроса:', {
+      url,
+      method: opts.method || 'GET',
+      hasToken: !!token,
+      tokenPreview: token.substring(0, 20) + '...',
+      authorizationHeader: headers['Authorization'].substring(0, 30) + '...',
+      allHeaders: headers,
+      requestBody: opts.body ? (typeof opts.body === 'string' ? opts.body.substring(0, 200) + '...' : 'не строка') : 'нет тела'
+    })
+  } else {
+    console.log('Токен отсутствует для запроса:', url)
   }
 
   const res = await fetch(url, { 
@@ -130,32 +188,34 @@ async function fetchJSON<T = any>(path: string, opts: RequestInit = {}): Promise
   
   if (!res.ok) {
     const text = await res.text().catch(() => '')
+    console.error('Ошибка запроса:', {
+      url,
+      status: res.status,
+      statusText: res.statusText,
+      responseText: text,
+      headers: Object.fromEntries(res.headers.entries())
+    })
     throw new Error(`Request failed ${res.status} ${res.statusText}: ${text}`)
   }
   
   // Проверяем, есть ли контент для парсинга
   const contentType = res.headers.get('content-type')
-  const contentLength = res.headers.get('content-length')
-  
-  // Если нет контента или это не JSON, возвращаем пустой объект
-  if (!contentType?.includes('application/json') || contentLength === '0') {
+  if (!contentType || !contentType.includes('application/json')) {
+    // Если ответ не JSON, возвращаем пустой объект
     return {} as T
   }
   
-  // Пытаемся получить текст ответа
   const text = await res.text()
-  
-  // Если текст пустой, возвращаем пустой объект
   if (!text.trim()) {
+    // Если ответ пустой, возвращаем пустой объект
     return {} as T
   }
   
-  // Парсим JSON
   try {
     return JSON.parse(text) as T
   } catch (error) {
-    console.warn('Failed to parse JSON response:', text)
-    return {} as T
+    console.error('Ошибка парсинга JSON:', error)
+    throw new Error(`Invalid JSON response: ${text}`)
   }
 }
 
@@ -414,15 +474,12 @@ export async function updateBasketItem(customerId: string, productId: string, qu
 // Функция для очистки корзины
 export async function clearBasket(customerId: string): Promise<any> {
   try {
-    const result = await fetchJSON(`/api/Basket/${customerId}`, {
+    return await fetchJSON(`/api/Basket/${customerId}`, {
       method: 'DELETE'
     })
-    console.log('Корзина успешно очищена')
-    return result
   } catch (error: any) {
     console.log('API очистки корзины недоступен:', error.message)
-    // Не выбрасываем ошибку, так как очистка корзины не критична
-    return { success: true, message: 'Корзина очищена локально' }
+    throw error
   }
 }
 
@@ -624,22 +681,7 @@ export async function createOrder(orderData: OrderCreateDto): Promise<Order> {
     })
   } catch (e: any) {
     console.log('API создания заказа недоступен:', e.message)
-    // Заглушка для заказа
-    return {
-      id: 'mock-order-' + Date.now(),
-      customerId: orderData.customerId,
-      items: [],
-      totalAmount: orderData.totalAmount,
-      status: {
-        id: '1',
-        name: 'Pending',
-        description: 'Order is pending'
-      },
-      shippingAddress: orderData.shippingAddress,
-      orderDate: orderData.orderDate,
-      orderStatusId: orderData.orderStatusId,
-      updatedAt: new Date()
-    }
+    throw e
   }
 }
 
@@ -808,6 +850,18 @@ export async function getAllDeliveries(): Promise<DeliveryReadDto[]> {
   } catch (e: any) {
     console.log('API доставок недоступен:', e.message)
     throw e
+  }
+}
+
+export async function getDeliveriesByCustomerId(customerId: string): Promise<DeliveryReadDto[]> {
+  try {
+    // Поскольку нет endpoint для получения всех доставок клиента,
+    // мы возвращаем пустой массив и показываем информативное сообщение
+    console.log('API не предоставляет endpoint для получения доставок клиента')
+    return []
+  } catch (e: any) {
+    console.log('API доставок по customerId недоступен:', e.message)
+    return []
   }
 }
 

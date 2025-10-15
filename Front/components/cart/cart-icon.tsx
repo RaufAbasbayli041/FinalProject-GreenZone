@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/contexts/cart-context"
 import { useRouter } from "next/navigation"
-import { getUserIdFromToken, getBasketByCustomerId } from "@/services/api"
+import { getUserIdFromToken, getBasketByCustomerId, getCustomerIdByUserId } from "@/services/api"
 import { useState } from "react"
 
 export function CartIcon() {
@@ -17,7 +17,7 @@ export function CartIcon() {
     try {
       setLoading(true)
       
-      // Получаем ID из JWT токена
+      // Получаем customerId из JWT токена
       const userId = getUserIdFromToken()
       
       if (!userId) {
@@ -26,10 +26,21 @@ export function CartIcon() {
         return
       }
 
-      console.log("Загружаем корзину для ID:", userId)
+      // Получаем customerId для этого пользователя
+      const customerId = await getCustomerIdByUserId(userId)
+      
+      if (!customerId) {
+        console.warn("CustomerId не найден для пользователя")
+        router.push("/login")
+        return
+      }
+      
+      console.log("Используем customerId:", customerId)
+
+      console.log("Загружаем корзину для customerId:", customerId)
       
       // Загружаем корзину из API используя GetBasketByCustomerId
-      const basketData = await getBasketByCustomerId(userId)
+      const basketData = await getBasketByCustomerId(customerId)
       
       // Обновляем локальную корзину данными из API
       if (loadBasketFromAPI) {

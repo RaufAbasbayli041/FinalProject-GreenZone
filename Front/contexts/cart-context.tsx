@@ -49,26 +49,26 @@ export function CartProvider({ children }: { children: React.ReactNode }) {
         
         if (userId) {
           const customerId = await getCustomerIdByUserId(userId)
-          if (customerId) {
-            console.log('Загружаем корзину для customerId:', customerId)
-            const basket = await getBasketByCustomerId(customerId)
-            console.log('Получена корзина с сервера:', basket)
-            
-            if (basket && basket.basketItems && basket.basketItems.length > 0) {
-              const serverItems = basket.basketItems.map(item => ({
-                productId: item.productId,
-                quantity: item.quantity,
-                area: item.quantity, // quantity в API = area в UI
-                installationRequired: false
-              }))
-              console.log('Синхронизируем с серверными данными:', serverItems)
-              setItems(serverItems)
-              return
-            } else {
-              console.log('Корзина пуста на сервере')
-              setItems([])
-              return
-            }
+          console.log('Получен customerId:', customerId)
+          
+          console.log('Загружаем корзину для customerId:', customerId)
+          const basket = await getBasketByCustomerId(customerId)
+          console.log('Получена корзина с сервера:', basket)
+          
+          if (basket && basket.basketItems && basket.basketItems.length > 0) {
+            const serverItems = basket.basketItems.map(item => ({
+              productId: item.productId,
+              quantity: item.quantity,
+              area: item.quantity, // quantity в API = area в UI
+              installationRequired: false
+            }))
+            console.log('Синхронизируем с серверными данными:', serverItems)
+            setItems(serverItems)
+            return
+          } else {
+            console.log('Корзина пуста на сервере')
+            setItems([])
+            return
           }
         }
       } catch (error) {

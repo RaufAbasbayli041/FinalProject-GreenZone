@@ -11,7 +11,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useLanguage } from '@/contexts/language-context-new'
 
 export default function CartPage() {
-  const { user, isAuthenticated, isAdmin } = useAuth()
+  const { user, isAuthenticated } = useAuth()
   const { t } = useLanguage()
   const router = useRouter()
   const [customerId, setCustomerId] = useState<string | null>(null)

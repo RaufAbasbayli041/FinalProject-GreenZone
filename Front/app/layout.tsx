@@ -8,7 +8,6 @@ import { Footer } from '@/components/layout/footer'
 import { ConditionalFooter } from '@/components/layout/conditional-footer'
 import { ConditionalNavbar } from '@/components/layout/conditional-navbar'
 import { ConditionalMain } from '@/components/layout/conditional-main'
-import { AutoRedirect } from '@/components/auth/AutoRedirect'
 
 export const metadata: Metadata = {
   title: "Green Zone - Продажа и установка искусственного газона",
@@ -26,7 +25,6 @@ export default function RootLayout({
     <html lang="ru" suppressHydrationWarning={true} data-scroll-behavior="smooth">
       <body suppressHydrationWarning={true}>
         <Providers>
-          <AutoRedirect />
           <div className="flex flex-col">
             <ConditionalNavbar />
             <ConditionalMain>

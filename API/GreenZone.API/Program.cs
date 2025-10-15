@@ -102,8 +102,8 @@ namespace GreenZone.API
 				options.Cookie.Name = "GreenZoneAuthCookie";
 				options.Cookie.IsEssential = true; // Make the cookie essential
 				options.Cookie.Path = "/"; // Set the cookie path to root
-				options.Cookie.SecurePolicy = CookieSecurePolicy.Always; // Ensure the cookie is only sent over HTTPS
-				options.Cookie.SameSite = SameSiteMode.Strict; // Adjust SameSite attribute as needed
+				options.Cookie.SecurePolicy = CookieSecurePolicy.None; // Ensure the cookie is only sent over HTTPS
+				options.Cookie.SameSite = SameSiteMode.None; // Adjust SameSite attribute as needed
 			});
 
             // === JWT Authentication ===
@@ -117,7 +117,7 @@ namespace GreenZone.API
 				{
 					var jwtSettings = builder.Configuration.GetSection("Jwt");
                     options.SaveToken = true;
-                    options.RequireHttpsMetadata = false; //for https change to true
+                    options.RequireHttpsMetadata = true; //for https change to true
                     options.TokenValidationParameters = new TokenValidationParameters
 					{
 
@@ -202,10 +202,10 @@ namespace GreenZone.API
 
 			app.UseCors("AllowFrontend");
 			app.UseCookiePolicy();
+            app.UseSession();
 			app.UseAuthentication();
 			app.UseAuthorization();
 
-            app.UseSession();
 
             app.MapControllers();
 

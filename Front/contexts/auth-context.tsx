@@ -22,6 +22,8 @@ interface AuthContextType {
   ) => Promise<{ success: boolean; message: string }>
   logout: () => void
   loading: boolean
+  getAuthToken: () => string | null
+  getUserIdFromToken: () => string | null
   getUserRoleFromToken: () => UserRole | null
 }
 
@@ -33,51 +35,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Загружаем состояние аутентификации при инициализации
-    const initializeAuth = () => {
-      const savedAuthState = storage.getAuthState()
-      const token = localStorage.getItem('auth_token')
-      
-      // Если есть токен, но нет сохраненного состояния, пытаемся восстановить
-      if (token && (!savedAuthState.user || !savedAuthState.isAuthenticated)) {
-        try {
-          const payload = JSON.parse(atob(token.split('.')[1]))
-          const userRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-          
-          // Проверяем, является ли пользователь админом
-          const isTokenAdmin = userRole === 'Admin' || userRole === 'admin' || 
-                              (Array.isArray(userRole) && userRole.includes('Admin'))
-          
-          if (isTokenAdmin) {
-            const user: User = {
-              id: payload.sub || payload.userId || '',
-              name: payload.name || payload.userName || '',
-              email: payload.email || '',
-              role: UserRole.ADMIN,
-              firstName: payload.firstName || '',
-              lastName: payload.lastName || '',
-              phoneNumber: payload.phoneNumber || '',
-              identityCard: payload.identityCard || ''
-            }
-            
-            const newAuthState: AuthState = { user, isAuthenticated: true }
-            setAuthState(newAuthState)
-            storage.setAuthState(newAuthState)
-            console.log('Auth state restored from token for admin user')
-          }
-        } catch (error) {
-          console.error('Error restoring auth state from token:', error)
-          // Очищаем невалидный токен
-          localStorage.removeItem('auth_token')
-          storage.clearAuthState()
-        }
-      } else if (savedAuthState.user && savedAuthState.isAuthenticated) {
-        setAuthState(savedAuthState)
-      }
-      
-      setLoading(false)
-    }
-    
-    initializeAuth()
+    const savedAuthState = storage.getAuthState()
+    setAuthState(savedAuthState)
+    setLoading(false)
   }, [])
 
   const login = async (userName: string, password: string): Promise<{ success: boolean; message: string }> => {
@@ -89,10 +49,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       
       if (result.token) {
         // Получаем роль из токена или из результата API
-        let userRole = result.role || UserRole.CUSTOMER
+        let userRole = result.user?.role || UserRole.CUSTOMER
         
         // Если роль не пришла в результате, пытаемся извлечь из токена
-        if (!result.role && result.token) {
+        if (!result.user?.role && result.token) {
           try {
             const payload = JSON.parse(atob(result.token.split('.')[1]))
             const tokenRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
@@ -110,17 +70,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           }
         }
         
-        console.log('Login result role:', result.role, 'Final role:', userRole)
+        console.log('Login result role:', result.user?.role, 'Final role:', userRole)
         
         const user: User = {
-          id: result.userId || result.customerId || '',
-          name: result.userName || userName,
-          email: result.email || '',
+          id: result.user?.id || '',
+          name: result.user?.name || '',
+          email: result.user?.email || '',
           role: userRole,
-          firstName: result.firstName || '',
-          lastName: result.lastName || '',
-          phoneNumber: result.phoneNumber || '',
-          identityCard: result.identityCard || ''
+          firstName: result.user?.firstName || '',
+          lastName: result.user?.lastName || '',
+          phone: result.user?.phone || '',
+          phoneNumber: result.user?.phoneNumber || '',
+          identityCard: result.user?.identityCard || '',
+          createdAt: result.user?.createdAt || new Date()
+        }
+
+        // Сохраняем токен в localStorage
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('auth_token', result.token)
+          console.log('Токен сохранен в localStorage:', {
+            hasToken: !!result.token,
+            tokenPreview: result.token.substring(0, 20) + '...',
+            localStorageKeys: Object.keys(localStorage)
+          })
         }
 
         // Устанавливаем состояние аутентификации
@@ -200,28 +172,83 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
-  // Функция для получения роли из токена
-  const getUserRoleFromToken = (): UserRole | null => {
-    const token = localStorage.getItem('auth_token')
+  // Функция для получения токена из localStorage
+  const getAuthToken = (): string | null => {
+    if (typeof window === 'undefined') return null
+    return localStorage.getItem('auth_token')
+  }
+
+  // Функция для получения userId из токена
+  const getUserIdFromToken = (): string | null => {
+    const token = getAuthToken()
     if (!token) return null
     
     try {
       const payload = JSON.parse(atob(token.split('.')[1]))
-      const tokenRole = payload.role || payload.roles || payload['http://schemas.microsoft.com/ws/2008/06/identity/claims/role']
-      
-      if (tokenRole) {
-        if (Array.isArray(tokenRole)) {
-          return tokenRole.includes('Admin') ? UserRole.ADMIN : UserRole.CUSTOMER
-        } else {
-          return tokenRole === 'Admin' || tokenRole === 'admin' ? UserRole.ADMIN : UserRole.CUSTOMER
-        }
-      }
+      // Используем правильный claim согласно бэкенду: JwtRegisteredClaimNames.Sub
+      return payload.sub
     } catch (error) {
-      console.error('Error parsing token for role:', error)
+      console.error('Error parsing token for userId:', error)
     }
     
     return null
   }
+
+  // Функция для получения роли из токена
+const getUserRoleFromToken = (): UserRole | null => {
+  const token = getAuthToken()
+  if (!token) return null
+  
+  try {
+    const payload = JSON.parse(atob(token.split('.')[1]))
+    
+    // Ищем роль в правильных местах согласно бэкенду
+    const tokenRole = payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'] || 
+                     payload.role || 
+                     payload.roles
+    
+    console.log('Проверка роли пользователя:', {
+      payload: payload,
+      tokenRole: tokenRole,
+      allClaims: Object.keys(payload),
+      userId: payload.sub, // JwtRegisteredClaimNames.Sub
+      email: payload.email, // JwtRegisteredClaimNames.Email
+      nameIdentifier: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier'], // ClaimTypes.NameIdentifier
+      exp: payload.exp,
+      iat: payload.iat,
+      iss: payload.iss,
+      aud: payload.aud,
+      // Проверяем все возможные места для роли
+      roleClaim: payload['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role'],
+      roleDirect: payload.role,
+      rolesArray: payload.roles
+    })
+    
+    if (tokenRole) {
+      if (Array.isArray(tokenRole)) {
+        const role = tokenRole.includes('Admin') ? UserRole.ADMIN : UserRole.CUSTOMER
+        console.log('Роль из массива:', role)
+        return role
+      } else {
+        const role = tokenRole === 'Admin' || tokenRole === 'admin' ? UserRole.ADMIN : UserRole.CUSTOMER
+        console.log('Роль из строки:', role)
+        return role
+      }
+    }
+    
+    console.log('Роль не найдена в токене, но есть userId - считаем клиентом')
+    // Если роль не найдена, но есть userId, считаем клиентом
+    if (payload.sub) {
+      return UserRole.CUSTOMER
+    }
+    
+    console.log('Роль не найдена в токене')
+  } catch (error) {
+    console.error('Error parsing token for role:', error)
+  }
+  
+  return null
+}
 
   const isAdmin = authState.user?.role === UserRole.ADMIN
 
@@ -235,6 +262,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         register,
         logout,
         loading,
+        getAuthToken,
+        getUserIdFromToken,
         getUserRoleFromToken,
       }}
     >

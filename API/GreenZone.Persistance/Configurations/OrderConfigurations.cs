@@ -33,7 +33,7 @@ namespace GreenZone.Persistance.Configurations
             builder.HasMany(o => o.OrderItems)
                      .WithOne(oi => oi.Order)
                      .HasForeignKey(oi => oi.OrderId)
-                     .OnDelete(DeleteBehavior.Restrict);
+                     .OnDelete(DeleteBehavior.Cascade);
             builder.HasMany(o => o.Deliveries)
                         .WithOne(d => d.Order)
                         .HasForeignKey(d => d.OrderId)
