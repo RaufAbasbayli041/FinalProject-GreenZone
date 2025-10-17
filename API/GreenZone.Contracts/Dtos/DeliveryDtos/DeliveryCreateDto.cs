@@ -10,8 +10,6 @@ namespace GreenZone.Contracts.Dtos.DeliveryDtos
     public record class DeliveryCreateDto
     {
         public Guid OrderId { get; set; }
-        public DateTime CreatedAt { get; set; } 
-        public DeliveryStatusType DeliveryStatus { get; set; }
         public string Address { get; set; }
     }
 

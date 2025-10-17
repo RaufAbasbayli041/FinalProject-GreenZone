@@ -439,7 +439,7 @@
   },
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminOrderController",
-    "Method": "GetById",
+    "Method": "GetOrderByIdAsync",
     "RelativePath": "api/admin/AdminOrder/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -556,7 +556,7 @@
   },
   {
     "ContainingType": "GreenZone.API.Controllers.AdminPanel.AdminOrderController",
-    "Method": "SetStatus",
+    "Method": "ChangeOrderStatus",
     "RelativePath": "api/admin/AdminOrder/{id}/set-status/{orderStatusId}",
     "HttpMethod": "PUT",
     "IsController": true,
@@ -1118,11 +1118,6 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "basketId",
-        "Type": "System.Guid",
-        "IsRequired": false
-      },
-      {
         "Name": "orderCreateDto",
         "Type": "GreenZone.Contracts.Dtos.OrderDtos.OrderCreateDto",
         "IsRequired": true
@@ -1172,6 +1167,22 @@
     "Method": "CancelOrder",
     "RelativePath": "api/Order/{id}/cancel",
     "HttpMethod": "PUT",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.OrderController",
+    "Method": "GetByIdAsync",
+    "RelativePath": "api/Order/details/{id}",
+    "HttpMethod": "GET",
     "IsController": true,
     "Order": 0,
     "Parameters": [

@@ -62,9 +62,18 @@ namespace GreenZone.Application.Service
 
         public async Task ClearBasketAsync(Guid customerId)
         {
+            var basket = await _basketRepository.GetBasketByCustomerAsync(customerId);
+            if (basket == null)
+            {
+                throw new NotFoundException("Basket not found for the customer.");
+            }
+            if (basket.BasketItems.Any())
+            {
+                await _basketRepository.ClearBasketAsync(customerId);
+                await _unitOfWork.SaveChangesAsync();
 
-            await _basketRepository.ClearBasketAsync(customerId);
-            await _unitOfWork.SaveChangesAsync();
+            }
+          
         }
 
         public async Task<BasketReadDto> GetBasketByCustomerAsync(Guid customerId)
@@ -112,7 +121,7 @@ namespace GreenZone.Application.Service
             basketItem.Quantity -= quantity;
             if (basketItem.Quantity <= 0)
             {
-                basket.BasketItems.Remove(basketItem);
+                await _basketItemsRepository.DeleteAsync(basketItem);
             }
             else
             {

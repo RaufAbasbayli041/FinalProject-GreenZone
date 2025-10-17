@@ -10,7 +10,7 @@ interface AuthContextType {
   user: User | null
   isAuthenticated: boolean
   isAdmin: boolean
-  login: (userName: string, password: string) => Promise<{ success: boolean; message: string }>
+  login: (loginUserName: string, password: string) => Promise<{ success: boolean; message: string }>
   register: (
     userName: string,
     email: string,
@@ -37,15 +37,36 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     // Загружаем состояние аутентификации при инициализации
     const savedAuthState = storage.getAuthState()
     setAuthState(savedAuthState)
+    
+    // If user is authenticated but name is missing, try to get it from token
+    if (savedAuthState.isAuthenticated && savedAuthState.user && (!savedAuthState.user.name || savedAuthState.user.name === 'User')) {
+      const token = getAuthToken()
+      if (token) {
+        try {
+          const payload = JSON.parse(atob(token.split('.')[1]))
+          // Prioritize userName (login username) over email
+          const userName = payload.userName || payload.name || payload.sub || 'User'
+          if (userName && userName !== 'User') {
+            const updatedUser = { ...savedAuthState.user, name: userName }
+            const updatedAuthState = { ...savedAuthState, user: updatedUser }
+            setAuthState(updatedAuthState)
+            storage.setAuthState(updatedAuthState)
+          }
+        } catch (error) {
+          console.error('Error parsing token for username on init:', error)
+        }
+      }
+    }
+    
     setLoading(false)
   }, [])
 
-  const login = async (userName: string, password: string): Promise<{ success: boolean; message: string }> => {
+  const login = async (loginUserName: string, password: string): Promise<{ success: boolean; message: string }> => {
     try {
       // Импортируем API функцию для входа
       const { login: apiLogin } = await import('@/services/api')
       
-      const result = await apiLogin({ userName, password })
+      const result = await apiLogin({ userName: loginUserName, password })
       
       if (result.token) {
         // Получаем роль из токена или из результата API
@@ -72,9 +93,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         
         console.log('Login result role:', result.user?.role, 'Final role:', userRole)
         
+        // Try to get username from JWT token if not provided in user object
+        // Prioritize userName (login username) over email
+        let userName = result.user?.name || result.user?.firstName || loginUserName || 'User'
+        if (!userName || userName === 'User') {
+          try {
+            const payload = JSON.parse(atob(result.token.split('.')[1]))
+            userName = payload.userName || payload.name || payload.sub || loginUserName || 'User'
+          } catch (error) {
+            console.error('Error parsing token for username:', error)
+          }
+        }
+        
+        // If still no username, use the login userName parameter
+        if (!userName || userName === 'User') {
+          userName = loginUserName || 'User'
+        }
+        
         const user: User = {
           id: result.user?.id || '',
-          name: result.user?.name || '',
+          name: userName,
           email: result.user?.email || '',
           role: userRole,
           firstName: result.user?.firstName || '',

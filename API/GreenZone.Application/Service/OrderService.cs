@@ -48,20 +48,20 @@ namespace GreenZone.Application.Service
         }
 
 
-        public async Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto)
+        public async Task<OrderReadDto> CreateOrderByCustomerIdAsync(OrderCreateDto orderCreateDto)
         {
             // get excisting Basket
-            var excistingBasket = await _basketRepository.GetByIdAsync(basketId);
+            var excistingBasket = await _basketRepository.GetBasketByCustomerAsync(orderCreateDto.CustomerId);
 
             if (excistingBasket == null)
             {
-                _logger.LogWarning("Attempted to create order for non-existing basket {BasketId}", basketId);
+                _logger.LogWarning("Attempted to create order from non-existing basket for customer {CustomerId}", orderCreateDto.CustomerId);
                 throw new NotFoundException("Basket not found.");
             }
 
             if (excistingBasket.BasketItems == null || !excistingBasket.BasketItems.Any())
             {
-                _logger.LogWarning("Attempted to create order from empty basket {BasketId}", basketId);
+                _logger.LogWarning("Attempted to create order from empty basket for customer {CustomerId}", orderCreateDto.CustomerId   );
                 throw new InvalidOperationException("Cannot create an order from an empty basket.");
             }
 
@@ -69,9 +69,11 @@ namespace GreenZone.Application.Service
             var pendingStatus = await _orderStatusRepository.GetOrderStatusByType(OrderStatusName.Pending);
             if (pendingStatus == null)
             {
-                _logger.LogError("Order status 'Pending' not found in DB when creating order for basket {BasketId}", basketId);
+                _logger.LogError("Order status 'Pending' not found in DB when creating order for customer {CustomerId}", orderCreateDto.CustomerId);
                 throw new NotFoundException("Order status 'Pending' not found. Please ensure it exists in the database.");
             }
+
+            await _unitOfWork.SaveChangesAsync();
 
             var order = new Order
             {
@@ -80,32 +82,29 @@ namespace GreenZone.Application.Service
                 OrderDate = DateTime.UtcNow,
                 ShippingAddress = orderCreateDto.ShippingAddress,
                 TotalAmount = excistingBasket.BasketItems.Sum(bi => bi.Quantity * bi.Product.PricePerSquareMeter),
-                OrderStatus = pendingStatus,
+                OrderStatusId = pendingStatus.Id,
                 OrderItems = excistingBasket.BasketItems.Select(bi => new OrderItem
                 {
                     ProductId = bi.ProductId,
                     Quantity = bi.Quantity,
-                   
+                    UnitPrice = bi.Product.PricePerSquareMeter
+
                 }).ToList()
             };
 
             await _orderRepository.AddAsync(order);
-           
+            await _unitOfWork.SaveChangesAsync();
 
-            
+            _logger.LogInformation("Order {OrderId} created successfully from Customer {CustomerId}", order.Id, order.CustomerId);
 
-            // creare delivery for order
+            // create delivery for order
             var deliveryCreateDto = new DeliveryCreateDto
             {
                 OrderId = order.Id,
-                Address = orderCreateDto.ShippingAddress,
-                DeliveryStatus = DeliveryStatusType.Created,
-                CreatedAt = DateTime.UtcNow,
+                Address = orderCreateDto.ShippingAddress,                
             };
            
-
-
-            await _deliveryService.AddAsync(deliveryCreateDto);
+            await _deliveryService.CreateDeliveryAsync(deliveryCreateDto);
             await _unitOfWork.SaveChangesAsync();
 
             // clear basket
@@ -113,7 +112,6 @@ namespace GreenZone.Application.Service
             await _basketRepository.UpdateAsync(excistingBasket);
             await _unitOfWork.SaveChangesAsync();
 
-            _logger.LogInformation("Order {OrderId} created successfully from basket {BasketId}", order.Id, basketId);
 
             return _mapper.Map<OrderReadDto>(order);
         }
@@ -220,33 +218,9 @@ namespace GreenZone.Application.Service
             await _deliveryService.ChangeDeliveryStatusAsync(delivery.Id, DeliveryStatusType.Cancelled);
             return order;
         }
+               
 
-        public async Task<OrderReadDto> SetStatusAsync(Guid orderId, OrderStatusName name)
-        {
-            var order = await _orderRepository.GetByIdAsync(orderId);
-            if (order == null)
-            {
-                _logger.LogWarning("SetStatus failed. Order {OrderId} not found", orderId);
-                throw new NotFoundException("Order not found.");
-            }
-
-
-            var status = await _orderStatusRepository.GetOrderStatusByType(name);
-            if (status == null)
-            {
-                _logger.LogError("SetStatus failed. Order status {OrderStatusName} not found for order {OrderId}", name, orderId);
-                throw new NotFoundException("Order status not found.");
-            }
-
-            order.OrderStatus = status;
-            await _unitOfWork.SaveChangesAsync();
-
-            _logger.LogInformation("Order {OrderId} status set to {OrderStatusName}", orderId, name);
-
-            return _mapper.Map<OrderReadDto>(order);
-        }
-
-        private async Task<OrderReadDto> ChangeOrderStatusAsync(Guid orderId, OrderStatusName statusName)
+        public async Task<OrderReadDto> ChangeOrderStatusAsync(Guid orderId, OrderStatusName statusName)
         {
             var order = await _orderRepository.GetByIdAsync(orderId);
             if (order == null)
@@ -262,7 +236,7 @@ namespace GreenZone.Application.Service
                 throw new NotFoundException($"Order status '{statusName}' not found.");
             }
 
-            order.OrderStatus = status;
+            order.OrderStatusId = status.Id;
             await _unitOfWork.SaveChangesAsync();
 
             _logger.LogInformation("Order {OrderId} status changed to {StatusName}", orderId, statusName);

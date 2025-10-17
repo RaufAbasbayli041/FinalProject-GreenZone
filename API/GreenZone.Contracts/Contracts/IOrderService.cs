@@ -15,12 +15,13 @@ namespace GreenZone.Contracts.Contracts
         Task<OrderReadDto> GetOrderWithDetailsAsync(Guid orderId);
         Task<ICollection<OrderReadDto>> GetAllOrdersFullData();
         Task<ICollection<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
-        Task<OrderReadDto> CreateOrderByBasketIdAsync(Guid basketId, OrderCreateDto orderCreateDto);
-        Task<OrderReadDto> SetStatusAsync(Guid orderId, OrderStatusName name);
+        Task<OrderReadDto> CreateOrderByCustomerIdAsync(OrderCreateDto orderCreateDto);
 		Task<OrderReadDto> MarkAsProcessingAsync(Guid orderId);  
 		Task<OrderReadDto> MarkAsDeliveredAsync(Guid orderId);
 		Task<OrderReadDto> CancelOrderAsync(Guid orderId);
-		Task<OrderReadDto> MarkAsReturnedAsync(Guid orderId);
+        Task<OrderReadDto> ChangeOrderStatusAsync(Guid orderId, OrderStatusName statusName);
+
+        Task<OrderReadDto> MarkAsReturnedAsync(Guid orderId);
         Task<ICollection<OrderReadDto>> GetOrdersByCustomerIdAsync(Guid customerId);
 
 

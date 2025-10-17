@@ -34,7 +34,7 @@ namespace GreenZone.API.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<DeliveryReadDto>> Update(Guid id, [FromBody] DeliveryUpdateDto dto)
         {
-            var updatedDelivery = await _deliveryService.UpdateAsync(id, dto);
+            var updatedDelivery = await _deliveryService.ChangeDeliveryStatusAsync(id, dto.DeliveryStatus);
             if (updatedDelivery == null) return NotFound();
             return Ok(updatedDelivery);
         }

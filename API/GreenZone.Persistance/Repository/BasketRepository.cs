@@ -24,7 +24,7 @@ namespace GreenZone.Persistance.Repository
                 .ThenInclude(ci => ci.Product)
                 .FirstOrDefaultAsync(c => c.CustomerId == customerId);
 
-            if (cart != null)
+            if (cart != null && cart.BasketItems.Any())
             {
                 _context.BasketItems.RemoveRange(cart.BasketItems);
             }
@@ -39,5 +39,7 @@ namespace GreenZone.Persistance.Repository
                  .FirstOrDefaultAsync(b => b.CustomerId == customerId);
             return cart;
         }
+
+       
     }
 }

@@ -120,5 +120,7 @@ namespace GreenZone.Persistance.Repository
 				.SumAsync(o => o.TotalAmount); 
 			return datas;
 		}
+
+
 	}
 }

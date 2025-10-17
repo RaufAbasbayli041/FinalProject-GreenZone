@@ -16,7 +16,7 @@ namespace GreenZone.Persistance.Configurations
             builder.HasOne(ci => ci.Basket)
                    .WithMany(c => c.BasketItems)
                    .HasForeignKey(ci => ci.BasketId)
-                   .OnDelete(DeleteBehavior.Restrict);
+                   .OnDelete(DeleteBehavior.Cascade);
             builder.HasOne(ci => ci.Product)
                    .WithMany(p => p.BasketItems)
                    .HasForeignKey(ci => ci.ProductId)

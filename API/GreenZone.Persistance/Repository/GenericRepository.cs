@@ -25,7 +25,7 @@ namespace GreenZone.Persistance.Repository
             
             return entity;
         }
-        public async Task<bool> DeleteAsync(Guid id)
+        public  async Task<bool> DeleteAsync(Guid id)
         {
             var entity = await _dbSet.FindAsync(id);
             if (entity == null || entity.IsDeleted)

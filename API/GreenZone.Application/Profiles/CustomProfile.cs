@@ -94,17 +94,23 @@ namespace GreenZone.Application.Profiles
 
             CreateMap<BasketItemsUpdateDto, BasketItems>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
+
             // delivery mappings
             CreateMap<Delivery, DeliveryReadDto>()
             .ForMember(dest => dest.StatusName, opt => opt.MapFrom(src => src.DeliveryStatus.Name));
-            CreateMap<DeliveryCreateDto, Delivery>();
-            CreateMap<DeliveryUpdateDto, Delivery>();
 
-            // DeliveryStatus
-            CreateMap<DeliveryStatus, DeliveryStatusReadDto>();
+            CreateMap<DeliveryCreateDto, Delivery>()
+            .ForMember(dest => dest.DeliveryStatus, opt => opt.Ignore())
+            .ForMember(dest => dest.CreatedAt, opt => opt.Ignore());
+
+            CreateMap<DeliveryUpdateDto, Delivery>()
+                .ForMember(dest => dest.DeliveryStatus, opt => opt.Ignore())               
+                
+                .ForMember(dest => dest.DeliveredAt, opt => opt.Condition(src => src.DeliveryStatus == DeliveryStatusType.Delivered));
 
 
-         
+
+
 
         }
     }

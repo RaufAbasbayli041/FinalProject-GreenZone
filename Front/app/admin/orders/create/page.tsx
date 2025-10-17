@@ -106,7 +106,7 @@ export default function OrderCreate() {
                 onValueChange={(value) => handleInputChange('customerId', value)}
               >
                 <SelectTrigger>
-                  <SelectValue placeholder="Выберите клиента" />
+                  <SelectValue placeholder="Выберите клиента" className="text-gray-900" />
                 </SelectTrigger>
                 <SelectContent>
                   {mockCustomers.map((customer) => (

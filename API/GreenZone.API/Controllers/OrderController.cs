@@ -37,6 +37,18 @@ namespace GreenZone.API.Controllers
             return Ok(orders);
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> GetByIdAsync(Guid id)
+        {
+            var order = await _orderService.GetOrderWithDetailsAsync(id);
+            if (order == null)
+            {
+                _logger.LogWarning("Order {OrderId} not found", id);
+                return NotFound();
+            }
+            return Ok(order);
+        }
+
 
 
         [HttpPut("{id}")]
@@ -67,16 +79,16 @@ namespace GreenZone.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOrder(Guid basketId,[FromBody] OrderCreateDto orderCreateDto)
+        public async Task<IActionResult> CreateOrder([FromBody] OrderCreateDto orderCreateDto)
         {
             if (!ModelState.IsValid)
             {
                 _logger.LogWarning("Invalid model state when creating order");
                 return BadRequest(ModelState);
             }
-            var createdOrder = await _orderService.CreateOrderByBasketIdAsync(basketId, orderCreateDto);
+            var createdOrder = await _orderService.CreateOrderByCustomerIdAsync(orderCreateDto);
             _logger.LogInformation("Order {OrderId} created successfully", createdOrder.Id);
-            return CreatedAtAction(nameof(GetOrdersByCustomerIdAsync), new { id = createdOrder.CustomerId }, createdOrder);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = createdOrder.Id }, createdOrder);
         }
     }
 }

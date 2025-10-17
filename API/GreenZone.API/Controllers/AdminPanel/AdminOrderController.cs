@@ -32,7 +32,7 @@ namespace GreenZone.API.Controllers.AdminPanel
         }
 
         [HttpGet("{id}")]
-        public async Task<IActionResult> GetById(Guid id)
+        public async Task<IActionResult> GetOrderByIdAsync(Guid id)
         {
             var order = await _orderService.GetOrderWithDetailsAsync(id);
             if (order == null)
@@ -62,7 +62,7 @@ namespace GreenZone.API.Controllers.AdminPanel
                 createdOrder.OrderDate
             );
 
-            return CreatedAtAction(nameof(GetById), new { id = createdOrder.Id }, createdOrder);
+            return CreatedAtAction(nameof(GetOrderByIdAsync), new { id = createdOrder.Id }, createdOrder);
         }
 
         [HttpPut("{id}")]
@@ -143,9 +143,9 @@ namespace GreenZone.API.Controllers.AdminPanel
 
 
         [HttpPut("{id}/set-status/{orderStatusId}")]
-        public async Task<IActionResult> SetStatus(Guid id, OrderStatusName orderStatusName)
+        public async Task<IActionResult> ChangeOrderStatus(Guid id, OrderStatusName orderStatusName)
         {
-            var order = await _orderService.SetStatusAsync(id, orderStatusName);
+            var order = await _orderService.ChangeOrderStatusAsync(id, orderStatusName);
             return Ok(order);
         }
 

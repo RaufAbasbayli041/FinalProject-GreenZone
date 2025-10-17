@@ -45,6 +45,13 @@ export default function CatalogPage() {
         setProducts(productsData)
         setFilteredProducts(productsData)
         setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
+        
+        // Debug logging
+        console.log('Loaded data:', {
+          products: productsData,
+          categories: categoriesData,
+          categoriesWithAll: [{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))]
+        })
       } catch (error: any) {
         console.error(t('error.loading'), error)
         if (error.message.includes('fetch') || error.message.includes('network')) {
@@ -67,6 +74,15 @@ export default function CatalogPage() {
       const matchesSearch =
         product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
+      
+      // Debug logging
+      console.log('Filtering product:', {
+        productTitle: product.title,
+        productCategoryId: product.categoryId,
+        selectedCategory: selectedCategory,
+        categoryMatch: selectedCategory === "all" || product.categoryId === selectedCategory
+      })
+      
       const matchesCategory = selectedCategory === "all" || product.categoryId === selectedCategory
       const matchesPrice = product.pricePerSquareMeter >= priceRange[0] && product.pricePerSquareMeter <= priceRange[1]
 
@@ -134,12 +150,12 @@ export default function CatalogPage() {
               <div className="mb-6">
                 <Label className="text-sm font-medium text-gray-700 mb-2 block">Category</Label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="border-gray-300 focus:border-green-500 focus:ring-green-500">
-                    <SelectValue placeholder="All Categories" />
+                  <SelectTrigger className="w-full border-gray-300 focus:border-green-500 focus:ring-green-500">
+                    <SelectValue placeholder="All Categories" className="text-gray-900" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
-                      <SelectItem key={category.name} value={category.name}>
+                      <SelectItem key={category.id} value={category.id}>
                         {category.name}
                       </SelectItem>
                     ))}
@@ -170,8 +186,8 @@ export default function CatalogPage() {
               <div className="mb-6">
                 <Label className="text-sm font-medium text-gray-700 mb-2 block">Sort</Label>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="border-gray-300 focus:border-green-500 focus:ring-green-500">
-                    <SelectValue placeholder="By Name" />
+                  <SelectTrigger className="w-full border-gray-300 focus:border-green-500 focus:ring-green-500">
+                    <SelectValue placeholder="By Name" className="text-gray-900" />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="name">By Name</SelectItem>

@@ -1851,6 +1851,29 @@
         }
       }
     },
+    "/api/Order/details/{id}": {
+      "get": {
+        "tags": [
+          "Order"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        }
+      }
+    },
     "/api/Order/{id}/cancel": {
       "put": {
         "tags": [
@@ -1878,16 +1901,6 @@
       "post": {
         "tags": [
           "Order"
-        ],
-        "parameters": [
-          {
-            "name": "basketId",
-            "in": "query",
-            "schema": {
-              "type": "string",
-              "format": "uuid"
-            }
-          }
         ],
         "requestBody": {
           "content": {
@@ -2405,13 +2418,6 @@
           "orderId": {
             "type": "string",
             "format": "uuid"
-          },
-          "createdAt": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "deliveryStatus": {
-            "$ref": "#/components/schemas/DeliveryStatusType"
           },
           "address": {
             "type": "string",

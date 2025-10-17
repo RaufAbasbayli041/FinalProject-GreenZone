@@ -1,11 +1,13 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using GreenZone.Application.Exceptions;
 using GreenZone.Contracts.Contracts;
 using GreenZone.Contracts.Dtos.DeliveryDtos;
 using GreenZone.Domain.Entity;
 using GreenZone.Domain.Enum;
 using GreenZone.Domain.Repository;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -23,12 +25,13 @@ namespace GreenZone.Application.Service
         private readonly IMapper _mapper;
         private readonly ILogger<DeliveryService> _logger;
 
-        public DeliveryService(IDeliveryRepository deliveryRepository, IDeliveryStatusRepository deliveryStatusRepository, IMapper mapper, IValidator<DeliveryCreateDto> createValidator, IValidator<DeliveryUpdateDto> updateValidator, IUnitOfWork unitOfWork) : base(deliveryRepository, mapper, createValidator, updateValidator, unitOfWork)
+        public DeliveryService(IDeliveryRepository deliveryRepository, IDeliveryStatusRepository deliveryStatusRepository, IMapper mapper, IValidator<DeliveryCreateDto> createValidator, IValidator<DeliveryUpdateDto> updateValidator, IUnitOfWork unitOfWork, ILogger<DeliveryService> logger) : base(deliveryRepository, mapper, createValidator, updateValidator, unitOfWork)
         {
             _deliveryRepository = deliveryRepository;
             _deliveryStatusRepository = deliveryStatusRepository;
             _mapper = mapper;
             _unitOfWork = unitOfWork;
+            _logger = logger;
         }
 
         public async Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus)
@@ -70,6 +73,25 @@ namespace GreenZone.Application.Service
             return _mapper.Map<DeliveryReadDto>(delivery);
         }
 
+        public async Task<DeliveryReadDto?> CreateDeliveryAsync(DeliveryCreateDto deliveryCreateDto)
+        {
+             
+            var createdStatus = await _deliveryStatusRepository.GetDeliveryStatusByTypeAsync(DeliveryStatusType.Created);
+            if (createdStatus == null)
+            {
+                throw new NotFoundException("Delivery status not found.");
+            }
+            var delivery = _mapper.Map<Delivery>(deliveryCreateDto);
+
+            delivery.DeliveryStatusId = createdStatus.Id;
+            delivery.CreatedAt = DateTime.UtcNow;
+
+            var createdDelivery = await _deliveryRepository.AddAsync(delivery);
+            await _unitOfWork.SaveChangesAsync();
+            _logger.LogInformation("Created new delivery with ID {DeliveryId} for Order ID {OrderId}", createdDelivery.Id, createdDelivery.OrderId);
+
+            return _mapper.Map<DeliveryReadDto>(createdDelivery);
+        }
 
     }
 
