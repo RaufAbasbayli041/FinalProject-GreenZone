@@ -11,12 +11,7 @@ import {
   ShoppingCart,
   Truck,
   FolderOpen,
-  Settings,
   BarChart3,
-  Download,
-  Upload,
-  RefreshCw,
-  Eye,
 } from 'lucide-react'
 
 interface QuickAction {
@@ -88,41 +83,6 @@ const quickActions: QuickAction[] = [
   }
 ]
 
-const systemActions = [
-  {
-    id: 'export-data',
-    title: 'Экспорт данных',
-    description: 'Выгрузить данные в CSV/Excel',
-    icon: Download,
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-50'
-  },
-  {
-    id: 'import-data',
-    title: 'Импорт данных',
-    description: 'Загрузить данные из файла',
-    icon: Upload,
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-50'
-  },
-  {
-    id: 'refresh-cache',
-    title: 'Обновить кэш',
-    description: 'Очистить кэш системы',
-    icon: RefreshCw,
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-50'
-  },
-  {
-    id: 'system-settings',
-    title: 'Настройки',
-    description: 'Конфигурация системы',
-    icon: Settings,
-    color: 'text-gray-600',
-    bgColor: 'bg-gray-50'
-  }
-]
-
 interface QuickActionsProps {
   onActionClick?: (action: QuickAction) => void
 }
@@ -177,76 +137,6 @@ export const QuickActions: React.FC<QuickActionsProps> = ({ onActionClick }) => 
                 </div>
               </div>
             ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* System Actions */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Settings className="h-5 w-5" />
-            Системные действия
-          </CardTitle>
-          <CardDescription>
-            Управление системой и данными
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
-            {systemActions.map((action) => (
-              <Button
-                key={action.id}
-                variant="outline"
-                className="h-auto p-4 justify-start"
-                onClick={() => {
-                  // Здесь можно добавить логику для каждого действия
-                  console.log(`Action clicked: ${action.id}`)
-                }}
-              >
-                <div className="flex items-center space-x-3">
-                  <div className={`p-1 rounded ${action.bgColor}`}>
-                    <action.icon className={`h-4 w-4 ${action.color}`} />
-                  </div>
-                  <div className="text-left">
-                    <div className="text-sm font-medium">{action.title}</div>
-                    <div className="text-xs text-gray-500">{action.description}</div>
-                  </div>
-                </div>
-              </Button>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Recent Activity Summary */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Eye className="h-5 w-5" />
-            Краткий обзор
-          </CardTitle>
-          <CardDescription>
-            Быстрый доступ к важной информации
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <div className="text-2xl font-bold text-blue-600">12</div>
-              <div className="text-sm text-blue-800">Новых заказов</div>
-              <div className="text-xs text-blue-600 mt-1">За последние 24 часа</div>
-            </div>
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <div className="text-2xl font-bold text-green-600">₽245,000</div>
-              <div className="text-sm text-green-800">Выручка сегодня</div>
-              <div className="text-xs text-green-600 mt-1">+15% к вчера</div>
-            </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <div className="text-2xl font-bold text-purple-600">8</div>
-              <div className="text-sm text-purple-800">Активных доставок</div>
-              <div className="text-xs text-purple-600 mt-1">В процессе</div>
-            </div>
           </div>
         </CardContent>
       </Card>

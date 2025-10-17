@@ -16,6 +16,7 @@ import {
   FolderOpen,
   Menu,
   LogOut,
+  Edit,
 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { useLanguage } from '@/contexts/language-context-new'
@@ -44,6 +45,7 @@ export const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { name: t('admin.nav.customers'), href: '/admin/customers', icon: Users },
     { name: t('admin.nav.deliveries'), href: '/admin/deliveries', icon: Truck },
     { name: t('admin.nav.categories'), href: '/admin/categories', icon: FolderOpen },
+    { name: 'Обновление', href: '/admin/update', icon: Edit },
   ]
 
   const SidebarContent = () => (

@@ -47,8 +47,8 @@ export default function CategoriesList() {
       
       const token = localStorage.getItem('auth_token')
       if (!token) {
-        console.warn('No token available for categories loading')
-        router.push('/login')
+        console.warn('Токен недоступен для загрузки категорий')
+        router.push('/admin/login')
         return
       }
       
@@ -58,13 +58,13 @@ export default function CategoriesList() {
       console.error('Ошибка загрузки категорий:', err)
       
       if (err.message.includes('No authentication token') || err.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
-        router.push('/login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
+        router.push('/admin/login')
         return
       }
       
       if (err.message.includes('404')) {
-        console.log('Admin Categories API endpoint not implemented yet')
+        console.log('Админ API эндпоинт категорий еще не реализован')
         setCategories([])
         setError(null)
         return

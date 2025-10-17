@@ -3,15 +3,22 @@
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useCart } from "@/contexts/cart-context"
+import { useAuth } from "@/contexts/auth-context"
 import { useRouter } from "next/navigation"
 import { getUserIdFromToken, getBasketByCustomerId, getCustomerIdByUserId } from "@/services/api"
 import { useState } from "react"
 
 export function CartIcon() {
   const { getTotalItems, loadBasketFromAPI } = useCart()
+  const { isAuthenticated, isAdmin } = useAuth()
   const router = useRouter()
   const [loading, setLoading] = useState(false)
   const totalItems = getTotalItems()
+
+  // Если пользователь админ, не показываем иконку корзины
+  if (isAuthenticated && isAdmin) {
+    return null
+  }
 
   const handleCartClick = async () => {
     try {

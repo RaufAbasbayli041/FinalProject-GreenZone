@@ -24,16 +24,21 @@ namespace GreenZone.API.Controllers
             _logger = logger;
             _webHostEnvironment = webHostEnvironment;
         }
-
-        [HttpGet("{id}")]
-        public async Task<IActionResult> GetOrdersByCustomerIdAsync(Guid id)
+        
+        [HttpGet("customer/{customerId}")]
+        public async Task<IActionResult> GetOrdersByCustomerId(Guid customerId)
         {
-            var orders = await _orderService.GetOrdersByCustomerIdAsync(id);
-            if (orders == null || !orders.Any())
-            {
-                _logger.LogWarning("Orders for Customer {CustomerId} not found", id);
-                return NotFound();
-            }
+            var orders = await _orderService.GetOrdersByCustomerIdAsync(customerId);
+           _logger.LogInformation("Retrieved orders for customer {CustomerId}", customerId);
+            return Ok(orders);
+        }
+
+
+        [HttpGet("by-status/{orderStatusId}")]
+        public async Task<IActionResult> GetByOrderStatusId(Guid? orderStatusId, string? keyword, int page = 1, int pageSize = 10)
+        {
+            var orders = await _orderService.GetOrdersByOrderStatusIdAsync(orderStatusId, keyword, page, pageSize);
+           _logger.LogInformation("Retrieved orders with status {OrderStatusId}", orderStatusId);
             return Ok(orders);
         }
 

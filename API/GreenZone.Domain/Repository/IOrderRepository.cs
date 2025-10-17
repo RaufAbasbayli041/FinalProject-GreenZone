@@ -10,14 +10,14 @@ namespace GreenZone.Domain.Repository
 {
     public interface IOrderRepository : IGenericRepository<Order>
     {
-        Task<ICollection<Order>> GetOrdersByOrderStatusAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
+        Task<IEnumerable<Order>> GetOrdersByOrderStatusAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10);
 
-		Task<ICollection<Order>> GetOrdersByCustomerIdAsync(Guid customerId);
+		Task<IEnumerable<Order>> GetOrdersByCustomerIdAsync(Guid customerId);
         
-        Task<ICollection<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<IEnumerable<Order>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
 
-        Task <decimal> GetTotalSalesAsync(DateTime startDate, DateTime endDate);
-        Task<int> GetOrderCountByStatusAsync (Guid orderStatusId);
+        Task<decimal> GetTotalSalesAsync(DateTime startDate, DateTime endDate);
+        Task<int> GetOrderCountByStatusAsync(Guid orderStatusId);
 
 	}
 }

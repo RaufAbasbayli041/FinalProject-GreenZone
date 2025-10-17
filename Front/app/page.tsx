@@ -56,10 +56,18 @@ export default function Home() {
   const [consultationPhone, setConsultationPhone] = useState("")
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, isAdmin } = useAuth()
   const { addToCart } = useCart()
   const { t } = useLanguage()
   const router = useRouter()
+
+  // Если пользователь админ, перенаправляем в админ-панель
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      console.log('Admin user detected, redirecting to admin panel')
+      router.push('/admin')
+    }
+  }, [isAuthenticated, isAdmin, router])
 
   useEffect(() => {
     const loadProducts = async () => {

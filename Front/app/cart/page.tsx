@@ -11,11 +11,19 @@ import { Card, CardContent } from '@/components/ui/card'
 import { useLanguage } from '@/contexts/language-context-new'
 
 export default function CartPage() {
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, isAdmin } = useAuth()
   const { t } = useLanguage()
   const router = useRouter()
   const [customerId, setCustomerId] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+
+  // Если пользователь админ, перенаправляем в админ-панель
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      console.log('Admin user detected, redirecting to admin panel')
+      router.push('/admin')
+    }
+  }, [isAuthenticated, isAdmin, router])
 
   useEffect(() => {
     const loadCustomerId = async () => {

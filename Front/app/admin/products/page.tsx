@@ -47,8 +47,8 @@ export default function ProductsList() {
       
       const token = localStorage.getItem('auth_token')
       if (!token) {
-        console.warn('No token available for products loading')
-        router.push('/login')
+        console.warn('Токен недоступен для загрузки товаров')
+        router.push('/admin/login')
         return
       }
       
@@ -58,13 +58,13 @@ export default function ProductsList() {
       console.error('Ошибка загрузки товаров:', err)
       
       if (err.message.includes('No authentication token') || err.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
-        router.push('/login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
+        router.push('/admin/login')
         return
       }
       
       if (err.message.includes('404')) {
-        console.log('Admin Products API endpoint not implemented yet')
+        console.log('Админ API эндпоинт товаров еще не реализован')
         setProducts([])
         setError(null)
         return

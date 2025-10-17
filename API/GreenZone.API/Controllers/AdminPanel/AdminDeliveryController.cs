@@ -81,5 +81,11 @@ namespace GreenZone.API.Controllers.AdminPanel
             return Ok(delivery);
         }
 
+        [HttpGet("customer/{customerId}")]
+        public async Task<ActionResult<IEnumerable<DeliveryReadDto>>> GetDeliveriesByCustomerId(Guid customerId)
+        {
+            var deliveries = await _deliveryService.GetDeliveriesByCustomerIdAsync(customerId);
+            return Ok(deliveries);
+        }
     }
 }

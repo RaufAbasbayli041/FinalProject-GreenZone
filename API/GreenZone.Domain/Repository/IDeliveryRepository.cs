@@ -12,6 +12,7 @@ namespace GreenZone.Domain.Repository
     {
         Task<Delivery?> GetDeliveryByStatusAsync(DeliveryStatusType deliveryStatus); 
         Task<IEnumerable<Delivery>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus);
+        Task<IEnumerable<Delivery>> GetDeliveriesByCustomerIdAsync(Guid customerId);
 
     }
 }

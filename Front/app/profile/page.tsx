@@ -7,12 +7,20 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useRouter } from 'next/navigation'
 import { User, Shield, LogOut, Package, Truck } from 'lucide-react'
-import { getUserIdFromToken, getCustomerIdByUserId } from '@/services/api'
+import { getUserIdFromToken, getCustomerIdByUserId, getOrdersByCustomerId, getDeliveriesByCustomerId } from '@/services/api'
 import { getCustomerByUserId } from '@/services/customer-api'
 
 export default function ProfilePage() {
   const { user, isAuthenticated, isAdmin, logout, getUserRoleFromToken } = useAuth()
   const router = useRouter()
+  
+  // Если пользователь админ, перенаправляем в админ-панель
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      console.log('Admin user detected, redirecting to admin panel')
+      router.push('/admin')
+    }
+  }, [isAuthenticated, isAdmin, router])
   
   // State for orders and deliveries
   const [orders, setOrders] = useState<any[]>([])
@@ -34,8 +42,8 @@ export default function ProfilePage() {
     try {
       const userId = getUserIdFromToken()
       
-      // Fetch customer data only (getCurrentUser endpoint doesn't exist)
-      const customerDataResult = await Promise.allSettled([
+      // Fetch customer data, orders, and deliveries
+      const [customerDataResult] = await Promise.allSettled([
         userId ? getCustomerByUserId(userId).catch((err) => {
           console.log('API клиента недоступен (404):', err.message)
           return null
@@ -43,7 +51,33 @@ export default function ProfilePage() {
       ])
 
       // Get customer data
-      const customerData = customerDataResult[0].status === 'fulfilled' ? customerDataResult[0].value : null
+      const customerData = customerDataResult.status === 'fulfilled' ? customerDataResult.value : null
+      
+      // Try to fetch orders and deliveries using different approaches
+      let userOrders: any[] = []
+      let userDeliveries: any[] = []
+      
+      if (customerData?.id) {
+        try {
+          // Try to get orders by customer ID using the UI endpoint
+          console.log('Попытка загрузить заказы по customerId через /api/Order/customer/...')
+          userOrders = await getOrdersByCustomerId(customerData.id)
+          console.log(`Найдено заказов для клиента: ${userOrders.length}`)
+        } catch (orderError) {
+          console.log('Не удалось загрузить заказы через getOrdersByCustomerId:', orderError.message)
+          userOrders = []
+        }
+        
+        try {
+          // Try to get deliveries by customer ID using the UI endpoint
+          console.log('Попытка загрузить доставки по customerId через /api/Delivery/customer/...')
+          userDeliveries = await getDeliveriesByCustomerId(customerData.id)
+          console.log(`Найдено доставок для клиента: ${userDeliveries.length}`)
+        } catch (deliveryError) {
+          console.log('Не удалось загрузить доставки через getDeliveriesByCustomerId:', deliveryError.message)
+          userDeliveries = []
+        }
+      }
       
       // Merge user data (customer data takes priority over context user)
       const mergedUserData = {
@@ -53,18 +87,31 @@ export default function ProfilePage() {
         email: customerData?.email || user?.email,
         firstName: customerData?.firstName || user?.firstName,
         lastName: customerData?.lastName || user?.lastName,
-        phoneNumber: customerData?.phoneNumber || user?.phoneNumber
+        phoneNumber: customerData?.phoneNumber || user?.phoneNumber,
+        name: user?.name || `${customerData?.firstName || ''} ${customerData?.lastName || ''}`.trim() || 'Пользователь',
+        // Create customer username from email or firstName + lastName
+        customerUsername: customerData?.email || `${customerData?.firstName || ''}${customerData?.lastName || ''}`.toLowerCase() || user?.name
       }
 
       setUserData(mergedUserData)
+      setOrders(userOrders)
+      setDeliveries(userDeliveries)
       
-      // Set empty arrays for orders and deliveries since API endpoints are not available
-      setOrders([])
-      setDeliveries([])
+      // Debug logging
+      console.log('Profile data loaded:', {
+        user: user,
+        customerData: customerData,
+        mergedUserData: mergedUserData,
+        username: mergedUserData.name,
+        customerUsername: mergedUserData.customerUsername,
+        orders: userOrders,
+        deliveries: userDeliveries,
+        customerId: customerData?.id
+      })
       
       // Set informational message
       if (customerData) {
-        setError('Данные пользователя загружены из API. Заказы и доставки будут доступны после настройки соответствующих endpoints.')
+        setError(`Данные пользователя загружены из API. Найдено заказов: ${userOrders.length}, доставок: ${userDeliveries.length}`)
       } else {
         setError('Данные пользователя загружены из локального хранилища. API клиента недоступен.')
       }
@@ -124,7 +171,7 @@ export default function ProfilePage() {
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Email</label>
-                    <p className="text-lg">{userData?.email || user?.email || 'Не указано'}</p>
+                    <p className="text-lg">{userData?.customerUsername || userData?.email || user?.email || 'Не указано'}</p>
                   </div>
                   <div>
                     <label className="text-sm font-medium text-gray-500">Имя</label>
@@ -143,21 +190,6 @@ export default function ProfilePage() {
 
             </div>
 
-            {/* Информация о статусе API */}
-            {error && (
-              <div className="bg-yellow-50 border border-yellow-200 text-yellow-800 px-4 py-3 rounded mb-4">
-                <div className="flex">
-                  <div className="ml-3">
-                    <p className="text-sm">
-                      <strong>Информация:</strong> {error}
-                    </p>
-                    <p className="text-xs mt-1">
-                      Данные пользователя загружены из API. Заказы и доставки загружаются по customerId.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            )}
 
             {/* Заказы и доставки */}
             <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
@@ -173,23 +205,27 @@ export default function ProfilePage() {
                 <CardContent>
                   {loading ? (
                     <p className="text-gray-500">Загрузка...</p>
-                  ) : error ? (
-                    <p className="text-red-500">{error}</p>
                   ) : orders.length > 0 ? (
                     <div className="space-y-3">
                       {orders.slice(0, 5).map((order, index) => (
                         <div key={order.id || index} className="border rounded-lg p-3">
                           <div className="flex justify-between items-start">
                             <div>
-                              <p className="font-medium">Заказ #{order.id}</p>
+                              <p className="font-medium">Заказ #{order.id?.substring(0, 8) || `#${index + 1}`}</p>
                               <p className="text-sm text-gray-600">
-                                {order.status?.name || 'Статус не указан'}
+                                {order.orderStatus?.name || order.status?.name || 'Статус не указан'}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Адрес: {order.shippingAddress || 'Не указан'}
                               </p>
                             </div>
                             <div className="text-right">
                               <p className="font-medium">{order.totalAmount || 0} ₼</p>
                               <p className="text-sm text-gray-600">
                                 {order.orderDate ? new Date(order.orderDate).toLocaleDateString('ru-RU') : 'Дата не указана'}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Товаров: {order.orderItems?.length || 0}
                               </p>
                             </div>
                           </div>
@@ -205,7 +241,7 @@ export default function ProfilePage() {
                     <div className="text-center py-4">
                       <p className="text-gray-500 mb-2">У вас пока нет заказов</p>
                       <p className="text-xs text-gray-400">
-                        Заказы загружаются по вашему customerId из API.
+                        Заказы загружаются из API по вашему customerId.
                       </p>
                     </div>
                   )}
@@ -224,25 +260,26 @@ export default function ProfilePage() {
                 <CardContent>
                   {loading ? (
                     <p className="text-gray-500">Загрузка...</p>
-                  ) : error ? (
-                    <p className="text-red-500">{error}</p>
                   ) : deliveries.length > 0 ? (
                     <div className="space-y-3">
                       {deliveries.slice(0, 5).map((delivery, index) => (
                         <div key={delivery.id || index} className="border rounded-lg p-3">
                           <div className="flex justify-between items-start">
                             <div>
-                              <p className="font-medium">Доставка #{delivery.id}</p>
+                              <p className="font-medium">Доставка #{delivery.id?.substring(0, 8) || `#${index + 1}`}</p>
                               <p className="text-sm text-gray-600">
-                                {delivery.status || 'Статус не указан'}
+                                Статус: {delivery.statusName || 'Статус не указан'}
+                              </p>
+                              <p className="text-xs text-gray-500">
+                                Заказ: #{delivery.orderId?.substring(0, 8) || 'Не указан'}
                               </p>
                             </div>
                             <div className="text-right">
                               <p className="text-sm text-gray-600">
-                                {delivery.address || 'Адрес не указан'}
+                                Создано: {delivery.createdAt ? new Date(delivery.createdAt).toLocaleDateString('ru-RU') : 'Дата не указана'}
                               </p>
                               <p className="text-sm text-gray-600">
-                                {delivery.deliveryDate ? new Date(delivery.deliveryDate).toLocaleDateString('ru-RU') : 'Дата не указана'}
+                                {delivery.deliveredAt ? `Доставлено: ${new Date(delivery.deliveredAt).toLocaleDateString('ru-RU')}` : 'В процессе'}
                               </p>
                             </div>
                           </div>
@@ -258,7 +295,7 @@ export default function ProfilePage() {
                     <div className="text-center py-4">
                       <p className="text-gray-500 mb-2">Доставки не найдены</p>
                       <p className="text-xs text-gray-400">
-                        Доставки загружаются по заказам вашего customerId из API.
+                        Доставки загружаются из API по вашим заказам.
                       </p>
                     </div>
                   )}

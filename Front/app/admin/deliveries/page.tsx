@@ -47,8 +47,8 @@ export default function DeliveriesList() {
       
       const token = localStorage.getItem('auth_token')
       if (!token) {
-        console.warn('No token available for deliveries loading')
-        router.push('/login')
+        console.warn('Токен недоступен для загрузки доставок')
+        router.push('/admin/login')
         return
       }
       
@@ -58,13 +58,13 @@ export default function DeliveriesList() {
       console.error('Ошибка загрузки доставок:', err)
       
       if (err.message.includes('No authentication token') || err.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
-        router.push('/login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
+        router.push('/admin/login')
         return
       }
       
       if (err.message.includes('404')) {
-        console.log('Admin Deliveries API endpoint not implemented yet')
+        console.log('Админ API эндпоинт доставок еще не реализован')
         setDeliveries([])
         setError(null)
         return

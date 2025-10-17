@@ -342,6 +342,53 @@ export async function fetchProductsByCategory(categoryId: string, page: number =
   }
 }
 
+// Simple version that returns just products array for category filtering
+export async function fetchProductsByCategorySimple(categoryId: string): Promise<Product[]> {
+  try {
+    console.log('Fetching products for category:', categoryId)
+    
+    // Get all products for the category (with a large page size)
+    const result = await fetchJSON<ProductSearchResult>(`/api/Product/by-category/${categoryId}?page=1&pageSize=1000`)
+    
+    console.log('API response:', result)
+    
+    // Check if result and products exist
+    if (!result || !result.products) {
+      console.log('No products found for category:', categoryId)
+      return []
+    }
+    
+    // Load categories to attach category info to products
+    const categories = await getAllCategories()
+    const categoryMap = new Map(categories.map(cat => [cat.id, cat]))
+    
+    // Add category information to each product
+    const productsWithCategories = result.products.map(product => ({
+      ...product,
+      category: categoryMap.get(product.categoryId)
+    }))
+    
+    console.log('Products with categories:', productsWithCategories)
+    
+    return productsWithCategories
+  } catch (e: any) {
+    console.log('API продуктов по категории недоступен:', e.message)
+    console.log('Error details:', e)
+    
+    // Fallback: try to get all products and filter by categoryId
+    try {
+      console.log('Trying fallback: fetch all products and filter by categoryId')
+      const allProducts = await fetchProducts()
+      const filteredProducts = allProducts.filter(product => product.categoryId === categoryId)
+      console.log('Fallback result:', filteredProducts)
+      return filteredProducts
+    } catch (fallbackError) {
+      console.log('Fallback also failed:', fallbackError)
+      return []
+    }
+  }
+}
+
 // ===== AUTH API =====
 export async function login(loginData: LoginDto): Promise<AuthResult> {
   try {
@@ -664,6 +711,15 @@ export async function getAllOrders(): Promise<Order[]> {
   }
 }
 
+export async function getOrdersByCustomerId(customerId: string): Promise<Order[]> {
+  try {
+    return await fetchJSON<Order[]>(`/api/Order/customer/${customerId}`)
+  } catch (e: any) {
+    console.log('API заказов по customerId недоступен:', e.message)
+    return []
+  }
+}
+
 export async function getOrderById(id: string): Promise<Order> {
   try {
     return await fetchJSON<Order>(`/api/Order/${id}`)
@@ -855,10 +911,7 @@ export async function getAllDeliveries(): Promise<DeliveryReadDto[]> {
 
 export async function getDeliveriesByCustomerId(customerId: string): Promise<DeliveryReadDto[]> {
   try {
-    // Поскольку нет endpoint для получения всех доставок клиента,
-    // мы возвращаем пустой массив и показываем информативное сообщение
-    console.log('API не предоставляет endpoint для получения доставок клиента')
-    return []
+    return await fetchJSON<DeliveryReadDto[]>(`/api/Delivery/customer/${customerId}`)
   } catch (e: any) {
     console.log('API доставок по customerId недоступен:', e.message)
     return []

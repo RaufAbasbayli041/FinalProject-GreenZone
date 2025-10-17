@@ -16,5 +16,6 @@ namespace GreenZone.Contracts.Contracts
         Task<Delivery?> ChangeDeliveryStatusAsync(Guid deliveryId, DeliveryStatusType newStatus);
         Task<IEnumerable<DeliveryReadDto>> GetAllDeliveriesByStatusAsync(DeliveryStatusType deliveryStatus);
         Task<DeliveryReadDto?> CreateDeliveryAsync(DeliveryCreateDto deliveryCreateDto);
+        Task<IEnumerable<DeliveryReadDto>> GetDeliveriesByCustomerIdAsync(Guid customerId);
     }
 }

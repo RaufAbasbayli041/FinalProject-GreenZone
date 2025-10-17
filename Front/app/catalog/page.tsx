@@ -10,7 +10,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Slider } from "@/components/ui/slider"
 import { Label } from "@/components/ui/label"
 import type { Product, Category } from "@/lib/types"
-import { fetchProducts, getAllCategories } from "@/services/api"
+import { fetchProducts, getAllCategories, fetchProductsByCategorySimple } from "@/services/api"
 import { useAuth } from "@/contexts/auth-context"
 import { useCart } from "@/contexts/cart-context"
 import { useLanguage } from "@/contexts/language-context-new"
@@ -27,10 +27,18 @@ export default function CatalogPage() {
   const [priceRange, setPriceRange] = useState([0, 2000])
   const [sortBy, setSortBy] = useState("name")
 
-  const { user, isAuthenticated } = useAuth()
+  const { user, isAuthenticated, isAdmin } = useAuth()
   const { addToCart } = useCart()
   const { t } = useLanguage()
   const router = useRouter()
+
+  // Если пользователь админ, перенаправляем в админ-панель
+  useEffect(() => {
+    if (isAuthenticated && isAdmin) {
+      console.log('Admin user detected, redirecting to admin panel')
+      router.push('/admin')
+    }
+  }, [isAuthenticated, isAdmin, router])
 
   useEffect(() => {
     const loadData = async () => {
@@ -38,27 +46,43 @@ export default function CatalogPage() {
       setError(null)
       
       try {
-        const [productsData, categoriesData] = await Promise.all([
-          fetchProducts(),
-          getAllCategories()
-        ])
+        // Load categories first
+        const categoriesData = await getAllCategories()
+        setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
+        
+        // Load products based on selected category
+        let productsData: Product[]
+        if (selectedCategory === "all") {
+          productsData = await fetchProducts()
+        } else {
+          console.log('Loading products for category:', selectedCategory)
+          productsData = await fetchProductsByCategorySimple(selectedCategory)
+        }
+        
         setProducts(productsData)
         setFilteredProducts(productsData)
-        setCategories([{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))])
         
         // Debug logging
         console.log('Loaded data:', {
+          selectedCategory,
           products: productsData,
           categories: categoriesData,
           categoriesWithAll: [{ id: "all", name: t("catalog.allCategories"), value: "all", label: t("catalog.allCategories") }, ...categoriesData.map(cat => ({ ...cat, value: cat.id, label: cat.name }))]
         })
       } catch (error: any) {
-        console.error(t('error.loading'), error)
+        console.error('Ошибка загрузки данных:', error)
+        
+        // Показываем понятные сообщения об ошибках на русском языке
         if (error.message.includes('fetch') || error.message.includes('network')) {
-          setError(t('error.serverError'))
+          setError('Ошибка подключения к серверу. Проверьте интернет-соединение.')
+        } else if (error.message.includes('404') || error.message.includes('Not Found')) {
+          setError('Категория не найдена или в ней нет товаров.')
+        } else if (error.message.includes('500') || error.message.includes('Internal Server Error')) {
+          setError('Ошибка сервера. Попробуйте позже.')
         } else {
-          setError(t('error.apiNotFound'))
+          setError('Ошибка загрузки товаров. Попробуйте обновить страницу.')
         }
+        
         setProducts([])
         setFilteredProducts([])
       } finally {
@@ -67,7 +91,7 @@ export default function CatalogPage() {
     }
 
     loadData()
-  }, [t])
+  }, [t, selectedCategory])
 
   useEffect(() => {
     const filtered = products.filter((product) => {
@@ -75,18 +99,21 @@ export default function CatalogPage() {
         product.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         product.description.toLowerCase().includes(searchQuery.toLowerCase())
       
-      // Debug logging
-      console.log('Filtering product:', {
-        productTitle: product.title,
-        productCategoryId: product.categoryId,
-        selectedCategory: selectedCategory,
-        categoryMatch: selectedCategory === "all" || product.categoryId === selectedCategory
-      })
-      
-      const matchesCategory = selectedCategory === "all" || product.categoryId === selectedCategory
+      // Category filtering is now handled by the API endpoint
+      // We only need to filter by search and price
       const matchesPrice = product.pricePerSquareMeter >= priceRange[0] && product.pricePerSquareMeter <= priceRange[1]
 
-      return matchesSearch && matchesCategory && matchesPrice
+      const result = matchesSearch && matchesPrice
+      
+      console.log('Filtering product:', {
+        productTitle: product.title,
+        selectedCategory: selectedCategory,
+        matchesSearch,
+        matchesPrice,
+        finalResult: result
+      })
+
+      return result
     })
 
     filtered.sort((a, b) => {
@@ -133,7 +160,14 @@ export default function CatalogPage() {
               </div>
               {/* Search */}
               <div className="mb-6">
-                <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">Search</Label>
+                <Label htmlFor="search" className="text-sm font-medium text-gray-700 mb-2 block">
+                  Search
+                  {searchQuery && (
+                    <span className="ml-2 px-2 py-1 bg-purple-100 text-purple-800 text-xs rounded-full">
+                      "{searchQuery}"
+                    </span>
+                  )}
+                </Label>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
                   <Input
@@ -141,22 +175,42 @@ export default function CatalogPage() {
                     placeholder="Search products..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500"
+                    className={`pl-10 border-gray-300 focus:border-green-500 focus:ring-green-500 ${
+                      searchQuery ? "border-purple-500 bg-purple-50" : ""
+                    }`}
                   />
                 </div>
               </div>
 
               {/* Category Filter */}
               <div className="mb-6">
-                <Label className="text-sm font-medium text-gray-700 mb-2 block">Category</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                  Category
+                  {selectedCategory !== "all" && (
+                    <span className="ml-2 px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">
+                      {categories.find(cat => (cat.value || cat.id) === selectedCategory)?.name || 'Selected'}
+                    </span>
+                  )}
+                </Label>
                 <Select value={selectedCategory} onValueChange={setSelectedCategory}>
-                  <SelectTrigger className="w-full border-gray-300 focus:border-green-500 focus:ring-green-500">
+                  <SelectTrigger className={`w-full border-gray-300 focus:border-green-500 focus:ring-green-500 ${
+                    selectedCategory !== "all" ? "border-green-500 bg-green-50" : ""
+                  }`}>
                     <SelectValue placeholder="All Categories" className="text-gray-900" />
                   </SelectTrigger>
                   <SelectContent>
                     {categories.map((category) => (
-                      <SelectItem key={category.id} value={category.id}>
-                        {category.name}
+                      <SelectItem 
+                        key={category.id} 
+                        value={category.value || category.id}
+                        className={selectedCategory === (category.value || category.id) ? "bg-green-50 text-green-800" : ""}
+                      >
+                        <div className="flex items-center justify-between w-full">
+                          <span>{category.name}</span>
+                          {selectedCategory === (category.value || category.id) && (
+                            <span className="text-green-600">✓</span>
+                          )}
+                        </div>
                       </SelectItem>
                     ))}
                   </SelectContent>
@@ -165,7 +219,14 @@ export default function CatalogPage() {
 
               {/* Price Range */}
               <div className="mb-6">
-                <Label className="text-sm font-medium text-gray-700 mb-2 block">Price per m² (₽)</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                  Price per m² (₽)
+                  {(priceRange[0] !== 0 || priceRange[1] !== 2000) && (
+                    <span className="ml-2 px-2 py-1 bg-orange-100 text-orange-800 text-xs rounded-full">
+                      {priceRange[0]}₽ - {priceRange[1]}₽
+                    </span>
+                  )}
+                </Label>
                 <div className="mt-2">
                   <Slider
                     value={priceRange}
@@ -184,16 +245,59 @@ export default function CatalogPage() {
 
               {/* Sort */}
               <div className="mb-6">
-                <Label className="text-sm font-medium text-gray-700 mb-2 block">Sort</Label>
+                <Label className="text-sm font-medium text-gray-700 mb-2 block">
+                  Sort
+                  {sortBy !== "name" && (
+                    <span className="ml-2 px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">
+                      {sortBy === "price-low" ? "Price: Low to High" :
+                       sortBy === "price-high" ? "Price: High to Low" :
+                       sortBy === "popular" ? "Most Popular" : "Custom Sort"}
+                    </span>
+                  )}
+                </Label>
                 <Select value={sortBy} onValueChange={setSortBy}>
-                  <SelectTrigger className="w-full border-gray-300 focus:border-green-500 focus:ring-green-500">
+                  <SelectTrigger className={`w-full border-gray-300 focus:border-green-500 focus:ring-green-500 ${
+                    sortBy !== "name" ? "border-blue-500 bg-blue-50" : ""
+                  }`}>
                     <SelectValue placeholder="By Name" className="text-gray-900" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="name">By Name</SelectItem>
-                    <SelectItem value="price-low">Price: Low to High</SelectItem>
-                    <SelectItem value="price-high">Price: High to Low</SelectItem>
-                    <SelectItem value="popular">Most Popular</SelectItem>
+                    <SelectItem 
+                      value="name"
+                      className={sortBy === "name" ? "bg-green-50 text-green-800" : ""}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span>By Name</span>
+                        {sortBy === "name" && <span className="text-green-600">✓</span>}
+                      </div>
+                    </SelectItem>
+                    <SelectItem 
+                      value="price-low"
+                      className={sortBy === "price-low" ? "bg-green-50 text-green-800" : ""}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span>Price: Low to High</span>
+                        {sortBy === "price-low" && <span className="text-green-600">✓</span>}
+                      </div>
+                    </SelectItem>
+                    <SelectItem 
+                      value="price-high"
+                      className={sortBy === "price-high" ? "bg-green-50 text-green-800" : ""}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span>Price: High to Low</span>
+                        {sortBy === "price-high" && <span className="text-green-600">✓</span>}
+                      </div>
+                    </SelectItem>
+                    <SelectItem 
+                      value="popular"
+                      className={sortBy === "popular" ? "bg-green-50 text-green-800" : ""}
+                    >
+                      <div className="flex items-center justify-between w-full">
+                        <span>Most Popular</span>
+                        {sortBy === "popular" && <span className="text-green-600">✓</span>}
+                      </div>
+                    </SelectItem>
                   </SelectContent>
                 </Select>
               </div>
@@ -220,7 +324,32 @@ export default function CatalogPage() {
             {/* Products Count */}
             {!loading && !error && (
               <div className="mb-6">
-                <p className="text-gray-600">Products found: {filteredProducts.length}</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-gray-600">
+                    Products found: <span className="font-semibold text-green-600">{filteredProducts.length}</span>
+                  </p>
+                  {selectedCategory !== "all" && (
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm text-gray-500">Filtered by:</span>
+                      <span className="px-2 py-1 bg-green-100 text-green-800 text-sm rounded-full">
+                        {categories.find(cat => (cat.value || cat.id) === selectedCategory)?.name || 'Category'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {filteredProducts.length === 0 && selectedCategory !== "all" && (
+                  <div className="mt-2 p-3 bg-yellow-50 border border-yellow-200 rounded-lg">
+                    <p className="text-sm text-yellow-800">
+                      No products found in "{categories.find(cat => (cat.value || cat.id) === selectedCategory)?.name}" category.
+                      <button 
+                        onClick={() => setSelectedCategory("all")}
+                        className="ml-2 text-green-600 hover:text-green-800 underline"
+                      >
+                        Show all products
+                      </button>
+                    </p>
+                  </div>
+                )}
               </div>
             )}
 

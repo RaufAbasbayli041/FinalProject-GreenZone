@@ -7,6 +7,7 @@ using GreenZone.Contracts.Dtos.DeliveryDtos;
 using GreenZone.Contracts.Dtos.DeliveryStatusDtos;
 using GreenZone.Contracts.Dtos.OrderDtos;
 using GreenZone.Contracts.Dtos.OrderItemDto;
+using GreenZone.Contracts.Dtos.OrderStatus;
 using GreenZone.Contracts.Dtos.PaymentDto;
 using GreenZone.Contracts.Dtos.ProductDtos;
 using GreenZone.Domain.Entity;
@@ -56,7 +57,11 @@ namespace GreenZone.Application.Profiles
 
             // order mappings
             CreateMap<OrderCreateDto, Order>().ReverseMap();
-            CreateMap<OrderReadDto, Order>().ReverseMap();
+            CreateMap<Order, OrderReadDto>()
+                 .ForMember(dest => dest.OrderStatus, opt => opt.MapFrom(src => src.OrderStatus))
+                 .ForMember(dest => dest.Deliveries, opt => opt.MapFrom(src => src.Deliveries))
+                 .ForMember(dest => dest.OrderItems, opt => opt.MapFrom(src => src.OrderItems))
+                 .ReverseMap();
             CreateMap<OrderUpdateDto, Order>().ForAllMembers(opts => opts.Condition((src, dest, srcMember) => srcMember != null));
 
             // order item mappings
@@ -109,6 +114,8 @@ namespace GreenZone.Application.Profiles
                 .ForMember(dest => dest.DeliveredAt, opt => opt.Condition(src => src.DeliveryStatus == DeliveryStatusType.Delivered));
 
 
+            // order status mappings
+            CreateMap<OrderStatus, OrderStatusReadDto>().ReverseMap();
 
 
 

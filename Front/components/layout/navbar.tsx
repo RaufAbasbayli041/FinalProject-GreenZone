@@ -11,8 +11,13 @@ import { LogOut, User } from "lucide-react"
 
 export function Navbar() {
   const router = useRouter()
-  const { user, isAuthenticated, logout } = useAuth()
+  const { user, isAuthenticated, logout, isAdmin } = useAuth()
   const { t } = useLanguage()
+
+  // Если пользователь админ, не показываем обычную навигацию
+  if (isAuthenticated && isAdmin) {
+    return null
+  }
 
   const handleLogout = () => {
     logout()

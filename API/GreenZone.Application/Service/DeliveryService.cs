@@ -93,6 +93,22 @@ namespace GreenZone.Application.Service
             return _mapper.Map<DeliveryReadDto>(createdDelivery);
         }
 
+        public async Task<IEnumerable<DeliveryReadDto>> GetDeliveriesByCustomerIdAsync(Guid customerId)
+        {
+            if (customerId == Guid.Empty)
+            {
+               throw new NotFoundException("Customer ID cannot be null or empty");
+            }
+
+            var deliveries = await _deliveryRepository.GetDeliveriesByCustomerIdAsync(customerId);
+            return _mapper.Map<IEnumerable<DeliveryReadDto>>(deliveries);
+        }
+
+        public override async Task<IEnumerable<DeliveryReadDto>> GetAllAsync()
+        {
+            var deliveries =await _deliveryRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<DeliveryReadDto>>(deliveries);
+        }
     }
 
 

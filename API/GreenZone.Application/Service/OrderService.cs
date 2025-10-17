@@ -143,18 +143,18 @@ namespace GreenZone.Application.Service
             return _mapper.Map<OrderReadDto>(data);
         }
 
-        public async Task<ICollection<OrderReadDto>> GetAllOrdersFullData()
+        public async Task<IEnumerable<OrderReadDto>> GetAllOrdersFullData()
         {
             var datas = await _orderRepository.GetAllAsync();
             _logger.LogInformation("Retrieved all orders. Count: {Count}", datas.Count());
-            return _mapper.Map<ICollection<OrderReadDto>>(datas);
+            return _mapper.Map<IEnumerable<OrderReadDto>>(datas);
         }
 
-        public async Task<ICollection<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10)
+        public async Task<IEnumerable<OrderReadDto>> GetOrdersByOrderStatusIdAsync(Guid? orderStatusId, string? keyword, int pages = 1, int pageSize = 10)
         {
             var datas = await _orderRepository.GetOrdersByOrderStatusAsync(orderStatusId, keyword, pages, pageSize);
-            _logger.LogInformation("Retrieved {Count} orders with status {StatusId} and keyword {Keyword}", datas.Count, orderStatusId, keyword);
-            return _mapper.Map<ICollection<OrderReadDto>>(datas);
+            _logger.LogInformation("Retrieved {Count} orders with status {StatusId} and keyword {Keyword}", datas.Count(), orderStatusId, keyword);
+            return _mapper.Map<IEnumerable<OrderReadDto>>(datas);
         }
 
         public async Task<OrderReadDto> GetOrderWithDetailsAsync(Guid orderId)
@@ -267,10 +267,12 @@ namespace GreenZone.Application.Service
 
         }
 
-        public async Task<ICollection<OrderReadDto>> GetOrdersByCustomerIdAsync(Guid customerId)
+        public async Task<IEnumerable<OrderReadDto>> GetOrdersByCustomerIdAsync(Guid customerId)
         {
             var orders = await _orderRepository.GetOrdersByCustomerIdAsync(customerId);
             return _mapper.Map<ICollection<OrderReadDto>>(orders);
         }
+
+       
     }
 }

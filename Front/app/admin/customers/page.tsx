@@ -47,8 +47,8 @@ export default function CustomersList() {
       
       const token = localStorage.getItem('auth_token')
       if (!token) {
-        console.warn('No token available for customers loading')
-        router.push('/login')
+        console.warn('Токен недоступен для загрузки клиентов')
+        router.push('/admin/login')
         return
       }
       
@@ -58,13 +58,13 @@ export default function CustomersList() {
       console.error('Ошибка загрузки клиентов:', err)
       
       if (err.message.includes('No authentication token') || err.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
-        router.push('/login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
+        router.push('/admin/login')
         return
       }
       
       if (err.message.includes('404')) {
-        console.log('Admin Customers API endpoint not implemented yet')
+        console.log('Админ API эндпоинт клиентов еще не реализован')
         setCustomers([])
         setError(null)
         return

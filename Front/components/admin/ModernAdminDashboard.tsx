@@ -23,21 +23,20 @@ import {
   Star,
   BarChart3,
 } from 'lucide-react'
-// Временно отключаем Recharts для избежания ошибок
-// import {
-//   BarChart,
-//   Bar,
-//   XAxis,
-//   YAxis,
-//   CartesianGrid,
-//   Tooltip,
-//   ResponsiveContainer,
-//   LineChart,
-//   Line,
-//   PieChart,
-//   Pie,
-//   Cell,
-// } from 'recharts'
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  LineChart,
+  Line,
+  PieChart,
+  Pie,
+  Cell,
+} from 'recharts'
 import { 
   getAdminOrders, 
   getAdminProducts, 
@@ -143,16 +142,16 @@ export const ModernAdminDashboard: React.FC = () => {
       console.error('Ошибка загрузки данных дашборда:', error)
       
       if (error.message.includes('No authentication token') || error.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
         if (typeof window !== 'undefined') {
-          window.location.href = '/login'
+          window.location.href = '/admin/login'
         }
         return
       }
       
       // Если API эндпоинты не найдены (404), показываем пустые данные
       if (error.message.includes('404')) {
-        console.log('Admin API endpoints not implemented yet, showing empty dashboard')
+        console.log('Админ API эндпоинты еще не реализованы, показываем пустой дашборд')
         setStats({
           orders: 0,
           products: 0,
@@ -386,12 +385,34 @@ export const ModernAdminDashboard: React.FC = () => {
               <CardDescription>Заказы и выручка за последние 6 месяцев</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] flex items-center justify-center bg-gray-50 rounded-lg">
-                <div className="text-center">
-                  <TrendingUp className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">График будет доступен после установки Recharts</p>
-                  <p className="text-sm text-gray-400 mt-2">npm install recharts</p>
-                </div>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <LineChart data={monthlyData}>
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="month" />
+                    <YAxis />
+                    <Tooltip 
+                      formatter={(value: any, name: string) => [
+                        name === 'orders' ? `${value} заказов` : `₽${value.toLocaleString()}`,
+                        name === 'orders' ? 'Заказы' : 'Выручка'
+                      ]}
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="orders" 
+                      stroke="#10B981" 
+                      strokeWidth={2}
+                      name="orders"
+                    />
+                    <Line 
+                      type="monotone" 
+                      dataKey="revenue" 
+                      stroke="#3B82F6" 
+                      strokeWidth={2}
+                      name="revenue"
+                    />
+                  </LineChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>
@@ -403,12 +424,26 @@ export const ModernAdminDashboard: React.FC = () => {
               <CardDescription>Распределение заказов по статусам</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="h-[300px] flex items-center justify-center bg-gray-50 rounded-lg">
-                <div className="text-center">
-                  <BarChart3 className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                  <p className="text-gray-500">Круговая диаграмма будет доступна после установки Recharts</p>
-                  <p className="text-sm text-gray-400 mt-2">npm install recharts</p>
-                </div>
+              <div className="h-[300px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={statusData}
+                      cx="50%"
+                      cy="50%"
+                      labelLine={false}
+                      label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                      outerRadius={80}
+                      fill="#8884d8"
+                      dataKey="value"
+                    >
+                      {statusData.map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <Tooltip />
+                  </PieChart>
+                </ResponsiveContainer>
               </div>
             </CardContent>
           </Card>

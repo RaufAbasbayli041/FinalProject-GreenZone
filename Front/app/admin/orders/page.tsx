@@ -48,8 +48,8 @@ export default function OrdersList() {
       // Проверяем токен перед загрузкой
       const token = localStorage.getItem('auth_token')
       if (!token) {
-        console.warn('No token available for orders loading')
-        router.push('/login')
+        console.warn('Токен недоступен для загрузки заказов')
+        router.push('/admin/login')
         return
       }
       
@@ -60,14 +60,14 @@ export default function OrdersList() {
       
       // Если ошибка связана с авторизацией, перенаправляем на логин
       if (err.message.includes('No authentication token') || err.message.includes('401')) {
-        console.log('Authentication error, redirecting to login')
-        router.push('/login')
+        console.log('Ошибка авторизации, перенаправляем на страницу входа админ-панели')
+        router.push('/admin/login')
         return
       }
       
       // Если API эндпоинт не найден (404), показываем пустой список
       if (err.message.includes('404')) {
-        console.log('Admin Orders API endpoint not implemented yet')
+        console.log('Админ API эндпоинт заказов еще не реализован')
         setOrders([])
         setError(null)
         return

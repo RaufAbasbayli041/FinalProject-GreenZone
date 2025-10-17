@@ -4,13 +4,20 @@ import React, { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { Button } from "@/components/ui/button"
 import { useLanguage } from "@/contexts/language-context-new"
+import { useAuth } from "@/contexts/auth-context"
 import { getAllCategories } from "@/services/category-api"
 import type { Category } from "@/lib/types"
 
 export function Footer() {
   const router = useRouter()
   const { t } = useLanguage()
+  const { isAuthenticated, isAdmin } = useAuth()
   const [categories, setCategories] = useState<Category[]>([])
+
+  // Если пользователь админ, не показываем обычный футер
+  if (isAuthenticated && isAdmin) {
+    return null
+  }
 
   useEffect(() => {
     const fetchCategories = async () => {

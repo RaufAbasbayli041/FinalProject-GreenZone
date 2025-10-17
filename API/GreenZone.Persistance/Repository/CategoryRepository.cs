@@ -27,6 +27,7 @@ namespace GreenZone.Persistance.Repository
         public async Task<Category> GetCategoryWithProductsByIdAsync(Guid id)
         {
            var data = await _context.Categories
+                        .AsNoTracking()
                         .Include(c => c.Products)
                         .Where(c=>!c.IsDeleted)
                         .FirstOrDefaultAsync(c => c.Id == id);

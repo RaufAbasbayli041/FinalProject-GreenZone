@@ -4,6 +4,7 @@ using GreenZone.Domain.Enum;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 
 namespace GreenZone.API.Controllers.AdminPanel
 {
@@ -27,7 +28,7 @@ namespace GreenZone.API.Controllers.AdminPanel
         public async Task<IActionResult> GetAll()
         {
             var orders = await _orderService.GetAllOrdersFullData();
-            _logger.LogInformation("Retrieved {Count} orders", orders.Count);
+         _logger.LogInformation("Retrieved {Count} orders", orders.Count());
             return Ok(orders);
         }
 
@@ -99,17 +100,18 @@ namespace GreenZone.API.Controllers.AdminPanel
             return NoContent();
         }
 
+        [HttpGet("by-customer/{customerId}")]
+        public async Task<IActionResult> GetOrdersByCustomerId(Guid customerId)
+        {
+            var orders = await _orderService.GetOrdersByCustomerIdAsync(customerId);
+            _logger.LogInformation("Retrieved orders for customer {CustomerId}", customerId);
+            return Ok(orders);
+        }
         [HttpGet("by-status/{orderStatusId}")]
         public async Task<IActionResult> GetByOrderStatusId(Guid? orderStatusId, string? keyword, int page = 1, int pageSize = 10)
         {
             var orders = await _orderService.GetOrdersByOrderStatusIdAsync(orderStatusId, keyword, page, pageSize);
-            _logger.LogInformation(
-                "Retrieved {Count} orders for StatusId {StatusId} with keyword '{Keyword}' on page {Page}",
-                orders.Count,
-                orderStatusId,
-                keyword,
-                page
-            );
+          _logger.LogInformation("Retrieved {Count} orders with status {OrderStatusId}", orders.Count(), orderStatusId);
             return Ok(orders);
         }
         [HttpPut("{id}/cancel")]

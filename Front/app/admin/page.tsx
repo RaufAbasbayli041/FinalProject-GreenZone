@@ -21,19 +21,19 @@ export default function AdminPage() {
         const token = localStorage.getItem('auth_token')
         
         if (!token) {
-          console.log('No token found, redirecting to login')
-          router.push('/login')
+          console.log('Токен не найден, перенаправляем на страницу входа админ-панели')
+          router.push('/admin/login')
           return
         }
         
         if (!isAuthenticated) {
-          console.log('Not authenticated, redirecting to login')
-          router.push('/login')
+          console.log('Пользователь не авторизован, перенаправляем на страницу входа админ-панели')
+          router.push('/admin/login')
           return
         }
         
         if (!isAdmin) {
-          console.log('Not admin, redirecting to home')
+          console.log('Пользователь не является админом, перенаправляем на главную страницу')
           router.push('/')
           return
         }
