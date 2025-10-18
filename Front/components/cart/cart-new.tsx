@@ -47,6 +47,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
   const { user, isAuthenticated, getUserRoleFromToken } = useAuth()
   const router = useRouter()
 
+  console.log('CartNew: Инициализация с customerId:', customerId)
+
   // Проверяем авторизацию
   useEffect(() => {
     if (!isAuthenticated || !user) {
@@ -84,7 +86,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
       }
     }
     
-    // Если роль не определена, но есть customerId, разрешаем доступ
+    // Если роль не определена или не Customer, но есть customerId, разрешаем доступ
     if (userRole !== 'Customer') {
       console.log('Пользователь не имеет роль Customer:', userRole)
       
@@ -266,13 +268,23 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         title: 'Количество обновлено',
         message: 'Количество м² изменено'
       })
-    } catch (error) {
+    } catch (error: any) {
       console.error('Ошибка обновления количества:', error)
-      addNotification({
-        type: 'error',
-        title: 'Ошибка обновления',
-        message: 'Не удалось изменить количество'
-      })
+      
+      // Проверяем, является ли это ошибкой API
+      if (error.message?.includes('Request failed') || error.message?.includes('fetch')) {
+        addNotification({
+          type: 'warning',
+          title: 'Сервер недоступен',
+          message: 'Изменения сохранены локально. Подключитесь к интернету для синхронизации.'
+        })
+      } else {
+        addNotification({
+          type: 'error',
+          title: 'Ошибка обновления',
+          message: 'Не удалось изменить количество'
+        })
+      }
     } finally {
       setUpdating(null)
     }
@@ -437,9 +449,16 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     
     // Проверяем роль пользователя
     const userRole = getUserRoleFromToken()
-    console.log('Роль пользователя при создании заказа:', userRole)
+    console.log('Роль пользователя при создании заказа:', {
+      userRole,
+      userRoleType: typeof userRole,
+      userRoleValue: userRole,
+      isCustomer: userRole === 'Customer',
+      customerId,
+      hasCustomerId: !!customerId
+    })
     
-    // Если роль не определена, но есть customerId, разрешаем создание заказа
+    // Если роль не определена или не Customer, но есть customerId, разрешаем создание заказа
     if (userRole !== 'Customer') {
       console.log('Пользователь не имеет роль Customer:', userRole)
       
@@ -448,6 +467,7 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         console.log('Но есть customerId, разрешаем создание заказа:', customerId)
         // Продолжаем создание заказа
       } else {
+        console.log('Нет customerId, перенаправляем на главную страницу')
         addNotification({
           type: 'error',
           title: 'Недостаточно прав',
@@ -456,6 +476,8 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
         router.push('/')
         return
       }
+    } else {
+      console.log('Пользователь имеет роль Customer, продолжаем создание заказа')
     }
     
     if (!validateForm()) {
@@ -468,6 +490,75 @@ export const CartNew: React.FC<CartNewProps> = ({ customerId, onOrderPlaced }) =
     }
 
     try {
+      // Проверяем корзину перед созданием заказа
+      console.log('Проверка корзины перед созданием заказа:', {
+        basket,
+        basketItems: basket?.basketItems,
+        itemsCount: basket?.basketItems?.length || 0,
+        hasItems: (basket?.basketItems?.length || 0) > 0
+      })
+      
+      if (!basket || !basket.basketItems || basket.basketItems.length === 0) {
+        console.log('❌ Корзина пуста, нельзя создать заказ')
+        addNotification({
+          type: 'error',
+          title: 'Корзина пуста',
+          message: 'Добавьте товары в корзину перед созданием заказа'
+        })
+        return
+      }
+      
+      // Проверяем корзину на сервере
+      console.log('Проверяем корзину на сервере...')
+      const serverBasket = await getBasketByCustomerId(customerId!)
+      console.log('Корзина на сервере:', {
+        serverBasket,
+        serverItemsCount: serverBasket?.basketItems?.length || 0,
+        hasServerItems: (serverBasket?.basketItems?.length || 0) > 0
+      })
+      
+      if (!serverBasket || !serverBasket.basketItems || serverBasket.basketItems.length === 0) {
+        console.log('❌ Корзина пуста на сервере, синхронизируем...')
+        
+        // Синхронизируем корзину с сервером
+        if (basket.basketItems && basket.basketItems.length > 0) {
+          console.log('Синхронизируем корзину с сервером...')
+          for (const item of basket.basketItems) {
+            try {
+              await addItemsToBasket(customerId!, [{
+                productId: item.productId,
+                quantity: item.quantity
+              }])
+              console.log(`✅ Товар ${item.productId} добавлен на сервер`)
+            } catch (error) {
+              console.error(`❌ Ошибка добавления товара ${item.productId}:`, error)
+            }
+          }
+          
+          // Проверяем корзину снова
+          const updatedServerBasket = await getBasketByCustomerId(customerId!)
+          if (!updatedServerBasket || !updatedServerBasket.basketItems || updatedServerBasket.basketItems.length === 0) {
+            console.log('❌ Не удалось синхронизировать корзину с сервером')
+            addNotification({
+              type: 'error',
+              title: 'Ошибка синхронизации',
+              message: 'Не удалось синхронизировать корзину с сервером. Попробуйте еще раз.'
+            })
+            return
+          }
+          
+          console.log('✅ Корзина синхронизирована с сервером')
+        } else {
+          console.log('❌ Локальная корзина тоже пуста')
+          addNotification({
+            type: 'error',
+            title: 'Корзина пуста',
+            message: 'Добавьте товары в корзину перед созданием заказа'
+          })
+          return
+        }
+      }
+      
       // Подготавливаем данные заказа
       const orderItems = basket?.basketItems?.map(item => ({
         productId: item.productId,

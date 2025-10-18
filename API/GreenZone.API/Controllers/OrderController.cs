@@ -42,7 +42,7 @@ namespace GreenZone.API.Controllers
             return Ok(orders);
         }
 
-        [HttpGet("details/{id}")]
+        [HttpGet("{id}")]
         public async Task<IActionResult> GetByIdAsync(Guid id)
         {
             var order = await _orderService.GetOrderWithDetailsAsync(id);

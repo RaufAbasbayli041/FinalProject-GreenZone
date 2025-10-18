@@ -41,9 +41,17 @@ export async function login(loginData: LoginDto): Promise<AuthResult> {
       body: JSON.stringify(loginData) 
     })
     
+    console.log('Результат авторизации от backend:', {
+      hasToken: !!result.token,
+      tokenPreview: result.token ? result.token.substring(0, 50) + '...' : 'нет токена',
+      tokenLength: result.token ? result.token.length : 0,
+      user: result.user
+    })
+    
     // Сохраняем токен в localStorage при успешном логине
     if (result.token && typeof window !== 'undefined') {
       localStorage.setItem('auth_token', result.token)
+      console.log('Токен сохранен в localStorage')
     }
     
     return result
@@ -55,12 +63,31 @@ export async function login(loginData: LoginDto): Promise<AuthResult> {
       console.log('Backend ошибка, используем mock авторизацию')
     }
     
-    // Заглушка для логина
-    const mockToken = 'mock-token-' + Date.now()
+    // Заглушка для логина - создаем валидный JWT токен
+    const mockPayload = {
+      sub: 'mock-user-id',
+      email: loginData.userName + '@mock.com',
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier': loginData.userName,
+      'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role': 'Customer',
+      exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 часа
+      iat: Math.floor(Date.now() / 1000),
+      iss: 'GreenZoneAPI',
+      aud: 'GreenZoneClient'
+    }
+    
+    // Создаем валидный JWT токен
+    const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+    const payload = btoa(JSON.stringify(mockPayload))
+    const signature = btoa('mock-signature')
+    const mockToken = `${header}.${payload}.${signature}`
     
     // Сохраняем токен в localStorage
     if (typeof window !== 'undefined') {
       localStorage.setItem('auth_token', mockToken)
+      console.log('Mock токен сохранен в localStorage:', {
+        tokenPreview: mockToken.substring(0, 50) + '...',
+        tokenLength: mockToken.length
+      })
     }
     
     return {

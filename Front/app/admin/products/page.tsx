@@ -29,16 +29,12 @@ import { Loader2 } from 'lucide-react'
 export default function ProductsList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
+  
+  // All hooks must be called before any conditional returns
   const [searchTerm, setSearchTerm] = useState('')
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (isAdmin) {
-      loadProducts()
-    }
-  }, [isAdmin])
 
   const loadProducts = async () => {
     try {
@@ -77,11 +73,16 @@ export default function ProductsList() {
   }
 
   useEffect(() => {
-    if (!isAdmin) {
+    // Only load products if user is admin
+    if (isAdmin) {
+      loadProducts()
+    } else {
+      // Redirect non-admin users in useEffect to avoid render-time navigation
       router.push('/')
     }
   }, [isAdmin, router])
 
+  // Early return for non-admin users after all hooks
   if (!isAdmin) {
     return null
   }

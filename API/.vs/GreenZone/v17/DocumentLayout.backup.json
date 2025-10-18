@@ -3,12 +3,20 @@
   "WorkspaceRootPath": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{4C3B6ADE-C7FA-4E62-BBCF-FE7122DA9ECC}|GreenZone.Persistance\\GreenZone.Persistance.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.persistance\\repository\\deliveryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{4C3B6ADE-C7FA-4E62-BBCF-FE7122DA9ECC}|GreenZone.Persistance\\GreenZone.Persistance.csproj|solutionrelative:greenzone.persistance\\repository\\deliveryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|solutionrelative:greenzone.api\\controllers\\ordercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|solutionrelative:greenzone.api\\controllers\\customercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.application\\service\\deliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E7F7178A-4C7E-4463-903C-C9925AFAB6A5}|GreenZone.Application\\GreenZone.Application.csproj|solutionrelative:greenzone.application\\service\\deliveryservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{4C3B6ADE-C7FA-4E62-BBCF-FE7122DA9ECC}|GreenZone.Persistance\\GreenZone.Persistance.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.persistance\\repository\\deliveryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{4C3B6ADE-C7FA-4E62-BBCF-FE7122DA9ECC}|GreenZone.Persistance\\GreenZone.Persistance.csproj|solutionrelative:greenzone.persistance\\repository\\deliveryrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{254A38FA-0C8A-4549-82AD-C915B28DB0B4}|GreenZone.API\\GreenZone.API.csproj|c:\\users\\asus\\desktop\\code academy\\backend\\final project\\greenzone\\api\\greenzone.api\\controllers\\adminpanel\\admindeliverycontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -22,7 +30,7 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Bookmark",
@@ -30,32 +38,59 @@
             },
             {
               "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "OrderController.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.API\\Controllers\\OrderController.cs",
+              "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\OrderController.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.API\\Controllers\\OrderController.cs*",
+              "RelativeToolTip": "GreenZone.API\\Controllers\\OrderController.cs*",
+              "ViewState": "AgIAABEAAAAAAAAAAAAAwCwAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:27:22.969Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
               "DocumentIndex": 1,
+              "Title": "CustomerController.cs",
+              "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.API\\Controllers\\CustomerController.cs",
+              "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\CustomerController.cs",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.API\\Controllers\\CustomerController.cs",
+              "RelativeToolTip": "GreenZone.API\\Controllers\\CustomerController.cs",
+              "ViewState": "AgIAABMAAAAAAAAAAAAQwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-18T07:19:53.076Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
               "Title": "DeliveryService.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryService.cs",
               "RelativeDocumentMoniker": "GreenZone.Application\\Service\\DeliveryService.cs",
               "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Application\\Service\\DeliveryService.cs",
               "RelativeToolTip": "GreenZone.Application\\Service\\DeliveryService.cs",
-              "ViewState": "AgIAABcAAAAAAAAAAAAAwG0AAABJAAAAAAAAAA==",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAG0AAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T19:09:13.021Z"
+              "WhenOpened": "2025-10-17T19:09:13.021Z",
+              "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 3,
               "Title": "DeliveryRepository.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
               "RelativeDocumentMoniker": "GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
               "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
               "RelativeToolTip": "GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
-              "ViewState": "AgIAACwAAAAAAAAAAAAgwEsAAAAsAAAAAAAAAA==",
+              "ViewState": "AgIAACcAAAAAAAAAAAAYwD8AAAAfAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-17T19:07:58.48Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 4,
               "Title": "AdminDeliveryController.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.API\\Controllers\\AdminPanel\\AdminDeliveryController.cs",
               "RelativeDocumentMoniker": "GreenZone.API\\Controllers\\AdminPanel\\AdminDeliveryController.cs",

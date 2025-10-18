@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import {
   Table,
   TableBody,
@@ -19,26 +20,26 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu'
-import { Plus, Eye, Edit, Trash2, MoreHorizontal, Search, X, Truck, MapPin, Calendar } from 'lucide-react'
+import { Plus, Eye, Edit, Trash2, MoreHorizontal, Search, X, Truck, MapPin, Calendar, Clock, CheckCircle, AlertCircle, Loader2 } from 'lucide-react'
 import { useAuth } from '@/contexts/auth-context'
 import { AdminLayout } from '@/components/admin/AdminLayout'
-import { getAdminDeliveries } from '@/services/admin-api'
-import { Loader2 } from 'lucide-react'
+import { getAdminDeliveries, updateDeliveryStatus, getAdminDeliveryStatuses } from '@/services/admin-api'
+import type { Delivery } from '@/lib/types'
+import { DeliveryStatusType } from '@/lib/types'
 
 export default function DeliveriesList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
+  
+  // All hooks must be called before any conditional returns
   const [searchTerm, setSearchTerm] = useState('')
-  const [deliveries, setDeliveries] = useState<any[]>([])
+  const [deliveries, setDeliveries] = useState<Delivery[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
-
-  useEffect(() => {
-    if (isAdmin) {
-      loadDeliveries()
-    }
-  }, [isAdmin])
+  const [updatingStatus, setUpdatingStatus] = useState<string | null>(null)
+  const [statusFilter, setStatusFilter] = useState<string>('all')
 
   const loadDeliveries = async () => {
     try {
@@ -77,36 +78,110 @@ export default function DeliveriesList() {
   }
 
   useEffect(() => {
-    if (!isAdmin) {
+    // Only load deliveries if user is admin
+    if (isAdmin) {
+      loadDeliveries()
+    } else {
+      // Redirect non-admin users in useEffect to avoid render-time navigation
       router.push('/')
     }
   }, [isAdmin, router])
 
+  // Early return for non-admin users after all hooks
   if (!isAdmin) {
     return null
   }
 
-  const getStatusBadge = (status: number, statusName?: string) => {
-    const statusMap: Record<number, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; color: string }> = {
-      1: { variant: 'default', color: 'bg-blue-100 text-blue-800' },
-      2: { variant: 'secondary', color: 'bg-yellow-100 text-yellow-800' },
-      3: { variant: 'outline', color: 'bg-green-100 text-green-800' },
-      4: { variant: 'destructive', color: 'bg-red-100 text-red-800' },
+  const updateDeliveryStatusHandler = async (deliveryId: string, newStatusId: string) => {
+    try {
+      setUpdatingStatus(deliveryId)
+      
+      // Обновляем статус доставки
+      const updatedDelivery = await updateDeliveryStatus(deliveryId, newStatusId)
+      
+      // Обновляем локальное состояние
+      setDeliveries(prevDeliveries => 
+        prevDeliveries.map(delivery => 
+          delivery.id === deliveryId 
+            ? { ...delivery, deliveryStatusId: newStatusId, deliveryStatus: updatedDelivery.deliveryStatus }
+            : delivery
+        )
+      )
+      
+      console.log(`Статус доставки ${deliveryId} обновлен на ${newStatusId}`)
+    } catch (err: any) {
+      console.error('Ошибка обновления статуса доставки:', err)
+    } finally {
+      setUpdatingStatus(null)
+    }
+  }
+
+  const getStatusBadge = (delivery: Delivery) => {
+    // Получаем статус из правильного поля согласно Delivery interface
+    const deliveryStatus = delivery.deliveryStatus
+    const statusType = deliveryStatus?.statusType || DeliveryStatusType.PENDING
+    const statusName = deliveryStatus?.name || 'Неизвестно'
+    
+    // Маппинг статусов согласно DeliveryStatusType enum
+    const statusMap: Record<DeliveryStatusType, { variant: 'default' | 'secondary' | 'destructive' | 'outline'; color: string; label: string; icon: React.ReactNode }> = {
+      [DeliveryStatusType.PENDING]: { variant: 'default', color: 'bg-blue-100 text-blue-800', label: 'Pending', icon: <Clock className="h-3 w-3" /> },
+      [DeliveryStatusType.IN_TRANSIT]: { variant: 'secondary', color: 'bg-yellow-100 text-yellow-800', label: 'In Transit', icon: <Truck className="h-3 w-3" /> },
+      [DeliveryStatusType.DELIVERED]: { variant: 'outline', color: 'bg-green-100 text-green-800', label: 'Delivered', icon: <CheckCircle className="h-3 w-3" /> },
+      [DeliveryStatusType.FAILED]: { variant: 'destructive', color: 'bg-red-100 text-red-800', label: 'Failed', icon: <AlertCircle className="h-3 w-3" /> },
     }
 
-    const statusConfig = statusMap[status] || { variant: 'outline', color: 'bg-gray-100 text-gray-800' }
+    const status = statusMap[statusType] || { variant: 'outline', color: 'bg-gray-100 text-gray-800', label: statusName, icon: <Clock className="h-3 w-3" /> }
+    const isUpdating = updatingStatus === delivery.id
     
     return (
-      <Badge variant={statusConfig.variant} className={statusConfig.color}>
-        {statusName || `Статус ${status}`}
-      </Badge>
+      <DropdownMenu>
+        <DropdownMenuTrigger asChild>
+          <Badge 
+            variant={status.variant} 
+            className={`${status.color} cursor-pointer hover:opacity-80 transition-opacity ${isUpdating ? 'opacity-50' : ''}`}
+          >
+            {isUpdating ? (
+              <Loader2 className="h-3 w-3 animate-spin mr-1" />
+            ) : (
+              status.icon
+            )}
+            <span className="ml-1">{status.label}</span>
+          </Badge>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="w-48">
+          <div className="px-2 py-1.5 text-sm font-medium text-gray-500">Изменить статус</div>
+          <DropdownMenuSeparator />
+          {Object.entries(statusMap).map(([id, statusInfo]) => (
+            <DropdownMenuItem
+              key={id}
+              onClick={() => updateDeliveryStatusHandler(delivery.id, id.toString())}
+              disabled={isUpdating || Number(id) === statusType}
+              className="flex items-center gap-2"
+            >
+              {statusInfo.icon}
+              <span>{statusInfo.label}</span>
+              {Number(id) === statusType && <CheckCircle className="h-3 w-3 ml-auto text-green-600" />}
+            </DropdownMenuItem>
+          ))}
+        </DropdownMenuContent>
+      </DropdownMenu>
     )
   }
 
-  const filteredDeliveries = (deliveries || []).filter(delivery =>
-    delivery?.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    delivery?.deliveryAddress?.toLowerCase().includes(searchTerm.toLowerCase())
-  )
+  const filteredDeliveries = deliveries.filter(delivery => {
+    const orderNumber = delivery.order?.id ? `GZ-${delivery.order.id.slice(-3)}` : `Order-${delivery.orderId.slice(-3)}`
+    const deliveryAddress = delivery.order?.shippingAddress || 'Адрес не указан'
+    
+    const deliveryStatus = delivery.deliveryStatus
+    const statusType = deliveryStatus?.statusType || DeliveryStatusType.PENDING
+    
+    const matchesSearch = orderNumber.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                        deliveryAddress.toLowerCase().includes(searchTerm.toLowerCase())
+    
+    const matchesStatus = statusFilter === 'all' || statusType === Number(statusFilter)
+    
+    return matchesSearch && matchesStatus
+  })
 
   if (loading) {
     return (
@@ -173,6 +248,20 @@ export default function DeliveriesList() {
                 </Button>
               )}
             </div>
+            <div className="w-48">
+              <Select value={statusFilter} onValueChange={setStatusFilter}>
+                <SelectTrigger>
+                  <SelectValue placeholder="Фильтр по статусу" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">Все статусы</SelectItem>
+                  <SelectItem value="1">Pending</SelectItem>
+                  <SelectItem value="2">In Transit</SelectItem>
+                  <SelectItem value="3">Delivered</SelectItem>
+                  <SelectItem value="4">Failed</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
           </div>
         </CardContent>
       </Card>
@@ -198,54 +287,74 @@ export default function DeliveriesList() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredDeliveries.map((delivery) => (
-                  <TableRow key={delivery.id}>
-                    <TableCell>
-                      <div>
-                        <p className="font-medium">#{delivery.orderNumber}</p>
-                        <p className="text-sm text-gray-500">ID: {delivery.orderId}</p>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <MapPin className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm">{delivery.deliveryAddress}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-4 w-4 text-gray-400" />
-                        <span className="text-sm">
-                          {delivery.deliveryDate ? new Date(delivery.deliveryDate).toLocaleDateString('ru-RU') : 'Не назначена'}
-                        </span>
-                      </div>
-                    </TableCell>
-                    <TableCell>{getStatusBadge(delivery.status, delivery.statusName)}</TableCell>
-                    <TableCell>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button variant="ghost" className="h-8 w-8 p-0">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => router.push(`/admin/deliveries/${delivery.id}`)}>
-                            <Eye className="mr-2 h-4 w-4" />
-                            Просмотр
-                          </DropdownMenuItem>
-                          <DropdownMenuItem onClick={() => router.push(`/admin/deliveries/${delivery.id}/edit`)}>
-                            <Edit className="mr-2 h-4 w-4" />
-                            Редактировать
-                          </DropdownMenuItem>
-                          <DropdownMenuItem className="text-red-600">
-                            <Trash2 className="mr-2 h-4 w-4" />
-                            Удалить
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+                {filteredDeliveries.length > 0 ? (
+                  filteredDeliveries.map((delivery) => {
+                    const orderNumber = delivery.order?.id ? `GZ-${delivery.order.id.slice(-3)}` : `Order-${delivery.orderId.slice(-3)}`
+                    const deliveryAddress = delivery.order?.shippingAddress || 'Адрес не указан'
+                    const customerName = delivery.order?.customer?.firstName && delivery.order?.customer?.lastName 
+                      ? `${delivery.order.customer.firstName} ${delivery.order.customer.lastName}`
+                      : 'Неизвестный клиент'
+                    
+                    return (
+                      <TableRow key={delivery.id}>
+                        <TableCell>
+                          <div>
+                            <p className="font-medium">#{orderNumber}</p>
+                            <p className="text-sm text-gray-500">ID: {delivery.orderId}</p>
+                            <p className="text-xs text-gray-400">{customerName}</p>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <MapPin className="h-4 w-4 text-gray-400" />
+                            <span className="text-sm">{deliveryAddress}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center gap-2">
+                            <Calendar className="h-4 w-4 text-gray-400" />
+                            <div className="text-sm">
+                              <div>Создана: {new Date(delivery.createdAt).toLocaleDateString('ru-RU')}</div>
+                              {delivery.deliveredAt && (
+                                <div className="text-green-600">Доставлена: {new Date(delivery.deliveredAt).toLocaleDateString('ru-RU')}</div>
+                              )}
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>{getStatusBadge(delivery)}</TableCell>
+                        <TableCell>
+                          <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                              <Button variant="ghost" className="h-8 w-8 p-0">
+                                <MoreHorizontal className="h-4 w-4" />
+                              </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end">
+                              <DropdownMenuItem onClick={() => router.push(`/admin/deliveries/${delivery.id}`)}>
+                                <Eye className="mr-2 h-4 w-4" />
+                                Просмотр
+                              </DropdownMenuItem>
+                              <DropdownMenuItem onClick={() => router.push(`/admin/deliveries/${delivery.id}/edit`)}>
+                                <Edit className="mr-2 h-4 w-4" />
+                                Редактировать
+                              </DropdownMenuItem>
+                              <DropdownMenuItem className="text-red-600">
+                                <Trash2 className="mr-2 h-4 w-4" />
+                                Удалить
+                              </DropdownMenuItem>
+                            </DropdownMenuContent>
+                          </DropdownMenu>
+                        </TableCell>
+                      </TableRow>
+                    )
+                  })
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={5} className="text-center py-8 text-gray-500">
+                      Нет доставок для отображения
                     </TableCell>
                   </TableRow>
-                ))}
+                )}
               </TableBody>
             </Table>
           </div>

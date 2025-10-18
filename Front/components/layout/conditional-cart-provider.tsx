@@ -6,12 +6,11 @@ import { CartProvider } from '@/contexts/cart-context'
 export function ConditionalCartProvider({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   
-  // Не показываем CartProvider на auth страницах
-  if (pathname === '/login' || pathname === '/register') {
-    return <>{children}</>
-  }
+  // Определяем, нужно ли показывать CartProvider
+  const shouldShowCartProvider = pathname !== '/login' && pathname !== '/register'
   
-  return <CartProvider>{children}</CartProvider>
+  // Всегда возвращаем JSX, но условно рендерим содержимое
+  return shouldShowCartProvider ? <CartProvider>{children}</CartProvider> : <>{children}</>
 }
 
 

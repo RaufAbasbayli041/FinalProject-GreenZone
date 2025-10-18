@@ -29,16 +29,21 @@ import { Loader2 } from 'lucide-react'
 export default function CustomersList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
+  
+  // Early return for non-admin users before any other hooks
+  if (!isAdmin) {
+    router.push('/')
+    return null
+  }
+
   const [searchTerm, setSearchTerm] = useState('')
   const [customers, setCustomers] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    if (isAdmin) {
-      loadCustomers()
-    }
-  }, [isAdmin])
+    loadCustomers()
+  }, [])
 
   const loadCustomers = async () => {
     try {
@@ -74,16 +79,6 @@ export default function CustomersList() {
     } finally {
       setLoading(false)
     }
-  }
-
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push('/')
-    }
-  }, [isAdmin, router])
-
-  if (!isAdmin) {
-    return null
   }
 
   const filteredCustomers = (customers || []).filter(customer =>

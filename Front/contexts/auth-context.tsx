@@ -34,16 +34,26 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    console.log('AuthContext: Инициализация...')
+    
     // Загружаем состояние аутентификации при инициализации
     const savedAuthState = storage.getAuthState()
+    console.log('AuthContext: Сохраненное состояние:', savedAuthState)
     setAuthState(savedAuthState)
+    
+    // Проверяем токен в localStorage
+    const token = getAuthToken()
+    console.log('AuthContext: Токен при инициализации:', {
+      hasToken: !!token,
+      tokenPreview: token ? token.substring(0, 50) + '...' : 'нет токена'
+    })
     
     // If user is authenticated but name is missing, try to get it from token
     if (savedAuthState.isAuthenticated && savedAuthState.user && (!savedAuthState.user.name || savedAuthState.user.name === 'User')) {
-      const token = getAuthToken()
       if (token) {
         try {
           const payload = JSON.parse(atob(token.split('.')[1]))
+          console.log('AuthContext: Payload токена:', payload)
           // Prioritize userName (login username) over email
           const userName = payload.userName || payload.name || payload.sub || 'User'
           if (userName && userName !== 'User') {
@@ -51,14 +61,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const updatedAuthState = { ...savedAuthState, user: updatedUser }
             setAuthState(updatedAuthState)
             storage.setAuthState(updatedAuthState)
+            console.log('AuthContext: Обновлено имя пользователя:', userName)
           }
         } catch (error) {
-          console.error('Error parsing token for username on init:', error)
+          console.error('AuthContext: Ошибка парсинга токена при инициализации:', error)
         }
       }
     }
     
     setLoading(false)
+    console.log('AuthContext: Инициализация завершена')
   }, [])
 
   const login = async (loginUserName: string, password: string): Promise<{ success: boolean; message: string }> => {
@@ -212,8 +224,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   // Функция для получения токена из localStorage
   const getAuthToken = (): string | null => {
-    if (typeof window === 'undefined') return null
-    return localStorage.getItem('auth_token')
+    if (typeof window === 'undefined') {
+      console.log('getAuthToken: window is undefined (SSR)')
+      return null
+    }
+    
+    const token = localStorage.getItem('auth_token')
+    console.log('getAuthToken: получение токена из localStorage:', {
+      hasToken: !!token,
+      tokenPreview: token ? token.substring(0, 30) + '...' : 'нет токена',
+      tokenLength: token ? token.length : 0,
+      localStorageKeys: Object.keys(localStorage),
+      localStorageSize: localStorage.length
+    })
+    
+    return token
   }
 
   // Функция для получения userId из токена

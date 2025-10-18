@@ -10,18 +10,12 @@ interface ConditionalMainProps {
 export function ConditionalMain({ children }: ConditionalMainProps) {
   const pathname = usePathname()
   
-  // Для админ страниц не добавляем отступ сверху
-  if (pathname.startsWith('/admin')) {
-    return (
-      <main className="flex-1">
-        {children}
-      </main>
-    )
-  }
+  // Определяем, нужно ли добавлять отступ сверху
+  const isAdminPage = pathname.startsWith('/admin')
   
-  // Для обычных страниц добавляем отступ сверху для navbar
+  // Всегда возвращаем JSX, но условно применяем стили
   return (
-    <main className="flex-1 pt-16">
+    <main className={isAdminPage ? "flex-1" : "flex-1 pt-16"}>
       {children}
     </main>
   )

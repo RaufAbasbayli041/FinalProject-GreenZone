@@ -151,8 +151,13 @@ namespace GreenZone.Application.Service
             {
                 throw new NotFoundException("Product not found in the basket.");
             } 
+            
+            // Исправляем проблему с отслеживанием сущностей
             basketItem.Quantity = basketItemsUpdateDto.Quantity;
-            await _basketItemsRepository.UpdateAsync(basketItem);   
+            basketItem.UpdatedAt = DateTime.UtcNow;
+            
+            // Используем прямой SQL запрос для обновления, чтобы избежать конфликтов отслеживания
+            await _basketItemsRepository.UpdateQuantityAsync(basketItem.Id, basketItemsUpdateDto.Quantity);
             await _unitOfWork.SaveChangesAsync();
 
             var updatedBasket = await _basketRepository.GetBasketByCustomerAsync(customerId);

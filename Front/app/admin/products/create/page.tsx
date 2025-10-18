@@ -17,6 +17,13 @@ import { ArrowLeft, Save, Loader2 } from 'lucide-react'
 export default function CreateProductPage() {
   const router = useRouter()
   const { isAdmin } = useAuth()
+  
+  // Early return for non-admin users before any other hooks
+  if (!isAdmin) {
+    router.push('/')
+    return null
+  }
+
   const [loading, setLoading] = useState(false)
   const [categories, setCategories] = useState<Category[]>([])
   const [categoriesLoading, setCategoriesLoading] = useState(true)
@@ -33,10 +40,8 @@ export default function CreateProductPage() {
   })
 
   useEffect(() => {
-    if (isAdmin) {
-      loadCategories()
-    }
-  }, [isAdmin])
+    loadCategories()
+  }, [])
 
   const loadCategories = async () => {
     try {
@@ -88,16 +93,6 @@ export default function CreateProductPage() {
     } finally {
       setLoading(false)
     }
-  }
-
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push('/')
-    }
-  }, [isAdmin, router])
-
-  if (!isAdmin) {
-    return null
   }
 
   if (categoriesLoading) {

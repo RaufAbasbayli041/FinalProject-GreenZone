@@ -29,16 +29,21 @@ import { Loader2 } from 'lucide-react'
 export default function CategoriesList() {
   const router = useRouter()
   const { isAdmin } = useAuth()
+  
+  // Early return for non-admin users before any other hooks
+  if (!isAdmin) {
+    router.push('/')
+    return null
+  }
+
   const [categories, setCategories] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const [searchTerm, setSearchTerm] = useState('')
 
   useEffect(() => {
-    if (isAdmin) {
-      loadCategories()
-    }
-  }, [isAdmin])
+    loadCategories()
+  }, [])
 
   const loadCategories = async () => {
     try {
@@ -80,16 +85,6 @@ export default function CategoriesList() {
     category?.name?.toLowerCase().includes(searchTerm.toLowerCase()) ||
     (category?.description && category.description.toLowerCase().includes(searchTerm.toLowerCase()))
   )
-
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push('/')
-    }
-  }, [isAdmin, router])
-
-  if (!isAdmin) {
-    return null
-  }
 
   if (loading) {
     return (

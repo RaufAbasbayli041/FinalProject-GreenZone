@@ -1195,6 +1195,22 @@
   },
   {
     "ContainingType": "GreenZone.API.Controllers.OrderController",
+    "Method": "GetByIdAsync",
+    "RelativePath": "api/Order/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Guid",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": []
+  },
+  {
+    "ContainingType": "GreenZone.API.Controllers.OrderController",
     "Method": "Update",
     "RelativePath": "api/Order/{id}",
     "HttpMethod": "PUT",
@@ -1271,22 +1287,6 @@
     "Parameters": [
       {
         "Name": "customerId",
-        "Type": "System.Guid",
-        "IsRequired": true
-      }
-    ],
-    "ReturnTypes": []
-  },
-  {
-    "ContainingType": "GreenZone.API.Controllers.OrderController",
-    "Method": "GetByIdAsync",
-    "RelativePath": "api/Order/details/{id}",
-    "HttpMethod": "GET",
-    "IsController": true,
-    "Order": 0,
-    "Parameters": [
-      {
-        "Name": "id",
         "Type": "System.Guid",
         "IsRequired": true
       }

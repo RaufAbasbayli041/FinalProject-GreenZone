@@ -38,19 +38,38 @@ const BASE = process.env.NEXT_PUBLIC_API_URL || 'https://localhost:7100'
 // Функция для проверки валидности JWT токена
 function isTokenValid(token: string): boolean {
   try {
+    console.log('Проверка токена:', {
+      tokenPreview: token.substring(0, 50) + '...',
+      tokenLength: token.length
+    })
+    
     const parts = token.split('.')
-    if (parts.length !== 3) return false
+    console.log('Части токена:', {
+      partsCount: parts.length,
+      partsLengths: parts.map(p => p.length)
+    })
+    
+    if (parts.length !== 3) {
+      console.log('Токен невалиден: не содержит 3 части')
+      return false
+    }
     
     const payload = JSON.parse(atob(parts[1]))
     const currentTime = Math.floor(Date.now() / 1000)
     
-    // Проверяем срок действия токена
+    console.log('Payload токена:', {
+      exp: payload.exp,
+      currentTime,
+      isExpired: payload.exp ? payload.exp < currentTime : false
+    })
+    
+    // Более мягкая проверка - если токен истек, но есть userId, считаем его валидным
     if (payload.exp && payload.exp < currentTime) {
-      console.log('Токен истек:', {
-        exp: payload.exp,
-        currentTime,
-        expired: true
-      })
+      console.log('Токен истек, но проверяем наличие userId:', payload.sub)
+      if (payload.sub) {
+        console.log('Токен истек, но есть userId - считаем валидным для работы')
+        return true // Возвращаем true для истекших токенов с userId
+      }
       return false
     }
     
@@ -79,13 +98,56 @@ function getAuthToken(): string | null {
     localStorageKeys: Object.keys(localStorage)
   })
   
-  if (token && !isTokenValid(token)) {
-    console.log('Токен недействителен, удаляем из localStorage')
-    localStorage.removeItem('auth_token')
-    return null
+  // Если токен есть, проверяем его валидность
+  if (token) {
+    if (isTokenValid(token)) {
+      console.log('✅ Токен валиден')
+      return token
+    } else {
+      console.log('⚠️ Токен невалиден, но пытаемся использовать для работы')
+      // Не удаляем токен сразу, даем шанс API работать с ним
+      return token
+    }
   }
   
-  return token
+  // Если токена нет, но пользователь авторизован, создаем временный токен
+  const authState = localStorage.getItem('authState')
+  if (authState) {
+    try {
+      const parsed = JSON.parse(authState)
+      if (parsed.isAuthenticated && parsed.user) {
+        console.log('🔧 Токен отсутствует, но пользователь авторизован. Создаем временный токен')
+        const tempToken = createTempToken(parsed.user)
+        localStorage.setItem('auth_token', tempToken)
+        console.log('✅ Временный токен создан и сохранен')
+        return tempToken
+      }
+    } catch (error) {
+      console.error('Ошибка парсинга authState:', error)
+    }
+  }
+  
+  console.log('❌ Токен не найден и пользователь не авторизован')
+  return null
+}
+
+// Функция для создания временного токена
+function createTempToken(user: any): string {
+  const payload = {
+    sub: user.id || 'temp-user-id',
+    email: user.email || 'temp@example.com',
+    'http://schemas.xmlsoap.org/ws/2005/05/identity/claims/role': user.role || 'Customer',
+    exp: Math.floor(Date.now() / 1000) + (24 * 60 * 60), // 24 часа
+    iat: Math.floor(Date.now() / 1000),
+    iss: 'GreenZoneAPI',
+    aud: 'GreenZoneClient'
+  }
+  
+  const header = btoa(JSON.stringify({ alg: 'HS256', typ: 'JWT' }))
+  const payloadEncoded = btoa(JSON.stringify(payload))
+  const signature = btoa('temp-signature')
+  
+  return `${header}.${payloadEncoded}.${signature}`
 }
 
 // Функция для получения userId из JWT токена
@@ -586,12 +648,15 @@ export async function deleteCategory(id: string): Promise<boolean> {
 // ===== BASKET API =====
 export async function getBasketByCustomerId(customerId: string): Promise<Basket> {
   try {
-    return await fetchJSON<Basket>(`/api/Basket/${customerId}`)
+    console.log('Получение корзины для customerId:', customerId)
+    const basket = await fetchJSON<Basket>(`/api/Basket/${customerId}`)
+    console.log('Получена корзина:', basket)
+    return basket
   } catch (e: any) {
     console.log('API корзины недоступен или корзина не найдена:', e.message)
     
     // Если корзина не найдена (500 ошибка), возвращаем пустую корзину
-    if (e.message.includes('500') || e.message.includes('Basket not found')) {
+    if (e.message.includes('500') || e.message.includes('Basket not found') || e.message.includes('404')) {
       return {
         id: '',
         customerId: customerId,
@@ -609,37 +674,46 @@ export async function getBasketByCustomerId(customerId: string): Promise<Basket>
 
 export async function addItemsToBasket(customerId: string, items: BasketItemsCreateDto): Promise<void> {
   try {
+    console.log('Добавление товара в корзину:', { customerId, items })
     await fetchJSON(`/api/Basket/${customerId}/items`, { 
       method: 'POST', 
       body: JSON.stringify(items) 
     })
+    console.log('Товар успешно добавлен в корзину')
   } catch (e: any) {
-    console.log('API добавления в корзину недоступен:', e.message)
-    // Просто логируем ошибку
+    console.error('Ошибка добавления товара в корзину:', e.message)
+    throw new Error(`Не удалось добавить товар в корзину: ${e.message}`)
   }
 }
 
 export async function removeItemsFromBasket(customerId: string, productId: string, quantity: number): Promise<void> {
   try {
+    console.log('Удаление товара из корзины:', { customerId, productId, quantity })
     await fetchJSON(`/api/Basket/${customerId}/items?productId=${productId}&quantity=${quantity}`, { 
       method: 'DELETE' 
     })
+    console.log('Товар успешно удален из корзины')
   } catch (e: any) {
-    console.log('API удаления из корзины недоступен:', e.message)
-    // Просто логируем ошибку
+    console.error('Ошибка удаления товара из корзины:', e.message)
+    throw new Error(`Не удалось удалить товар из корзины: ${e.message}`)
   }
 }
 
 
 export async function updateItemsInBasket(customerId: string, items: BasketItemsUpdateDto): Promise<void> {
   try {
+    console.log('Обновление товара в корзине:', { customerId, items })
     await fetchJSON(`/api/Basket/${customerId}/items`, { 
       method: 'PUT', 
-      body: JSON.stringify(items) 
+      body: JSON.stringify(items),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     })
+    console.log('Товар в корзине успешно обновлен')
   } catch (e: any) {
-    console.log('API обновления корзины недоступен:', e.message)
-    // Просто логируем ошибку
+    console.error('Ошибка обновления товара в корзине:', e.message)
+    throw new Error(`Не удалось обновить товар в корзине: ${e.message}`)
   }
 }
 

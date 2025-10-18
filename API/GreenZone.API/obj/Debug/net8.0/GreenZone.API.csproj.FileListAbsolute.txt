@@ -739,7 +739,6 @@ C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\staticwebassets.build.json.cache
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\staticwebassets.development.json
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\staticwebassets.build.endpoints.json
-C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\GreenZon.FC2BB640.Up2Date
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\GreenZone.API.dll
 C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\refint\GreenZone.API.dll
@@ -939,3 +938,4 @@ D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.API\obj\
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.API\obj\Debug\net8.0\GreenZone.API.pdb
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.API\obj\Debug\net8.0\GreenZone.API.genruntimeconfig.cache
 D:\EVRASCON\Rauf\Visual Studio\API\FinalProject-GreenZone\API\GreenZone.API\obj\Debug\net8.0\ref\GreenZone.API.dll
+C:\Users\ASUS\Desktop\Code Academy\BackEnd\FINAL PROJECT\GreenZone\API\GreenZone.API\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt

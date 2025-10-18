@@ -42,17 +42,25 @@ export default function CartPage() {
               setCustomerId(customerId)
             } else {
               console.warn('Не удалось получить customerId для userId:', userId)
+              // Если не удалось получить customerId, используем userId
+              setCustomerId(userId)
             }
           } else {
             console.warn('Не удалось получить userId из токена')
           }
         } catch (error) {
           console.error('Ошибка получения customerId:', error)
+          // В случае ошибки, используем userId из токена
+          const userId = getUserIdFromToken()
+          if (userId) {
+            console.log('Используем userId как customerId из-за ошибки:', userId)
+            setCustomerId(userId)
+          }
         }
       }
       setLoading(false)
     }
-    
+
     loadCustomerId()
   }, [isAuthenticated, user])
 

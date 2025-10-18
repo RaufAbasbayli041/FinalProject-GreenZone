@@ -6,17 +6,13 @@ import { Footer } from './footer'
 export function ConditionalFooter() {
   const pathname = usePathname()
   
-  // Не показываем footer для админ страниц
-  if (pathname.startsWith('/admin')) {
-    return null
-  }
+  // Определяем, нужно ли показывать footer
+  const shouldShowFooter = !pathname.startsWith('/admin') && 
+                          pathname !== '/login' && 
+                          pathname !== '/register'
   
-  // Не показываем footer на страницах login и register
-  if (pathname === '/login' || pathname === '/register') {
-    return null
-  }
-  
-  return <Footer />
+  // Всегда возвращаем JSX, но условно рендерим содержимое
+  return shouldShowFooter ? <Footer /> : null
 }
 
 

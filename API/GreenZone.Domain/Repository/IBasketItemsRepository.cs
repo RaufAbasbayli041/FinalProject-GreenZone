@@ -11,5 +11,6 @@ namespace GreenZone.Domain.Repository
 	{
 		Task<BasketItems> GetItemsByProductIdAsync(Guid basketId,Guid productId);
 		Task<bool> DeleteAsync(BasketItems basketItem);
+		Task UpdateQuantityAsync(Guid basketItemId, decimal quantity);
     }
 }

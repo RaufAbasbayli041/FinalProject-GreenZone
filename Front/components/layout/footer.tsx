@@ -14,11 +14,6 @@ export function Footer() {
   const { isAuthenticated, isAdmin } = useAuth()
   const [categories, setCategories] = useState<Category[]>([])
 
-  // Если пользователь админ, не показываем обычный футер
-  if (isAuthenticated && isAdmin) {
-    return null
-  }
-
   useEffect(() => {
     const fetchCategories = async () => {
       try {
@@ -31,6 +26,11 @@ export function Footer() {
 
     fetchCategories()
   }, [])
+
+  // Если пользователь админ, не показываем обычный футер
+  if (isAuthenticated && isAdmin) {
+    return null
+  }
 
   return (
     <footer className="bg-white border-t border-gray-200 py-16">

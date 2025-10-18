@@ -38,5 +38,13 @@ namespace GreenZone.Persistance.Repository
             return item;
         }
 
+        public async Task UpdateQuantityAsync(Guid basketItemId, decimal quantity)
+        {
+            // Используем прямой SQL запрос для обновления, чтобы избежать конфликтов отслеживания
+            await _context.Database.ExecuteSqlRawAsync(
+                "UPDATE BasketItems SET Quantity = {0}, UpdatedAt = {1} WHERE Id = {2} AND IsDeleted = 0",
+                quantity, DateTime.UtcNow, basketItemId);
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useParams } from 'next/navigation'
 import { Button } from '@/components/ui/button'
@@ -31,13 +31,9 @@ export default function OrderView() {
   const { isAdmin } = useAuth()
   const orderId = params?.id
 
-  useEffect(() => {
-    if (!isAdmin) {
-      router.push('/')
-    }
-  }, [isAdmin, router])
-
+  // Early return for non-admin users before any other hooks
   if (!isAdmin) {
+    router.push('/')
     return null
   }
 
