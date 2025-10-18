@@ -38,8 +38,7 @@
               "RelativeToolTip": "GreenZone.Application\\Service\\DeliveryService.cs",
               "ViewState": "AgIAABcAAAAAAAAAAAAAwG0AAABJAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T19:09:13.021Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-17T19:09:13.021Z"
             },
             {
               "$type": "Document",
@@ -47,9 +46,9 @@
               "Title": "DeliveryRepository.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
               "RelativeDocumentMoniker": "GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
-              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\DeliveryRepository.cs*",
-              "RelativeToolTip": "GreenZone.Persistance\\Repository\\DeliveryRepository.cs*",
-              "ViewState": "AgIAACsAAAAAAAAAAAA5wEsAAAAsAAAAAAAAAA==",
+              "ToolTip": "C:\\Users\\ASUS\\Desktop\\Code Academy\\BackEnd\\FINAL PROJECT\\GreenZone\\API\\GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
+              "RelativeToolTip": "GreenZone.Persistance\\Repository\\DeliveryRepository.cs",
+              "ViewState": "AgIAACwAAAAAAAAAAAAgwEsAAAAsAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2025-10-17T19:07:58.48Z",
               "EditorCaption": ""
@@ -64,8 +63,7 @@
               "RelativeToolTip": "GreenZone.API\\Controllers\\AdminPanel\\AdminDeliveryController.cs",
               "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAA/AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-10-17T19:07:48.937Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-10-17T19:07:48.937Z"
             }
           ]
         }
